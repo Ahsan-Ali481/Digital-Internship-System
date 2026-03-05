@@ -1,1 +1,2 @@
 -- Digital Internship System (DIS) - Production Database Schema
+-- Compatible with MySQL / MariaDB via XAMPP
