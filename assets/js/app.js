@@ -11,3 +11,5 @@
   function initSeedData() {
     if (!localStorage.getItem('dis_users')) {
       const users = [
+        {
+          id: 'usr_admin1',
