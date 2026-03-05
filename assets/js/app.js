@@ -15,3 +15,4 @@
           id: 'usr_admin1',
           role: 'admin',
           name: 'System Administrator',
+          email: 'admin@dis.com',
