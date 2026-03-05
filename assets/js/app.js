@@ -6,3 +6,6 @@
 
 (function () {
   'use strict';
+
+  // Seed Initial Sample Data if absent
+  function initSeedData() {
