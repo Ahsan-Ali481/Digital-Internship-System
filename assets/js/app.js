@@ -13,3 +13,5 @@
       const users = [
         {
           id: 'usr_admin1',
+          role: 'admin',
+          name: 'System Administrator',
