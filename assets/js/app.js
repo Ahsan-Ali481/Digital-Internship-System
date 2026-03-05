@@ -9,3 +9,5 @@
 
   // Seed Initial Sample Data if absent
   function initSeedData() {
+    if (!localStorage.getItem('dis_users')) {
+      const users = [
