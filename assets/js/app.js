@@ -16,3 +16,5 @@
           role: 'admin',
           name: 'System Administrator',
           email: 'admin@dis.com',
+          password: 'password123',
+          status: 'approved',
