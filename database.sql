@@ -6,3 +6,4 @@ USE `digital_internship_db`;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_uid` VARCHAR(64) UNIQUE NOT NULL,
