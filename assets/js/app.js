@@ -27,3 +27,5 @@
           name: 'Ahmed Hassan',
           email: 'ahmed@student.com',
           password: 'password123',
+          university: 'National University of Sciences & Technology',
+          major: 'Software Engineering',
