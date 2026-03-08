@@ -22,3 +22,5 @@
           createdAt: '2026-01-01'
         },
         {
+          id: 'usr_std1',
+          role: 'student',
