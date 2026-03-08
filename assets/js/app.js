@@ -31,3 +31,5 @@
           major: 'Software Engineering',
           gradYear: '2027',
           phone: '+92 300 1234567',
+          resumeUrl: 'ahmed_hassan_resume.pdf',
+          status: 'approved',
