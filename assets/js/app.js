@@ -29,3 +29,5 @@
           password: 'password123',
           university: 'National University of Sciences & Technology',
           major: 'Software Engineering',
+          gradYear: '2027',
+          phone: '+92 300 1234567',

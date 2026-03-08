@@ -9,3 +9,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_uid` VARCHAR(64) UNIQUE NOT NULL,
   `role` ENUM('student', 'company', 'supervisor', 'admin') NOT NULL,
   `name` VARCHAR(150) NOT NULL,
+  `email` VARCHAR(150) UNIQUE NOT NULL,
