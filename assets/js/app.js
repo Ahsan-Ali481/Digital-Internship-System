@@ -24,3 +24,4 @@
         {
           id: 'usr_std1',
           role: 'student',
+          name: 'Ahmed Hassan',
