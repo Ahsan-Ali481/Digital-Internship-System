@@ -25,3 +25,5 @@
           id: 'usr_std1',
           role: 'student',
           name: 'Ahmed Hassan',
+          email: 'ahmed@student.com',
+          password: 'password123',

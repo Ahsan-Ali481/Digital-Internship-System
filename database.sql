@@ -8,3 +8,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_uid` VARCHAR(64) UNIQUE NOT NULL,
   `role` ENUM('student', 'company', 'supervisor', 'admin') NOT NULL,
+  `name` VARCHAR(150) NOT NULL,
