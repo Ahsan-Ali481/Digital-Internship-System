@@ -13,3 +13,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` VARCHAR(255) NOT NULL,
   `phone` VARCHAR(30) DEFAULT NULL,
   `status` ENUM('pending', 'approved', 'rejected', 'blocked') DEFAULT 'approved',
+  `avatar` VARCHAR(255) DEFAULT NULL,

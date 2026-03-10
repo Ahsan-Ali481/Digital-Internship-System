@@ -40,3 +40,4 @@
           id: 'usr_hr1',
           role: 'company',
           name: 'Sarah Jenkins',
+          email: 'hr@techcorp.com',
