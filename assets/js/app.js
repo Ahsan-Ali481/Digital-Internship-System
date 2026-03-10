@@ -33,3 +33,4 @@
           phone: '+92 300 1234567',
           resumeUrl: 'ahmed_hassan_resume.pdf',
           status: 'approved',
+          avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80',

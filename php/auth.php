@@ -6,3 +6,4 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 if ($action === 'login') {
     $email = trim($data['email'] ?? '');
+    $password = $data['password'] ?? '';
