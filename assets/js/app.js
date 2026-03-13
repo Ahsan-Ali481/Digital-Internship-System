@@ -41,3 +41,5 @@
           role: 'company',
           name: 'Sarah Jenkins',
           email: 'hr@techcorp.com',
+          password: 'password123',
+          companyName: 'TechCorp Solutions',
