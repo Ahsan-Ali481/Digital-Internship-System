@@ -45,3 +45,5 @@
           companyName: 'TechCorp Solutions',
           industry: 'Software & Cloud Solutions',
           website: 'https://techcorp.com',
+          phone: '+1 415 555 0199',
+          certificateUrl: 'techcorp_inc_certificate.pdf',

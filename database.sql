@@ -15,3 +15,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `status` ENUM('pending', 'approved', 'rejected', 'blocked') DEFAULT 'approved',
   `avatar` VARCHAR(255) DEFAULT NULL,
   
+  `university` VARCHAR(200) DEFAULT NULL,

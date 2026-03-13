@@ -5,3 +5,4 @@ $action = $_GET['action'] ?? 'list';
 $data = json_decode(file_get_contents('php://input'), true);
 
 if ($action === 'list') {
+    $stmt = $pdo->query("SELECT * FROM internships WHERE status = 'active' ORDER BY posted_at DESC");

@@ -9,3 +9,4 @@ if ($action === 'login') {
     $password = $data['password'] ?? '';
 
     if (empty($email) || empty($password)) {
+        echo json_encode(["status" => "error", "message" => "Please enter email and password."]);
