@@ -43,3 +43,5 @@
           email: 'hr@techcorp.com',
           password: 'password123',
           companyName: 'TechCorp Solutions',
+          industry: 'Software & Cloud Solutions',
+          website: 'https://techcorp.com',
