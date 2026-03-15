@@ -52,3 +52,5 @@
           createdAt: '2026-01-15'
         },
         {
+          id: 'usr_sup1',
+          role: 'supervisor',
