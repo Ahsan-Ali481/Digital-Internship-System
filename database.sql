@@ -17,3 +17,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   
   `university` VARCHAR(200) DEFAULT NULL,
   `major` VARCHAR(150) DEFAULT NULL,
+  `grad_year` VARCHAR(10) DEFAULT NULL,
