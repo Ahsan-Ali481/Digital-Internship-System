@@ -11,3 +11,4 @@ if ($action === 'login') {
     if (empty($email) || empty($password)) {
         echo json_encode(["status" => "error", "message" => "Please enter email and password."]);
         exit();
+    }

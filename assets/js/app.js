@@ -54,3 +54,5 @@
         {
           id: 'usr_sup1',
           role: 'supervisor',
+          name: 'Dr. Robert Chen',
+          email: 'supervisor@techcorp.com',
