@@ -58,3 +58,4 @@
           email: 'supervisor@techcorp.com',
           password: 'password123',
           companyId: 'usr_hr1',
+          department: 'Engineering & AI Labs',
