@@ -59,3 +59,5 @@
           password: 'password123',
           companyId: 'usr_hr1',
           department: 'Engineering & AI Labs',
+          phone: '+1 415 555 0188',
+          status: 'approved',

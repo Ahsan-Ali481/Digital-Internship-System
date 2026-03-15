@@ -20,3 +20,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `grad_year` VARCHAR(10) DEFAULT NULL,
   `resume_url` VARCHAR(255) DEFAULT NULL,
   
+  `company_name` VARCHAR(200) DEFAULT NULL,
