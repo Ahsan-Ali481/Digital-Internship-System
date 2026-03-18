@@ -8,3 +8,4 @@ if ($action === 'apply') {
     $internship_uid = $data['internshipId'] ?? '';
     $student_uid = $data['studentId'] ?? '';
     $company_uid = $data['companyId'] ?? '';
+    $cv_name = $data['cvName'] ?? 'resume.pdf';

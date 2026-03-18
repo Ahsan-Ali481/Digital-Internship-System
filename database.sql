@@ -21,3 +21,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `resume_url` VARCHAR(255) DEFAULT NULL,
   
   `company_name` VARCHAR(200) DEFAULT NULL,
+  `industry` VARCHAR(150) DEFAULT NULL,

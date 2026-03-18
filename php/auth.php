@@ -12,3 +12,5 @@ if ($action === 'login') {
         echo json_encode(["status" => "error", "message" => "Please enter email and password."]);
         exit();
     }
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
