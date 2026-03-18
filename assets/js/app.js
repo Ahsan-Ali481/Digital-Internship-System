@@ -65,3 +65,5 @@
           createdAt: '2026-01-20'
         }
       ];
+      localStorage.setItem('dis_users', JSON.stringify(users));
+    }
