@@ -67,3 +67,6 @@
       ];
       localStorage.setItem('dis_users', JSON.stringify(users));
     }
+
+    if (!localStorage.getItem('dis_internships')) {
+      const internships = [

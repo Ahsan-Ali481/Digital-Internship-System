@@ -14,3 +14,4 @@ if ($action === 'login') {
     }
 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
