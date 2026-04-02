@@ -70,3 +70,5 @@
 
     if (!localStorage.getItem('dis_internships')) {
       const internships = [
+        {
+          id: 'int_1',

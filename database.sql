@@ -24,3 +24,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `industry` VARCHAR(150) DEFAULT NULL,
   `website` VARCHAR(255) DEFAULT NULL,
   `certificate_url` VARCHAR(255) DEFAULT NULL,
+  

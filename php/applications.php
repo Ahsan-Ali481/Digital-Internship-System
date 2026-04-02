@@ -9,3 +9,4 @@ if ($action === 'apply') {
     $student_uid = $data['studentId'] ?? '';
     $company_uid = $data['companyId'] ?? '';
     $cv_name = $data['cvName'] ?? 'resume.pdf';
+    $app_uid = 'app_' . time();
