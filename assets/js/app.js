@@ -75,3 +75,5 @@
           companyId: 'usr_hr1',
           companyName: 'TechCorp Solutions',
           title: 'Frontend Developer Intern',
+          category: 'Web Development',
+          location: 'San Francisco, CA (Hybrid)',
