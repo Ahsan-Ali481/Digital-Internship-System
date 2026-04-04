@@ -72,3 +72,5 @@
       const internships = [
         {
           id: 'int_1',
+          companyId: 'usr_hr1',
+          companyName: 'TechCorp Solutions',
