@@ -25,3 +25,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `website` VARCHAR(255) DEFAULT NULL,
   `certificate_url` VARCHAR(255) DEFAULT NULL,
   
+  `company_uid` VARCHAR(64) DEFAULT NULL,

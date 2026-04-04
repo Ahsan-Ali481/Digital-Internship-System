@@ -9,3 +9,4 @@ if ($action === 'list') {
     echo json_encode(["status" => "success", "data" => $stmt->fetchAll()]);
 } elseif ($action === 'create') {
     $company_uid = $data['companyId'] ?? '';
+    $title = $data['title'] ?? '';
