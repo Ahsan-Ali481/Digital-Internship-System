@@ -10,3 +10,5 @@ if ($action === 'apply') {
     $company_uid = $data['companyId'] ?? '';
     $cv_name = $data['cvName'] ?? 'resume.pdf';
     $app_uid = 'app_' . time();
+
+    $stmt = $pdo->prepare("INSERT INTO applications (application_uid, internship_uid, student_uid, company_uid, cv_name, status) VALUES (?, ?, ?, ?, ?, 'Pending')");
