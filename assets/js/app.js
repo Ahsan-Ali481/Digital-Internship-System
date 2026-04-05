@@ -77,3 +77,5 @@
           title: 'Frontend Developer Intern',
           category: 'Web Development',
           location: 'San Francisco, CA (Hybrid)',
+          duration: '3 Months',
+          stipend: '$1,200 / month',

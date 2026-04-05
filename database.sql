@@ -26,3 +26,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `certificate_url` VARCHAR(255) DEFAULT NULL,
   
   `company_uid` VARCHAR(64) DEFAULT NULL,
+  `department` VARCHAR(150) DEFAULT NULL,
