@@ -27,3 +27,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   
   `company_uid` VARCHAR(64) DEFAULT NULL,
   `department` VARCHAR(150) DEFAULT NULL,
+  

@@ -79,3 +79,5 @@
           location: 'San Francisco, CA (Hybrid)',
           duration: '3 Months',
           stipend: '$1,200 / month',
+          positions: 3,
+          deadline: '2026-09-30',
