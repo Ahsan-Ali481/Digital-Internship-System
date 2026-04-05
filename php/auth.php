@@ -16,3 +16,5 @@ if ($action === 'login') {
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
+
+    if ($user && ($password === $user['password'] || password_verify($password, $user['password']))) {

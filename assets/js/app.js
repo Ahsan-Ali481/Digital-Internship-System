@@ -81,3 +81,5 @@
           stipend: '$1,200 / month',
           positions: 3,
           deadline: '2026-09-30',
+          description: 'Join our dynamic frontend team building next-generation web platforms using React, Tailwind CSS, and HTML5/JS.',
+          requirements: 'Basic proficiency in HTML, CSS, JavaScript. Knowledge of Git and dynamic layout design.',

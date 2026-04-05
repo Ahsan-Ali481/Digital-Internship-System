@@ -10,3 +10,4 @@ if ($action === 'list') {
 } elseif ($action === 'create') {
     $company_uid = $data['companyId'] ?? '';
     $title = $data['title'] ?? '';
+    $category = $data['category'] ?? '';
