@@ -84,3 +84,5 @@
           description: 'Join our dynamic frontend team building next-generation web platforms using React, Tailwind CSS, and HTML5/JS.',
           requirements: 'Basic proficiency in HTML, CSS, JavaScript. Knowledge of Git and dynamic layout design.',
           status: 'active',
+          postedAt: '2026-07-01'
+        },

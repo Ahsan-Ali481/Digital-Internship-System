@@ -18,3 +18,4 @@ if ($action === 'login') {
     $user = $stmt->fetch();
 
     if ($user && ($password === $user['password'] || password_verify($password, $user['password']))) {
+        if ($user['status'] === 'pending') {
