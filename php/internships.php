@@ -11,3 +11,4 @@ if ($action === 'list') {
     $company_uid = $data['companyId'] ?? '';
     $title = $data['title'] ?? '';
     $category = $data['category'] ?? '';
+    $location = $data['location'] ?? '';

@@ -12,3 +12,4 @@ if ($action === 'apply') {
     $app_uid = 'app_' . time();
 
     $stmt = $pdo->prepare("INSERT INTO applications (application_uid, internship_uid, student_uid, company_uid, cv_name, status) VALUES (?, ?, ?, ?, ?, 'Pending')");
+    $stmt->execute([$app_uid, $internship_uid, $student_uid, $company_uid, $cv_name]);

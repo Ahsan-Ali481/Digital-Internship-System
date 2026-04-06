@@ -9,3 +9,4 @@ if ($action === 'stats') {
     $companies = $pdo->query("SELECT COUNT(*) FROM users WHERE role='company'")->fetchColumn();
     $supervisors = $pdo->query("SELECT COUNT(*) FROM users WHERE role='supervisor'")->fetchColumn();
     $internships = $pdo->query("SELECT COUNT(*) FROM internships")->fetchColumn();
+    $applications = $pdo->query("SELECT COUNT(*) FROM applications")->fetchColumn();

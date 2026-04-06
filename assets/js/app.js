@@ -88,3 +88,5 @@
         },
         {
           id: 'int_2',
+          companyId: 'usr_hr1',
+          companyName: 'TechCorp Solutions',
