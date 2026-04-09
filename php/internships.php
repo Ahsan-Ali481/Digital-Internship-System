@@ -12,3 +12,4 @@ if ($action === 'list') {
     $title = $data['title'] ?? '';
     $category = $data['category'] ?? '';
     $location = $data['location'] ?? '';
+    $duration = $data['duration'] ?? '';

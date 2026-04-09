@@ -93,3 +93,5 @@
           title: 'AI & Data Science Intern',
           category: 'Data Science',
           location: 'Remote',
+          duration: '6 Months',
+          stipend: '$1,500 / month',
