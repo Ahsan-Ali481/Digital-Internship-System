@@ -92,3 +92,4 @@
           companyName: 'TechCorp Solutions',
           title: 'AI & Data Science Intern',
           category: 'Data Science',
+          location: 'Remote',
