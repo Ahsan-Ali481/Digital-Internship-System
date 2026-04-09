@@ -6,3 +6,4 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 if ($action === 'submit') {
     $student_uid = $data['studentId'] ?? '';
+    $sup_uid = $data['supervisorId'] ?? '';

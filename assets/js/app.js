@@ -90,3 +90,5 @@
           id: 'int_2',
           companyId: 'usr_hr1',
           companyName: 'TechCorp Solutions',
+          title: 'AI & Data Science Intern',
+          category: 'Data Science',

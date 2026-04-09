@@ -19,3 +19,4 @@ if ($action === 'login') {
 
     if ($user && ($password === $user['password'] || password_verify($password, $user['password']))) {
         if ($user['status'] === 'pending') {
+            echo json_encode(["status" => "error", "message" => "Company account pending admin approval."]);
