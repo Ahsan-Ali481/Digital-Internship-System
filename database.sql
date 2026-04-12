@@ -38,3 +38,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `company_name` VARCHAR(200) NOT NULL,
   `title` VARCHAR(200) NOT NULL,
   `category` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(150) NOT NULL,

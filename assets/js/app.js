@@ -109,3 +109,5 @@
     if (!localStorage.getItem('dis_applications')) {
       const apps = [
         {
+          id: 'app_1',
+          internshipId: 'int_1',

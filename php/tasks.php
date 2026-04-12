@@ -9,3 +9,4 @@ if ($action === 'create') {
     $sup_uid = $data['supervisorId'] ?? '';
     $company_uid = $data['companyId'] ?? '';
     $title = $data['title'] ?? '';
+    $desc = $data['description'] ?? '';
