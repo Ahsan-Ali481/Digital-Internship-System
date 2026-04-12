@@ -95,3 +95,5 @@
           location: 'Remote',
           duration: '6 Months',
           stipend: '$1,500 / month',
+          positions: 2,
+          deadline: '2026-10-15',

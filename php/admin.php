@@ -10,3 +10,4 @@ if ($action === 'stats') {
     $supervisors = $pdo->query("SELECT COUNT(*) FROM users WHERE role='supervisor'")->fetchColumn();
     $internships = $pdo->query("SELECT COUNT(*) FROM internships")->fetchColumn();
     $applications = $pdo->query("SELECT COUNT(*) FROM applications")->fetchColumn();
+    $pending = $pdo->query("SELECT COUNT(*) FROM users WHERE status='pending'")->fetchColumn();
