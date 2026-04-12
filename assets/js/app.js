@@ -97,3 +97,5 @@
           stipend: '$1,500 / month',
           positions: 2,
           deadline: '2026-10-15',
+          description: 'Assist in building predictive models and processing datasets for modern software engines.',
+          requirements: 'Python, SQL, basic understanding of Machine Learning principles.',
