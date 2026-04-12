@@ -22,3 +22,4 @@ if ($action === 'login') {
             echo json_encode(["status" => "error", "message" => "Company account pending admin approval."]);
             exit();
         }
+        if ($user['status'] === 'blocked' || $user['status'] === 'rejected') {

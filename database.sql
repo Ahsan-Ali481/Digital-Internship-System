@@ -35,3 +35,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `internship_uid` VARCHAR(64) UNIQUE NOT NULL,
   `company_uid` VARCHAR(64) NOT NULL,
+  `company_name` VARCHAR(200) NOT NULL,

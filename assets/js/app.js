@@ -102,3 +102,5 @@
           status: 'active',
           postedAt: '2026-07-10'
         }
+      ];
+      localStorage.setItem('dis_internships', JSON.stringify(internships));
