@@ -13,3 +13,4 @@ if ($action === 'list') {
     $category = $data['category'] ?? '';
     $location = $data['location'] ?? '';
     $duration = $data['duration'] ?? '';
+    $stipend = $data['stipend'] ?? '';

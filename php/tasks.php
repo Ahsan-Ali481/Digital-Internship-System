@@ -8,3 +8,4 @@ if ($action === 'create') {
     $student_uid = $data['studentId'] ?? '';
     $sup_uid = $data['supervisorId'] ?? '';
     $company_uid = $data['companyId'] ?? '';
+    $title = $data['title'] ?? '';
