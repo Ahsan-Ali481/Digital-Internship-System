@@ -104,3 +104,4 @@
         }
       ];
       localStorage.setItem('dis_internships', JSON.stringify(internships));
+    }
