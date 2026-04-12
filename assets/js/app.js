@@ -99,3 +99,5 @@
           deadline: '2026-10-15',
           description: 'Assist in building predictive models and processing datasets for modern software engines.',
           requirements: 'Python, SQL, basic understanding of Machine Learning principles.',
+          status: 'active',
+          postedAt: '2026-07-10'
