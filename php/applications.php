@@ -15,3 +15,4 @@ if ($action === 'apply') {
     $stmt->execute([$app_uid, $internship_uid, $student_uid, $company_uid, $cv_name]);
 
     echo json_encode(["status" => "success", "message" => "Application submitted."]);
+} elseif ($action === 'update_status') {

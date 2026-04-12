@@ -108,3 +108,4 @@
 
     if (!localStorage.getItem('dis_applications')) {
       const apps = [
+        {
