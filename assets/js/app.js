@@ -111,3 +111,5 @@
         {
           id: 'app_1',
           internshipId: 'int_1',
+          studentId: 'usr_std1',
+          studentName: 'Ahmed Hassan',

@@ -11,3 +11,5 @@ if ($action === 'stats') {
     $internships = $pdo->query("SELECT COUNT(*) FROM internships")->fetchColumn();
     $applications = $pdo->query("SELECT COUNT(*) FROM applications")->fetchColumn();
     $pending = $pdo->query("SELECT COUNT(*) FROM users WHERE status='pending'")->fetchColumn();
+
+    echo json_encode([
