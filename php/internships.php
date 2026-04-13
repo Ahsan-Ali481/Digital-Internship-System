@@ -15,3 +15,4 @@ if ($action === 'list') {
     $duration = $data['duration'] ?? '';
     $stipend = $data['stipend'] ?? '';
     $positions = $data['positions'] ?? 1;
+    $deadline = $data['deadline'] ?? '';

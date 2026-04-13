@@ -115,3 +115,5 @@
           studentName: 'Ahmed Hassan',
           studentEmail: 'ahmed@student.com',
           companyId: 'usr_hr1',
+          cvName: 'ahmed_hassan_cv.pdf',
+          status: 'Shortlisted',
