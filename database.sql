@@ -39,3 +39,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `title` VARCHAR(200) NOT NULL,
   `category` VARCHAR(100) NOT NULL,
   `location` VARCHAR(150) NOT NULL,
+  `duration` VARCHAR(100) NOT NULL,

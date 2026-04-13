@@ -8,3 +8,4 @@ if ($action === 'submit') {
     $student_uid = $data['studentId'] ?? '';
     $sup_uid = $data['supervisorId'] ?? '';
     $week = $data['weekNumber'] ?? 1;
+    $summary = $data['summary'] ?? '';

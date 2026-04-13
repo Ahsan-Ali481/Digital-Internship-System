@@ -113,3 +113,5 @@
           internshipId: 'int_1',
           studentId: 'usr_std1',
           studentName: 'Ahmed Hassan',
+          studentEmail: 'ahmed@student.com',
+          companyId: 'usr_hr1',
