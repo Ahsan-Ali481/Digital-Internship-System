@@ -45,3 +45,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `deadline` DATE NOT NULL,
   `description` TEXT NOT NULL,
   `requirements` TEXT NOT NULL,
+  `status` ENUM('active', 'inactive') DEFAULT 'active',

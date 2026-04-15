@@ -131,3 +131,5 @@
       ];
       localStorage.setItem('dis_applications', JSON.stringify(apps));
     }
+
+    if (!localStorage.getItem('dis_tasks')) {

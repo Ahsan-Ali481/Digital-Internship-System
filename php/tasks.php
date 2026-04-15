@@ -11,3 +11,4 @@ if ($action === 'create') {
     $title = $data['title'] ?? '';
     $desc = $data['description'] ?? '';
     $deadline = $data['deadline'] ?? '';
+    $task_uid = 'tsk_' . time();
