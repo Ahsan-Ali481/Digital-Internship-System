@@ -129,3 +129,5 @@
           }
         }
       ];
+      localStorage.setItem('dis_applications', JSON.stringify(apps));
+    }

@@ -266,3 +266,7 @@
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
         <h3 id="modal-internship-title" class="text-xl font-bold text-slate-900 dark:text-white">Apply for Internship</h3>
         <button onclick="closeApplyModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
+      </div>
+      <form onsubmit="submitApplication(event)" class="space-y-4">
+        <input type="hidden" id="modal-internship-id">
+        <input type="hidden" id="modal-company-id">

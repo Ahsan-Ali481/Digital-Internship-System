@@ -28,3 +28,4 @@ if ($action === 'login') {
         }
         echo json_encode([
             "status" => "success",
+            "user" => [
