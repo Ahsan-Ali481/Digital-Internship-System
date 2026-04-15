@@ -118,3 +118,5 @@
           cvName: 'ahmed_hassan_cv.pdf',
           status: 'Shortlisted',
           appliedAt: '2026-08-01',
+          supervisorId: 'usr_sup1',
+          completionVerified: false,

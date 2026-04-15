@@ -41,3 +41,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `location` VARCHAR(150) NOT NULL,
   `duration` VARCHAR(100) NOT NULL,
   `stipend` VARCHAR(100) NOT NULL,
+  `positions` INT DEFAULT 1,
