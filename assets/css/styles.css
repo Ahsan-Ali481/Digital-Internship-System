@@ -63,3 +63,4 @@ body {
 }
 .dark .glass {
   background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(12px);

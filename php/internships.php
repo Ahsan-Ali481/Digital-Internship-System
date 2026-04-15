@@ -16,3 +16,4 @@ if ($action === 'list') {
     $stipend = $data['stipend'] ?? '';
     $positions = $data['positions'] ?? 1;
     $deadline = $data['deadline'] ?? '';
+    $description = $data['description'] ?? '';

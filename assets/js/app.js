@@ -122,3 +122,5 @@
           completionVerified: false,
           interview: {
             date: '2026-08-20',
+            time: '14:00',
+            mode: 'Onsite',

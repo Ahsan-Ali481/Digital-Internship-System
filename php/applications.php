@@ -17,3 +17,4 @@ if ($action === 'apply') {
     echo json_encode(["status" => "success", "message" => "Application submitted."]);
 } elseif ($action === 'update_status') {
     $app_uid = $data['appId'] ?? '';
+    $status = $data['status'] ?? 'Pending';
