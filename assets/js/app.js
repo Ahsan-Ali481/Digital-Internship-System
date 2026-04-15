@@ -124,3 +124,5 @@
             date: '2026-08-20',
             time: '14:00',
             mode: 'Onsite',
+            address: 'TechCorp Solutions HQ, Suite 400, Silicon Avenue, San Francisco',
+            scheduledAt: '2026-08-05'

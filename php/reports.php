@@ -9,3 +9,4 @@ if ($action === 'submit') {
     $sup_uid = $data['supervisorId'] ?? '';
     $week = $data['weekNumber'] ?? 1;
     $summary = $data['summary'] ?? '';
+    $achievements = $data['achievements'] ?? '';

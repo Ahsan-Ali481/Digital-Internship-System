@@ -27,3 +27,4 @@ if ($action === 'login') {
             exit();
         }
         echo json_encode([
+            "status" => "success",
