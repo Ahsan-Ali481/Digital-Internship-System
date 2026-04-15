@@ -10,3 +10,4 @@ if ($action === 'create') {
     $company_uid = $data['companyId'] ?? '';
     $title = $data['title'] ?? '';
     $desc = $data['description'] ?? '';
+    $deadline = $data['deadline'] ?? '';

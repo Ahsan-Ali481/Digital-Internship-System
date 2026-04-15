@@ -120,3 +120,5 @@
           appliedAt: '2026-08-01',
           supervisorId: 'usr_sup1',
           completionVerified: false,
+          interview: {
+            date: '2026-08-20',

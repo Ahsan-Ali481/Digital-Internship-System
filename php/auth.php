@@ -26,3 +26,4 @@ if ($action === 'login') {
             echo json_encode(["status" => "error", "message" => "Account is blocked or rejected."]);
             exit();
         }
+        echo json_encode([

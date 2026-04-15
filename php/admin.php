@@ -13,3 +13,4 @@ if ($action === 'stats') {
     $pending = $pdo->query("SELECT COUNT(*) FROM users WHERE status='pending'")->fetchColumn();
 
     echo json_encode([
+        "status" => "success",
