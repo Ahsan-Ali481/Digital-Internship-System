@@ -14,3 +14,4 @@ if ($action === 'stats') {
 
     echo json_encode([
         "status" => "success",
+        "data" => [
