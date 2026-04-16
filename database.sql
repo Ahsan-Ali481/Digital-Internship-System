@@ -46,3 +46,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `description` TEXT NOT NULL,
   `requirements` TEXT NOT NULL,
   `status` ENUM('active', 'inactive') DEFAULT 'active',
+  `posted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
