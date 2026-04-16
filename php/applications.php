@@ -18,3 +18,5 @@ if ($action === 'apply') {
 } elseif ($action === 'update_status') {
     $app_uid = $data['appId'] ?? '';
     $status = $data['status'] ?? 'Pending';
+
+    $stmt = $pdo->prepare("UPDATE applications SET status = ? WHERE application_uid = ?");

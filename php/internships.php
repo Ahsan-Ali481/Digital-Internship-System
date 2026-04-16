@@ -18,3 +18,4 @@ if ($action === 'list') {
     $deadline = $data['deadline'] ?? '';
     $description = $data['description'] ?? '';
     $requirements = $data['requirements'] ?? '';
+    $internship_uid = 'int_' . time();

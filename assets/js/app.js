@@ -135,3 +135,4 @@
     if (!localStorage.getItem('dis_tasks')) {
       const tasks = [
         {
+          id: 'tsk_1',
