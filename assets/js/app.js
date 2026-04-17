@@ -138,3 +138,5 @@
           id: 'tsk_1',
           studentId: 'usr_std1',
           supervisorId: 'usr_sup1',
+          companyId: 'usr_hr1',
+          title: 'Implement Responsive Navigation Bar',

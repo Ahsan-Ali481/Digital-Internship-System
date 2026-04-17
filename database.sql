@@ -48,3 +48,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `status` ENUM('active', 'inactive') DEFAULT 'active',
   `posted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`company_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

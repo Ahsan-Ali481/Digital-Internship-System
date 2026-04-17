@@ -30,3 +30,4 @@ if ($action === 'login') {
             "status" => "success",
             "user" => [
                 "id" => $user['user_uid'],
+                "role" => $user['role'],
