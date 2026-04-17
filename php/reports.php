@@ -10,3 +10,4 @@ if ($action === 'submit') {
     $week = $data['weekNumber'] ?? 1;
     $summary = $data['summary'] ?? '';
     $achievements = $data['achievements'] ?? '';
+    $attachment = $data['attachmentName'] ?? 'doc.pdf';

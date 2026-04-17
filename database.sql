@@ -47,3 +47,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `requirements` TEXT NOT NULL,
   `status` ENUM('active', 'inactive') DEFAULT 'active',
   `posted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`company_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE

@@ -136,3 +136,5 @@
       const tasks = [
         {
           id: 'tsk_1',
+          studentId: 'usr_std1',
+          supervisorId: 'usr_sup1',
