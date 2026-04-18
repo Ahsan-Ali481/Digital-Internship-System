@@ -20,3 +20,4 @@ if ($action === 'apply') {
     $status = $data['status'] ?? 'Pending';
 
     $stmt = $pdo->prepare("UPDATE applications SET status = ? WHERE application_uid = ?");
+    $stmt->execute([$status, $app_uid]);

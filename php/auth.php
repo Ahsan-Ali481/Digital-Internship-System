@@ -31,3 +31,4 @@ if ($action === 'login') {
             "user" => [
                 "id" => $user['user_uid'],
                 "role" => $user['role'],
+                "name" => $user['name'],

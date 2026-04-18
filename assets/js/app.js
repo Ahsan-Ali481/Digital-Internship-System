@@ -142,3 +142,4 @@
           title: 'Implement Responsive Navigation Bar',
           description: 'Build a fully accessible responsive navbar with mobile drawer and theme toggle.',
           deadline: '2026-08-25',
+          status: 'Pending',
