@@ -75,3 +75,4 @@ body {
 .card-hover:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
+}

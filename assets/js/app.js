@@ -143,3 +143,5 @@
           description: 'Build a fully accessible responsive navbar with mobile drawer and theme toggle.',
           deadline: '2026-08-25',
           status: 'Pending',
+          assignedAt: '2026-08-10'
+        }
