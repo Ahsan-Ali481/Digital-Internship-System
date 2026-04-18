@@ -32,3 +32,4 @@ if ($action === 'login') {
                 "id" => $user['user_uid'],
                 "role" => $user['role'],
                 "name" => $user['name'],
+                "email" => $user['email'],

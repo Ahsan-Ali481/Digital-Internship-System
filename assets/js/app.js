@@ -145,3 +145,5 @@
           status: 'Pending',
           assignedAt: '2026-08-10'
         }
+      ];
+      localStorage.setItem('dis_tasks', JSON.stringify(tasks));
