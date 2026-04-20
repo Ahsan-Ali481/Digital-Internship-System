@@ -328,3 +328,8 @@
   <script src="assets/js/app.js"></script>
   <script>
     const currentHR = DIS.checkAuth(['company']);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!currentHR) return;
+      document.getElementById('hr-company-title').innerText = currentHR.companyName || currentHR.name;
+      document.getElementById('hr-email').innerText = currentHR.email;

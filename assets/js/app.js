@@ -156,3 +156,5 @@
           studentId: 'usr_std1',
           supervisorId: 'usr_sup1',
           weekNumber: 1,
+          summary: 'Completed onboarding, set up environment, and reviewed codebase architecture.',
+          achievements: 'Configured local development server and resolved 2 layout UI issues.',

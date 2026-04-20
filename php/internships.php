@@ -21,3 +21,4 @@ if ($action === 'list') {
     $internship_uid = 'int_' . time();
 
     if (strtotime($deadline) < strtotime(date('Y-m-d'))) {
+        echo json_encode(["status" => "error", "message" => "Deadline must be a future date."]);
