@@ -11,3 +11,4 @@ if ($action === 'submit') {
     $summary = $data['summary'] ?? '';
     $achievements = $data['achievements'] ?? '';
     $attachment = $data['attachmentName'] ?? 'doc.pdf';
+    $report_uid = 'rep_' . time();

@@ -147,3 +147,4 @@
         }
       ];
       localStorage.setItem('dis_tasks', JSON.stringify(tasks));
+    }
