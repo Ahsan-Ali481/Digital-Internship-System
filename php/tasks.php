@@ -12,3 +12,5 @@ if ($action === 'create') {
     $desc = $data['description'] ?? '';
     $deadline = $data['deadline'] ?? '';
     $task_uid = 'tsk_' . time();
+
+    if (strtotime($deadline) < strtotime(date('Y-m-d'))) {

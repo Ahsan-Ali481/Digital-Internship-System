@@ -151,3 +151,4 @@
 
     if (!localStorage.getItem('dis_progress_reports')) {
       const reports = [
+        {
