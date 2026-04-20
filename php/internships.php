@@ -19,3 +19,5 @@ if ($action === 'list') {
     $description = $data['description'] ?? '';
     $requirements = $data['requirements'] ?? '';
     $internship_uid = 'int_' . time();
+
+    if (strtotime($deadline) < strtotime(date('Y-m-d'))) {

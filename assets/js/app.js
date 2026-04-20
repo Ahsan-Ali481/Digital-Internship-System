@@ -148,3 +148,6 @@
       ];
       localStorage.setItem('dis_tasks', JSON.stringify(tasks));
     }
+
+    if (!localStorage.getItem('dis_progress_reports')) {
+      const reports = [
