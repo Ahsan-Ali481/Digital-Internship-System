@@ -53,3 +53,4 @@ CREATE TABLE IF NOT EXISTS `internships` (
 CREATE TABLE IF NOT EXISTS `applications` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `application_uid` VARCHAR(64) UNIQUE NOT NULL,
+  `internship_uid` VARCHAR(64) NOT NULL,

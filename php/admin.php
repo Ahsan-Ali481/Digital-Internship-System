@@ -17,3 +17,4 @@ if ($action === 'stats') {
         "data" => [
             "students" => $students,
             "companies" => $companies,
+            "supervisors" => $supervisors,
