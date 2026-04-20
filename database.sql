@@ -55,3 +55,4 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `application_uid` VARCHAR(64) UNIQUE NOT NULL,
   `internship_uid` VARCHAR(64) NOT NULL,
   `student_uid` VARCHAR(64) NOT NULL,
+  `company_uid` VARCHAR(64) NOT NULL,

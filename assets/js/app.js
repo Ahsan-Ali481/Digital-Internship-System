@@ -158,3 +158,5 @@
           weekNumber: 1,
           summary: 'Completed onboarding, set up environment, and reviewed codebase architecture.',
           achievements: 'Configured local development server and resolved 2 layout UI issues.',
+          attachmentName: 'week1_progress_doc.pdf',
+          submittedAt: '2026-08-11',

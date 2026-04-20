@@ -333,3 +333,6 @@
       if (!currentHR) return;
       document.getElementById('hr-company-title').innerText = currentHR.companyName || currentHR.name;
       document.getElementById('hr-email').innerText = currentHR.email;
+
+      renderDashboardStats();
+      renderCompanyPostings();
