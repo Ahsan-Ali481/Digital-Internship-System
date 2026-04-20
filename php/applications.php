@@ -21,3 +21,5 @@ if ($action === 'apply') {
 
     $stmt = $pdo->prepare("UPDATE applications SET status = ? WHERE application_uid = ?");
     $stmt->execute([$status, $app_uid]);
+
+    echo json_encode(["status" => "success", "message" => "Status updated."]);

@@ -193,3 +193,6 @@
   <script src="assets/js/app.js"></script>
   <script>
     const currentSup = DIS.checkAuth(['supervisor']);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!currentSup) return;
