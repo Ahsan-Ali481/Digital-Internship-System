@@ -329,3 +329,6 @@
     function toggleMobileSidebar() {
       document.getElementById('sidebar-drawer').classList.toggle('-translate-x-full');
     }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));

@@ -35,3 +35,4 @@ if ($action === 'login') {
                 "email" => $user['email'],
                 "companyName" => $user['company_name'],
                 "department" => $user['department']
+            ]

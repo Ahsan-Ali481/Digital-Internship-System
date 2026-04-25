@@ -160,3 +160,4 @@
           achievements: 'Configured local development server and resolved 2 layout UI issues.',
           attachmentName: 'week1_progress_doc.pdf',
           submittedAt: '2026-08-11',
+          feedback: {

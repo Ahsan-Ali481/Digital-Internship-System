@@ -23,3 +23,4 @@ if ($action === 'apply') {
     $stmt->execute([$status, $app_uid]);
 
     echo json_encode(["status" => "success", "message" => "Status updated."]);
+} elseif ($action === 'schedule_interview') {

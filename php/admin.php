@@ -18,3 +18,4 @@ if ($action === 'stats') {
             "students" => $students,
             "companies" => $companies,
             "supervisors" => $supervisors,
+            "internships" => $internships,
