@@ -56,3 +56,4 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `internship_uid` VARCHAR(64) NOT NULL,
   `student_uid` VARCHAR(64) NOT NULL,
   `company_uid` VARCHAR(64) NOT NULL,
+  `supervisor_uid` VARCHAR(64) DEFAULT NULL,

@@ -340,3 +340,7 @@
       renderSupervisors();
       loadProfileForm();
       loadNotifications();
+    });
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));

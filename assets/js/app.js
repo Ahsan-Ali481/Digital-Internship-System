@@ -161,3 +161,5 @@
           attachmentName: 'week1_progress_doc.pdf',
           submittedAt: '2026-08-11',
           feedback: {
+            rating: 5,
+            comment: 'Excellent initiative! Great job setting up the development setup quickly.',

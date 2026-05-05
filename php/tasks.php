@@ -14,3 +14,4 @@ if ($action === 'create') {
     $task_uid = 'tsk_' . time();
 
     if (strtotime($deadline) < strtotime(date('Y-m-d'))) {
+        echo json_encode(["status" => "error", "message" => "Task deadline must be a future date."]);
