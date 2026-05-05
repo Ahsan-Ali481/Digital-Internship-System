@@ -209,3 +209,5 @@
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
       document.querySelectorAll('.tab-link').forEach(el => {
+        el.className = 'tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap';
+      });

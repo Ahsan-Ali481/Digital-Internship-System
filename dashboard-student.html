@@ -342,3 +342,8 @@
         document.getElementById('sidebar-drawer').classList.add('-translate-x-full');
       }
     }
+
+    function renderInternships() {
+      const internships = DIS.getInternships().filter(i => i.status === 'active');
+      const grid = document.getElementById('internships-grid');
+      grid.innerHTML = '';

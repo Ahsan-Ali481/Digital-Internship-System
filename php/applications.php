@@ -24,3 +24,4 @@ if ($action === 'apply') {
 
     echo json_encode(["status" => "success", "message" => "Status updated."]);
 } elseif ($action === 'schedule_interview') {
+    $app_uid = $data['appId'] ?? '';

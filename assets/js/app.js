@@ -167,3 +167,5 @@
           }
         }
       ];
+      localStorage.setItem('dis_progress_reports', JSON.stringify(reports));
+    }
