@@ -85,3 +85,4 @@ body {
 ::-webkit-scrollbar-track {
   background: var(--bg-main);
 }
+::-webkit-scrollbar-thumb {

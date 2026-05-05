@@ -36,3 +36,4 @@ if ($action === 'login') {
                 "companyName" => $user['company_name'],
                 "department" => $user['department']
             ]
+        ]);
