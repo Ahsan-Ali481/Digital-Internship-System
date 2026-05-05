@@ -59,3 +59,4 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `supervisor_uid` VARCHAR(64) DEFAULT NULL,
   `cv_name` VARCHAR(255) NOT NULL,
   `status` ENUM('Pending', 'Shortlisted', 'Selected', 'Rejected') DEFAULT 'Pending',
+  `completion_verified` TINYINT(1) DEFAULT 0,

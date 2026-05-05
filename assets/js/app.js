@@ -169,3 +169,6 @@
       ];
       localStorage.setItem('dis_progress_reports', JSON.stringify(reports));
     }
+
+    if (!localStorage.getItem('dis_notifications')) {
+      const notifications = [
