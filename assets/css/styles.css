@@ -86,3 +86,4 @@ body {
   background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
