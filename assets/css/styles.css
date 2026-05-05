@@ -88,3 +88,4 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--border-color);
   border-radius: 9999px;
+}

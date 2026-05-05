@@ -355,3 +355,7 @@
       const internships = DIS.getInternships().filter(i => i.companyId === currentHR.id);
       const apps = DIS.getApplications().filter(a => a.companyId === currentHR.id);
       const supervisors = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
+
+      document.getElementById('stat-active-internships').innerText = internships.length;
+      document.getElementById('stat-total-apps').innerText = apps.length;
+      document.getElementById('stat-shortlisted').innerText = apps.filter(a => a.status === 'Shortlisted' || a.status === 'Selected').length;

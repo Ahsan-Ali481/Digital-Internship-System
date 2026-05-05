@@ -37,3 +37,4 @@ if ($action === 'login') {
                 "department" => $user['department']
             ]
         ]);
+    } else {
