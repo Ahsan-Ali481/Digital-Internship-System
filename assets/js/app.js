@@ -172,3 +172,5 @@
 
     if (!localStorage.getItem('dis_notifications')) {
       const notifications = [
+        {
+          id: 'notif_1',

@@ -90,3 +90,4 @@ body {
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);

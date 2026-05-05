@@ -60,3 +60,4 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `cv_name` VARCHAR(255) NOT NULL,
   `status` ENUM('Pending', 'Shortlisted', 'Selected', 'Rejected') DEFAULT 'Pending',
   `completion_verified` TINYINT(1) DEFAULT 0,
+  `applied_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

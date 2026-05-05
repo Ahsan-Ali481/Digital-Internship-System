@@ -38,3 +38,4 @@ if ($action === 'login') {
             ]
         ]);
     } else {
+        echo json_encode(["status" => "error", "message" => "Invalid credentials."]);

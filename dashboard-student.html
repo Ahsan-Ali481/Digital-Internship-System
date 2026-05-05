@@ -354,3 +354,7 @@
       }
 
       internships.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 card-hover flex flex-col justify-between space-y-4 shadow-sm';
+        card.innerHTML = `
+          <div>

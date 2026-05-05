@@ -363,3 +363,6 @@
     }
 
     function renderCompanyPostings() {
+      const internships = DIS.getInternships().filter(i => i.companyId === currentHR.id);
+      const container = document.getElementById('company-postings-grid');
+      container.innerHTML = '';
