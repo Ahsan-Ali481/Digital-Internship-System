@@ -174,3 +174,5 @@
       const notifications = [
         {
           id: 'notif_1',
+          userId: 'usr_std1',
+          title: 'Application Shortlisted!',

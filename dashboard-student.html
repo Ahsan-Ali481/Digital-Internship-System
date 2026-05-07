@@ -358,3 +358,7 @@
         card.className = 'bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 card-hover flex flex-col justify-between space-y-4 shadow-sm';
         card.innerHTML = `
           <div>
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 text-xs font-bold">${item.category}</span>
+              <span class="text-xs text-slate-400"><i class="far fa-clock mr-1"></i> Deadline: ${item.deadline}</span>
+            </div>

@@ -255,3 +255,7 @@
       const users = DIS.getUsers();
       const internships = DIS.getInternships();
       const apps = DIS.getApplications();
+
+      document.getElementById('stat-students').innerText = users.filter(u => u.role === 'student').length;
+      document.getElementById('stat-companies').innerText = users.filter(u => u.role === 'company').length;
+      document.getElementById('stat-supervisors').innerText = users.filter(u => u.role === 'supervisor').length;
