@@ -370,3 +370,7 @@
       if (internships.length === 0) {
         container.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-400">No active internship listings. Click "Post New Internship" to create one.</div>';
         return;
+      }
+
+      internships.forEach(item => {
+        const card = document.createElement('div');

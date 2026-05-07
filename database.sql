@@ -61,3 +61,4 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `status` ENUM('Pending', 'Shortlisted', 'Selected', 'Rejected') DEFAULT 'Pending',
   `completion_verified` TINYINT(1) DEFAULT 0,
   `applied_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`internship_uid`) REFERENCES `internships`(`internship_uid`) ON DELETE CASCADE,

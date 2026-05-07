@@ -176,3 +176,4 @@
           id: 'notif_1',
           userId: 'usr_std1',
           title: 'Application Shortlisted!',
+          message: 'TechCorp Solutions shortlisted your application for Frontend Developer Intern.',
