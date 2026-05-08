@@ -222,3 +222,6 @@
     function renderDashboardStats() {
       const assignedApps = getMyAssignedApps();
       const reports = DIS.getProgressReports().filter(r => r.supervisorId === currentSup.id);
+      const tasks = DIS.getTasks().filter(t => t.supervisorId === currentSup.id);
+
+      document.getElementById('stat-assigned-students').innerText = assignedApps.length;

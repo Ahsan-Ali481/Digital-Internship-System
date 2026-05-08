@@ -261,3 +261,5 @@
       document.getElementById('stat-supervisors').innerText = users.filter(u => u.role === 'supervisor').length;
       document.getElementById('stat-internships').innerText = internships.length;
       document.getElementById('stat-applications').innerText = apps.length;
+      document.getElementById('stat-pending').innerText = users.filter(u => u.status === 'pending').length;
+    }
