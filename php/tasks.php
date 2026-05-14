@@ -16,3 +16,4 @@ if ($action === 'create') {
     if (strtotime($deadline) < strtotime(date('Y-m-d'))) {
         echo json_encode(["status" => "error", "message" => "Task deadline must be a future date."]);
         exit();
+    }

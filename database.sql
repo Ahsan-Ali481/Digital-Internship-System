@@ -63,3 +63,4 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `applied_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`internship_uid`) REFERENCES `internships`(`internship_uid`) ON DELETE CASCADE,
   FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
