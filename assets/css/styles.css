@@ -95,3 +95,4 @@ body {
 
 /* Toast Notifications Container */
 #toast-container {
+  position: fixed;

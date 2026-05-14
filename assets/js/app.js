@@ -183,3 +183,5 @@
         },
         {
           id: 'notif_2',
+          userId: 'usr_std1',
+          title: 'New Task Assigned',

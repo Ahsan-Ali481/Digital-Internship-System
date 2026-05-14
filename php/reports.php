@@ -14,3 +14,4 @@ if ($action === 'submit') {
     $report_uid = 'rep_' . time();
 
     $stmt = $pdo->prepare("INSERT INTO progress_reports (report_uid, student_uid, supervisor_uid, week_number, summary, achievements, attachment_name) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$report_uid, $student_uid, $sup_uid, $week, $summary, $achievements, $attachment]);

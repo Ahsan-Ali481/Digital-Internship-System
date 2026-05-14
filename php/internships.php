@@ -24,3 +24,5 @@ if ($action === 'list') {
         echo json_encode(["status" => "error", "message" => "Deadline must be a future date."]);
         exit();
     }
+
+    $stmt = $pdo->prepare("INSERT INTO internships (internship_uid, company_uid, company_name, title, category, location, duration, stipend, positions, deadline, description, requirements) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
