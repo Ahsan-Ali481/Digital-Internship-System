@@ -41,3 +41,4 @@ if ($action === 'login') {
         echo json_encode(["status" => "error", "message" => "Invalid credentials."]);
     }
 } elseif ($action === 'register') {
+    $role = $data['role'] ?? 'student';

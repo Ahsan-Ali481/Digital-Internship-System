@@ -21,3 +21,4 @@ if ($action === 'stats') {
             "internships" => $internships,
             "applications" => $applications,
             "pending" => $pending
+        ]

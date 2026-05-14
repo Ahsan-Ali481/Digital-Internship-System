@@ -379,3 +379,8 @@
         grid.appendChild(card);
       });
     }
+
+    function openApplyModal(id, companyId, title) {
+      document.getElementById('modal-internship-id').value = id;
+      document.getElementById('modal-company-id').value = companyId;
+      document.getElementById('modal-internship-title').innerText = `Apply for ${title}`;
