@@ -263,3 +263,7 @@
       document.getElementById('stat-applications').innerText = apps.length;
       document.getElementById('stat-pending').innerText = users.filter(u => u.status === 'pending').length;
     }
+
+    function switchRoleSubTab(role) {
+      currentRoleSubTab = role;
+      document.querySelectorAll('[id^="subtab-"]').forEach(el => {

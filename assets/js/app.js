@@ -179,3 +179,5 @@
           message: 'TechCorp Solutions shortlisted your application for Frontend Developer Intern.',
           type: 'info',
           read: false,
+          timestamp: '2026-08-05 10:30'
+        },

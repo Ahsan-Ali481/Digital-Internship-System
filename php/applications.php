@@ -26,3 +26,4 @@ if ($action === 'apply') {
 } elseif ($action === 'schedule_interview') {
     $app_uid = $data['appId'] ?? '';
     $date = $data['date'] ?? '';
+    $time = $data['time'] ?? '';
