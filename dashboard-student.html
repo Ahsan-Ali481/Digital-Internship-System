@@ -399,3 +399,6 @@
       const apps = DIS.getApplications();
       if (apps.some(a => a.internshipId === internshipId && a.studentId === currentUser.id)) {
         DIS.showToast('You have already applied for this internship!', 'warning');
+        closeApplyModal();
+        return;
+      }

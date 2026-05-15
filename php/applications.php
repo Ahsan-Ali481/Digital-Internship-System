@@ -28,3 +28,4 @@ if ($action === 'apply') {
     $date = $data['date'] ?? '';
     $time = $data['time'] ?? '';
     $mode = $data['mode'] ?? 'Online';
+    $meetingLink = $data['meetingLink'] ?? '';

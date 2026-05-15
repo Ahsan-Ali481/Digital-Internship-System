@@ -408,3 +408,7 @@
       if (!DIS.validateFutureDate(deadline)) {
         DIS.showToast('Deadline must be a future date!', 'warning');
         return;
+      }
+
+      const internships = DIS.getInternships();
+      const newPost = {

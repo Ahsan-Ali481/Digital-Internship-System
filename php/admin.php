@@ -22,3 +22,4 @@ if ($action === 'stats') {
             "applications" => $applications,
             "pending" => $pending
         ]
+    ]);

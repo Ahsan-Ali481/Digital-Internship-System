@@ -242,3 +242,6 @@
         select.innerHTML = '<option value="">No assigned students available</option>';
         return;
       }
+
+      apps.forEach(app => {
+        const studentUser = DIS.getUsers().find(u => u.id === app.studentId);
