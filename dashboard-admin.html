@@ -279,3 +279,7 @@
       const filtered = users.filter(u => u.role === (currentRoleSubTab === 'company' ? 'company' : currentRoleSubTab) && (u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query)));
       const tbody = document.getElementById('users-table-body');
       tbody.innerHTML = '';
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">No users found for selected category.</td></tr>';
+        return;

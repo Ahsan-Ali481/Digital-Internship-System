@@ -42,3 +42,4 @@ if ($action === 'login') {
     }
 } elseif ($action === 'register') {
     $role = $data['role'] ?? 'student';
+    $name = trim($data['name'] ?? '');

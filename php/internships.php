@@ -26,3 +26,4 @@ if ($action === 'list') {
     }
 
     $stmt = $pdo->prepare("INSERT INTO internships (internship_uid, company_uid, company_name, title, category, location, duration, stipend, positions, deadline, description, requirements) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([

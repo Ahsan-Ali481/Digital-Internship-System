@@ -190,3 +190,5 @@
           read: false,
           timestamp: '2026-08-10 14:15'
         }
+      ];
+      localStorage.setItem('dis_notifications', JSON.stringify(notifications));
