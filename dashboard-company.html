@@ -404,3 +404,7 @@
       const deadline = document.getElementById('post-deadline').value;
       const description = document.getElementById('post-description').value;
       const requirements = document.getElementById('post-requirements').value;
+
+      if (!DIS.validateFutureDate(deadline)) {
+        DIS.showToast('Deadline must be a future date!', 'warning');
+        return;

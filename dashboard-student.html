@@ -395,3 +395,7 @@
       const internshipId = document.getElementById('modal-internship-id').value;
       const companyId = document.getElementById('modal-company-id').value;
       const cvFile = document.getElementById('modal-cv-file').files[0];
+
+      const apps = DIS.getApplications();
+      if (apps.some(a => a.internshipId === internshipId && a.studentId === currentUser.id)) {
+        DIS.showToast('You have already applied for this internship!', 'warning');
