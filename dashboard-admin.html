@@ -277,3 +277,5 @@
       const users = DIS.getUsers();
       const query = document.getElementById('search-users').value.toLowerCase();
       const filtered = users.filter(u => u.role === (currentRoleSubTab === 'company' ? 'company' : currentRoleSubTab) && (u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query)));
+      const tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = '';

@@ -188,3 +188,5 @@
           message: 'Dr. Robert Chen assigned a new task: Implement Responsive Navigation Bar.',
           type: 'warning',
           read: false,
+          timestamp: '2026-08-10 14:15'
+        }
