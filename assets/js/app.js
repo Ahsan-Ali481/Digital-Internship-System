@@ -186,3 +186,5 @@
           userId: 'usr_std1',
           title: 'New Task Assigned',
           message: 'Dr. Robert Chen assigned a new task: Implement Responsive Navigation Bar.',
+          type: 'warning',
+          read: false,

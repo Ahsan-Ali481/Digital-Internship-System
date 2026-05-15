@@ -27,3 +27,4 @@ if ($action === 'apply') {
     $app_uid = $data['appId'] ?? '';
     $date = $data['date'] ?? '';
     $time = $data['time'] ?? '';
+    $mode = $data['mode'] ?? 'Online';
