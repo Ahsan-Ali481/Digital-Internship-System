@@ -246,3 +246,6 @@
       apps.forEach(app => {
         const studentUser = DIS.getUsers().find(u => u.id === app.studentId);
         select.innerHTML += `<option value="${app.studentId}">${app.studentName} (${studentUser ? studentUser.major : 'Student'})</option>`;
+
+        const card = document.createElement('div');
+        card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4';

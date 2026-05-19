@@ -196,3 +196,6 @@
   }
 
   initSeedData();
+
+  // Helper State Management Functions
+  window.DIS = {
