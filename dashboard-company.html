@@ -438,3 +438,7 @@
     }
 
     function deletePost(id) {
+      if (confirm('Are you sure you want to delete this internship posting?')) {
+        let internships = DIS.getInternships().filter(i => i.id !== id);
+        DIS.setInternships(internships);
+        DIS.showToast('Post deleted', 'info');

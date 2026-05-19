@@ -428,3 +428,7 @@
     function formatInterviewDateTime(dateStr, timeStr) {
       if (!dateStr) return '';
       const parts = dateStr.split('-');
+      if (parts.length !== 3) return `${dateStr} at ${timeStr}`;
+      
+      const year = parts[0];
+      const monthIndex = parseInt(parts[1], 10) - 1;

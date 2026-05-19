@@ -208,3 +208,5 @@
     },
     logout: function () {
       localStorage.removeItem('dis_current_user');
+      window.location.href = 'signin.html';
+    },

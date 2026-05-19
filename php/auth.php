@@ -46,3 +46,4 @@ if ($action === 'login') {
     $email = trim($data['email'] ?? '');
     $password = $data['password'] ?? 'password123';
     $phone = $data['phone'] ?? '';
+    $user_uid = 'usr_' . time();
