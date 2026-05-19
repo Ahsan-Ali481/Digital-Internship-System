@@ -23,3 +23,4 @@ if ($action === 'stats') {
             "pending" => $pending
         ]
     ]);
+} elseif ($action === 'update_user_status') {

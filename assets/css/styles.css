@@ -105,3 +105,4 @@ body {
   pointer-events: none;
 }
 .toast {
+  pointer-events: auto;

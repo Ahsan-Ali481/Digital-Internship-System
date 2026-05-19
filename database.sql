@@ -70,3 +70,4 @@ CREATE TABLE IF NOT EXISTS `interviews` (
   `application_uid` VARCHAR(64) NOT NULL,
   `interview_date` DATE NOT NULL,
   `interview_time` TIME NOT NULL,
+  `mode` ENUM('Online', 'Onsite') DEFAULT 'Online',
