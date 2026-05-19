@@ -203,3 +203,4 @@
       const userStr = localStorage.getItem('dis_current_user');
       return userStr ? JSON.parse(userStr) : null;
     },
+    setCurrentUser: function (user) {

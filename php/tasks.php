@@ -17,3 +17,5 @@ if ($action === 'create') {
         echo json_encode(["status" => "error", "message" => "Task deadline must be a future date."]);
         exit();
     }
+
+    $stmt = $pdo->prepare("INSERT INTO tasks (task_uid, student_uid, supervisor_uid, company_uid, title, description, deadline, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')");

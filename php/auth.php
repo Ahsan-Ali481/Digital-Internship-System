@@ -45,3 +45,4 @@ if ($action === 'login') {
     $name = trim($data['name'] ?? '');
     $email = trim($data['email'] ?? '');
     $password = $data['password'] ?? 'password123';
+    $phone = $data['phone'] ?? '';

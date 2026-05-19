@@ -417,3 +417,7 @@
 
       apps.push(newApp);
       DIS.setApplications(apps);
+
+      DIS.addNotification(companyId, 'New Application Received', `${currentUser.name} applied for your internship position.`, 'info');
+
+      DIS.showToast('Application submitted successfully!', 'success');

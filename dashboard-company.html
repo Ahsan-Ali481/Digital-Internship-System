@@ -427,3 +427,6 @@
         status: 'active',
         postedAt: new Date().toISOString().split('T')[0]
       };
+
+      internships.unshift(newPost);
+      DIS.setInternships(internships);

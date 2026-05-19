@@ -106,3 +106,4 @@ body {
 }
 .toast {
   pointer-events: auto;
+  min-width: 300px;
