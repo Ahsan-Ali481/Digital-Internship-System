@@ -245,3 +245,4 @@
 
       apps.forEach(app => {
         const studentUser = DIS.getUsers().find(u => u.id === app.studentId);
+        select.innerHTML += `<option value="${app.studentId}">${app.studentName} (${studentUser ? studentUser.major : 'Student'})</option>`;

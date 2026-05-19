@@ -13,3 +13,5 @@ $host = 'localhost';
 $db_name = 'digital_internship_db';
 $username = 'root';
 $password = '';
+
+try {

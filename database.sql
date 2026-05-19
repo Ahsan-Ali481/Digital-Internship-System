@@ -68,3 +68,4 @@ CREATE TABLE IF NOT EXISTS `applications` (
 CREATE TABLE IF NOT EXISTS `interviews` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `application_uid` VARCHAR(64) NOT NULL,
+  `interview_date` DATE NOT NULL,

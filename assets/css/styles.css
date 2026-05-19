@@ -102,3 +102,4 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  pointer-events: none;

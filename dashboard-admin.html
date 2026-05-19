@@ -288,3 +288,4 @@
       filtered.forEach(user => {
         let badgeClass = 'badge-selected';
         if (user.status === 'pending') badgeClass = 'badge-pending';
+        if (user.status === 'blocked' || user.status === 'rejected') badgeClass = 'badge-rejected';

@@ -412,3 +412,6 @@
 
       const internships = DIS.getInternships();
       const newPost = {
+        id: 'int_' + Date.now(),
+        companyId: currentHR.id,
+        companyName: currentHR.companyName || currentHR.name,
