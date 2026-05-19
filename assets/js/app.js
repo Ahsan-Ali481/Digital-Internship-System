@@ -199,3 +199,5 @@
 
   // Helper State Management Functions
   window.DIS = {
+    getCurrentUser: function () {
+      const userStr = localStorage.getItem('dis_current_user');

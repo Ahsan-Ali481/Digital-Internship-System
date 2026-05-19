@@ -249,3 +249,6 @@
 
         const card = document.createElement('div');
         card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4';
+        card.innerHTML = `
+          <img src="${studentUser ? studentUser.avatar : 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80'}" class="w-14 h-14 rounded-full object-cover border-2 border-emerald-500">
+          <div class="space-y-1">

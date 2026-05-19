@@ -293,3 +293,6 @@
         let certHtml = '<span class="text-xs text-slate-400">N/A</span>';
         if (user.role === 'company') {
           certHtml = `<button onclick="openCertModal('${user.id}', '${user.certificateUrl || 'incorporation_cert.pdf'}')" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"><i class="fas fa-file-contract mr-1"></i> Verify Cert</button>`;
+        }
+
+        const tr = document.createElement('tr');

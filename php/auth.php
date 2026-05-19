@@ -44,3 +44,4 @@ if ($action === 'login') {
     $role = $data['role'] ?? 'student';
     $name = trim($data['name'] ?? '');
     $email = trim($data['email'] ?? '');
+    $password = $data['password'] ?? 'password123';

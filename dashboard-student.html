@@ -410,3 +410,6 @@
         studentName: currentUser.name,
         studentEmail: currentUser.email,
         companyId,
+        cvName: cvFile ? cvFile.name : 'resume.pdf',
+        status: 'Pending',
+        appliedAt: new Date().toISOString().split('T')[0]
