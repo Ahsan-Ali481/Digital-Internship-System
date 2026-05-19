@@ -430,3 +430,7 @@
 
       internships.unshift(newPost);
       DIS.setInternships(internships);
+      DIS.showToast('Internship listing published successfully!', 'success');
+      e.target.reset();
+      renderDashboardStats();
+      renderCompanyPostings();
