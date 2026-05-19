@@ -206,3 +206,5 @@
     setCurrentUser: function (user) {
       localStorage.setItem('dis_current_user', JSON.stringify(user));
     },
+    logout: function () {
+      localStorage.removeItem('dis_current_user');

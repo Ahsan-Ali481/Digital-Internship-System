@@ -72,3 +72,4 @@ CREATE TABLE IF NOT EXISTS `interviews` (
   `interview_time` TIME NOT NULL,
   `mode` ENUM('Online', 'Onsite') DEFAULT 'Online',
   `meeting_link` VARCHAR(255) DEFAULT NULL,
+  `scheduled_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

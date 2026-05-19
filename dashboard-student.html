@@ -424,3 +424,7 @@
       closeApplyModal();
       renderMyApplications();
     }
+
+    function formatInterviewDateTime(dateStr, timeStr) {
+      if (!dateStr) return '';
+      const parts = dateStr.split('-');

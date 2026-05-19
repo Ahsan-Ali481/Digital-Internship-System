@@ -304,3 +304,5 @@
           <td class="p-4 text-xs text-slate-600 dark:text-slate-300">
             ${user.role === 'student' ? `${user.university || 'Uni'} • ${user.major || 'Major'}` : ''}
             ${user.role === 'company' ? `${user.companyName || user.name} (${user.industry || 'Tech'})` : ''}
+            ${user.role === 'supervisor' ? `Department: ${user.department || 'General'}` : ''}
+          </td>

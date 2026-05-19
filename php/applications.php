@@ -29,3 +29,5 @@ if ($action === 'apply') {
     $time = $data['time'] ?? '';
     $mode = $data['mode'] ?? 'Online';
     $meetingLink = $data['meetingLink'] ?? '';
+
+    if (strtotime($date) < strtotime(date('Y-m-d'))) {
