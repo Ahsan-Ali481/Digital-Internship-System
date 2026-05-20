@@ -442,3 +442,6 @@
         let internships = DIS.getInternships().filter(i => i.id !== id);
         DIS.setInternships(internships);
         DIS.showToast('Post deleted', 'info');
+        renderDashboardStats();
+        renderCompanyPostings();
+      }

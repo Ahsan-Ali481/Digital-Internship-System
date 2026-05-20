@@ -210,3 +210,5 @@
       localStorage.removeItem('dis_current_user');
       window.location.href = 'signin.html';
     },
+    checkAuth: function (allowedRoles) {
+      const user = this.getCurrentUser();

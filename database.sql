@@ -73,3 +73,4 @@ CREATE TABLE IF NOT EXISTS `interviews` (
   `mode` ENUM('Online', 'Onsite') DEFAULT 'Online',
   `meeting_link` VARCHAR(255) DEFAULT NULL,
   `scheduled_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`application_uid`) REFERENCES `applications`(`application_uid`) ON DELETE CASCADE
