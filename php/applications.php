@@ -31,3 +31,4 @@ if ($action === 'apply') {
     $meetingLink = $data['meetingLink'] ?? '';
 
     if (strtotime($date) < strtotime(date('Y-m-d'))) {
+        echo json_encode(["status" => "error", "message" => "Interview date must be in the future."]);

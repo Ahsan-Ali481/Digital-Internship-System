@@ -439,3 +439,7 @@
 
       let timeFormatted = timeStr || '';
       if (timeStr && timeStr.includes(':')) {
+        let [hours, minutes] = timeStr.split(':');
+        hours = parseInt(hours, 10);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;

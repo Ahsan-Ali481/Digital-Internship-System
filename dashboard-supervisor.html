@@ -267,3 +267,6 @@
       const title = document.getElementById('task-title').value;
       const description = document.getElementById('task-desc').value;
       const deadline = document.getElementById('task-deadline').value;
+
+      if (!studentId) {
+        DIS.showToast('No student selected!', 'warning');

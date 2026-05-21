@@ -213,3 +213,5 @@
     checkAuth: function (allowedRoles) {
       const user = this.getCurrentUser();
       if (!user) {
+        window.location.href = 'signin.html';
+        return null;

@@ -449,3 +449,6 @@
 
     function renderCompanyApplications() {
       const apps = DIS.getApplications().filter(a => a.companyId === currentHR.id);
+      const internships = DIS.getInternships();
+      const tbody = document.getElementById('company-apps-table-body');
+      tbody.innerHTML = '';
