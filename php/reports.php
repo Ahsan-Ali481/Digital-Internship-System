@@ -17,3 +17,4 @@ if ($action === 'submit') {
     $stmt->execute([$report_uid, $student_uid, $sup_uid, $week, $summary, $achievements, $attachment]);
 
     echo json_encode(["status" => "success", "message" => "Progress report submitted."]);
+} elseif ($action === 'give_feedback') {

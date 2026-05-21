@@ -75,3 +75,5 @@ CREATE TABLE IF NOT EXISTS `interviews` (
   `scheduled_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`application_uid`) REFERENCES `applications`(`application_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `tasks` (

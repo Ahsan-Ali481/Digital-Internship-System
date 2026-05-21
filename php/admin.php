@@ -25,3 +25,4 @@ if ($action === 'stats') {
     ]);
 } elseif ($action === 'update_user_status') {
     $user_uid = $data['userId'] ?? '';
+    $status = $data['status'] ?? 'approved';

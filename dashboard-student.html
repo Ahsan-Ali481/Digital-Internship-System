@@ -446,3 +446,6 @@
         hours = hours ? hours : 12;
         timeFormatted = `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
       }
+
+      return `${day} ${monthName} ${year} at ${timeFormatted}`;
+    }

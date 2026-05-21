@@ -319,3 +319,6 @@
     }
 
     function setUserStatus(userId, status) {
+      const users = DIS.getUsers();
+      const u = users.find(x => x.id === userId);
+      if (u) {
