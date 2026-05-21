@@ -215,3 +215,5 @@
       if (!user) {
         window.location.href = 'signin.html';
         return null;
+      }
+      if (allowedRoles && !allowedRoles.includes(user.role)) {

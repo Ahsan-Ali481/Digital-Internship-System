@@ -112,3 +112,4 @@ body {
   border-radius: 0.75rem;
   box-shadow: var(--shadow-lg);
   display: flex;
+  align-items: center;
