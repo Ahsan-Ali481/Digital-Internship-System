@@ -449,3 +449,8 @@
 
       return `${day} ${monthName} ${year} at ${timeFormatted}`;
     }
+
+    function renderMyApplications() {
+      const apps = DIS.getApplications().filter(a => a.studentId === currentUser.id);
+      const internships = DIS.getInternships();
+      const tbody = document.getElementById('student-apps-table-body');

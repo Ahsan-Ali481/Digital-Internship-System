@@ -274,3 +274,5 @@
       }
 
       if (!DIS.validateFutureDate(deadline)) {
+        DIS.showToast('Task deadline must be a future date!', 'warning');
+        return;

@@ -30,3 +30,4 @@ if ($action === 'list') {
         $internship_uid,
         $company_uid,
         $data['companyName'] ?? 'Company',
+        $title,

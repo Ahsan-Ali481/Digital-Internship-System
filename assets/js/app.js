@@ -219,3 +219,4 @@
       if (allowedRoles && !allowedRoles.includes(user.role)) {
         alert('Unauthorized access! Redirecting to correct dashboard...');
         window.location.href = `dashboard-${user.role}.html`;
+        return null;
