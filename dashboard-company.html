@@ -445,3 +445,7 @@
         renderDashboardStats();
         renderCompanyPostings();
       }
+    }
+
+    function renderCompanyApplications() {
+      const apps = DIS.getApplications().filter(a => a.companyId === currentHR.id);

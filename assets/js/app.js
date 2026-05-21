@@ -212,3 +212,4 @@
     },
     checkAuth: function (allowedRoles) {
       const user = this.getCurrentUser();
+      if (!user) {

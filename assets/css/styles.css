@@ -110,3 +110,4 @@ body {
   max-width: 420px;
   padding: 1rem 1.25rem;
   border-radius: 0.75rem;
+  box-shadow: var(--shadow-lg);

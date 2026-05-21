@@ -435,3 +435,7 @@
       const day = parseInt(parts[2], 10);
 
       const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const monthName = months[monthIndex] || parts[1];
+
+      let timeFormatted = timeStr || '';
+      if (timeStr && timeStr.includes(':')) {

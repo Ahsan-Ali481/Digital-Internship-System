@@ -47,3 +47,4 @@ if ($action === 'login') {
     $password = $data['password'] ?? 'password123';
     $phone = $data['phone'] ?? '';
     $user_uid = 'usr_' . time();
+    $status = ($role === 'company') ? 'pending' : 'approved';

@@ -29,3 +29,4 @@ if ($action === 'list') {
     $stmt->execute([
         $internship_uid,
         $company_uid,
+        $data['companyName'] ?? 'Company',
