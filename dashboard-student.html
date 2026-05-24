@@ -472,3 +472,7 @@
         let interviewHtml = '<span class="text-xs text-slate-400">N/A</span>';
         if (app.interview) {
           const formattedDateTime = formatInterviewDateTime(app.interview.date, app.interview.time);
+          const venueAddress = app.interview.address || (app.interview.meetingLink && !app.interview.meetingLink.startsWith('http') ? app.interview.meetingLink : '') || (internship ? `${internship.companyName} HQ, ${internship.location}` : 'Company Main Office');
+
+          interviewHtml = `
+            <div class="text-xs space-y-1">

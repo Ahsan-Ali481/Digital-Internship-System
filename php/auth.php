@@ -51,3 +51,4 @@ if ($action === 'login') {
 
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
+    if ($stmt->fetch()) {

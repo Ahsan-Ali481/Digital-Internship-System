@@ -80,3 +80,4 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `task_uid` VARCHAR(64) UNIQUE NOT NULL,
   `student_uid` VARCHAR(64) NOT NULL,
+  `supervisor_uid` VARCHAR(64) NOT NULL,

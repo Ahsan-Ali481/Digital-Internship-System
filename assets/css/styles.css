@@ -120,3 +120,4 @@ body {
   font-size: 0.9rem;
 }
 .toast-success { background: linear-gradient(135deg, #10b981, #059669); }
+.toast-info { background: linear-gradient(135deg, #3b82f6, #2563eb); }

@@ -229,3 +229,5 @@
       if (!container) {
         container = document.createElement('div');
         container.id = 'toast-container';
+        document.body.appendChild(container);
+      }

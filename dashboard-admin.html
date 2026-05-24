@@ -338,3 +338,5 @@
         let users = DIS.getUsers().filter(u => u.id !== userId);
         DIS.setUsers(users);
         DIS.showToast('User deleted', 'info');
+        renderDashboardStats();
+        renderUserTable();
