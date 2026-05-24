@@ -468,3 +468,7 @@
         if (app.status === 'Shortlisted') badgeClass = 'badge-shortlisted';
         if (app.status === 'Selected') badgeClass = 'badge-selected';
         if (app.status === 'Rejected') badgeClass = 'badge-rejected';
+
+        let interviewHtml = '<span class="text-xs text-slate-400">N/A</span>';
+        if (app.interview) {
+          const formattedDateTime = formatInterviewDateTime(app.interview.date, app.interview.time);

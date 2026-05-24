@@ -119,3 +119,4 @@ body {
   font-weight: 500;
   font-size: 0.9rem;
 }
+.toast-success { background: linear-gradient(135deg, #10b981, #059669); }

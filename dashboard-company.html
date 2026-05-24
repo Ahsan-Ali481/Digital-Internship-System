@@ -479,3 +479,7 @@
           </td>
           <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass}">${app.status}</span></td>
           <td class="p-4 text-right space-x-2">
+            <button onclick="openInterviewModal('${app.id}')" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold">
+              <i class="fas fa-calendar-alt mr-1"></i> Interview
+            </button>
+            <button onclick="updateAppStatus('${app.id}', 'Selected')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold">Select</button>

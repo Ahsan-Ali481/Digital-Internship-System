@@ -228,3 +228,4 @@
       let container = document.getElementById('toast-container');
       if (!container) {
         container = document.createElement('div');
+        container.id = 'toast-container';
