@@ -48,3 +48,5 @@ if ($action === 'login') {
     $phone = $data['phone'] ?? '';
     $user_uid = 'usr_' . time();
     $status = ($role === 'company') ? 'pending' : 'approved';
+
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");

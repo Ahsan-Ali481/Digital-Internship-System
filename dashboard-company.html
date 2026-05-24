@@ -464,3 +464,7 @@
         if (app.status === 'Shortlisted') badgeClass = 'badge-shortlisted';
         if (app.status === 'Selected') badgeClass = 'badge-selected';
         if (app.status === 'Rejected') badgeClass = 'badge-rejected';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-4">

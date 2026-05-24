@@ -325,3 +325,4 @@
         u.status = status;
         DIS.setUsers(users);
         
+        DIS.addNotification(userId, 'Account Status Updated', `Your system account status has been changed to: ${status}`, 'info');
