@@ -326,3 +326,7 @@
         DIS.setUsers(users);
         
         DIS.addNotification(userId, 'Account Status Updated', `Your system account status has been changed to: ${status}`, 'info');
+
+        DIS.showToast(`User status updated to ${status}`, 'success');
+        renderDashboardStats();
+        renderUserTable();
