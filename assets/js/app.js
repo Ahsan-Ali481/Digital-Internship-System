@@ -226,3 +226,5 @@
 
     showToast: function (message, type = 'success') {
       let container = document.getElementById('toast-container');
+      if (!container) {
+        container = document.createElement('div');

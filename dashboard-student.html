@@ -465,3 +465,6 @@
       apps.forEach(app => {
         const internship = internships.find(i => i.id === app.internshipId);
         let badgeClass = 'badge-pending';
+        if (app.status === 'Shortlisted') badgeClass = 'badge-shortlisted';
+        if (app.status === 'Selected') badgeClass = 'badge-selected';
+        if (app.status === 'Rejected') badgeClass = 'badge-rejected';

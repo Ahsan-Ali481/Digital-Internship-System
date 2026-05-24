@@ -33,3 +33,4 @@ if ($action === 'apply') {
     if (strtotime($date) < strtotime(date('Y-m-d'))) {
         echo json_encode(["status" => "error", "message" => "Interview date must be in the future."]);
         exit();
+    }
