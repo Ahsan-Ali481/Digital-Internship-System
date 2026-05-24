@@ -31,3 +31,4 @@ if ($action === 'list') {
         $company_uid,
         $data['companyName'] ?? 'Company',
         $title,
+        $category,

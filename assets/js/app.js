@@ -223,3 +223,6 @@
       }
       return user;
     },
+
+    showToast: function (message, type = 'success') {
+      let container = document.getElementById('toast-container');

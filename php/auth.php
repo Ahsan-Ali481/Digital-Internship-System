@@ -50,3 +50,4 @@ if ($action === 'login') {
     $status = ($role === 'company') ? 'pending' : 'approved';
 
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->execute([$email]);

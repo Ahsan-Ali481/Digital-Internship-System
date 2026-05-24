@@ -461,3 +461,7 @@
         tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">No applications submitted yet.</td></tr>';
         return;
       }
+
+      apps.forEach(app => {
+        const internship = internships.find(i => i.id === app.internshipId);
+        let badgeClass = 'badge-pending';
