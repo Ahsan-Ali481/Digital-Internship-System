@@ -295,3 +295,7 @@
       DIS.setTasks(tasks);
 
       DIS.addNotification(studentId, 'New Workplace Task Assigned', `Task: ${title} (Deadline: ${deadline})`, 'warning');
+
+      DIS.showToast('Task issued successfully!', 'success');
+      e.target.reset();
+      renderDashboardStats();

@@ -498,3 +498,7 @@
         app.status = status;
         DIS.setApplications(apps);
         
+        DIS.addNotification(app.studentId, 'Application Status Changed', `Your application status is now: ${status}`, 'info');
+
+        DIS.showToast(`Application status updated to ${status}`, 'success');
+        renderDashboardStats();
