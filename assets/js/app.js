@@ -231,3 +231,5 @@
         container.id = 'toast-container';
         document.body.appendChild(container);
       }
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;

@@ -32,3 +32,4 @@ if ($action === 'list') {
         $data['companyName'] ?? 'Company',
         $title,
         $category,
+        $location,
