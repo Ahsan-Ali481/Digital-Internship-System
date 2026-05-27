@@ -52,3 +52,4 @@ if ($action === 'login') {
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
+        echo json_encode(["status" => "error", "message" => "User with email already exists."]);

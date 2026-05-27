@@ -26,3 +26,5 @@ if ($action === 'stats') {
 } elseif ($action === 'update_user_status') {
     $user_uid = $data['userId'] ?? '';
     $status = $data['status'] ?? 'approved';
+
+    $stmt = $pdo->prepare("UPDATE users SET status = ? WHERE user_uid = ?");

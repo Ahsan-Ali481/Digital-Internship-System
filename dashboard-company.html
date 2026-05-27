@@ -490,3 +490,7 @@
         tbody.appendChild(tr);
       });
     }
+
+    function updateAppStatus(appId, status) {
+      const apps = DIS.getApplications();
+      const app = apps.find(a => a.id === appId);

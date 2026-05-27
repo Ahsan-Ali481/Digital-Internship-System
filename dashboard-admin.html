@@ -342,3 +342,7 @@
         renderUserTable();
       }
     }
+
+    function openCertModal(companyId, certFilename) {
+      currentVerifyingCompanyId = companyId;
+      document.getElementById('modal-cert-filename').innerText = certFilename;

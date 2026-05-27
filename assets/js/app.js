@@ -233,3 +233,5 @@
       }
       const toast = document.createElement('div');
       toast.className = `toast toast-${type}`;
+      
+      let icon = 'fa-check-circle';
