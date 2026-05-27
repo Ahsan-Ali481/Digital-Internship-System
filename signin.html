@@ -104,3 +104,4 @@
 
     function quickLogin(role) {
       const users = DIS.getUsers();
+      const user = users.find(u => u.role === role);

@@ -82,3 +82,4 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `student_uid` VARCHAR(64) NOT NULL,
   `supervisor_uid` VARCHAR(64) NOT NULL,
   `company_uid` VARCHAR(64) NOT NULL,
+  `title` VARCHAR(250) NOT NULL,

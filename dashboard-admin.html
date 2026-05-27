@@ -346,3 +346,5 @@
     function openCertModal(companyId, certFilename) {
       currentVerifyingCompanyId = companyId;
       document.getElementById('modal-cert-filename').innerText = certFilename;
+      document.getElementById('cert-modal').classList.remove('hidden');
+    }

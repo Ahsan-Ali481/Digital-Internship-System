@@ -494,3 +494,7 @@
     function updateAppStatus(appId, status) {
       const apps = DIS.getApplications();
       const app = apps.find(a => a.id === appId);
+      if (app) {
+        app.status = status;
+        DIS.setApplications(apps);
+        

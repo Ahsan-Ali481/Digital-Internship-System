@@ -235,3 +235,5 @@
       toast.className = `toast toast-${type}`;
       
       let icon = 'fa-check-circle';
+      if (type === 'info') icon = 'fa-info-circle';
+      if (type === 'warning') icon = 'fa-exclamation-triangle';
