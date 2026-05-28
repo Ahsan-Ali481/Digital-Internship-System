@@ -240,3 +240,5 @@
       if (type === 'danger') icon = 'fa-exclamation-circle';
 
       toast.innerHTML = `
+        <i class="fas ${icon} text-lg"></i>
+        <div class="flex-1">${message}</div>

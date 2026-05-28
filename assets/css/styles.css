@@ -125,3 +125,4 @@ body {
 .toast-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
 
 @keyframes slideInRight {
+  from {

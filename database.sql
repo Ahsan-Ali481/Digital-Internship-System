@@ -84,3 +84,4 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `company_uid` VARCHAR(64) NOT NULL,
   `title` VARCHAR(250) NOT NULL,
   `description` TEXT NOT NULL,
+  `deadline` DATE NOT NULL,

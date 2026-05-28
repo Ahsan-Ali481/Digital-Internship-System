@@ -494,3 +494,7 @@
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td class="p-4">
+            <div class="font-bold text-slate-900 dark:text-white">${internship ? internship.title : 'Internship Position'}</div>
+            <div class="text-xs text-slate-500">${internship ? internship.companyName : 'Company'}</div>
+          </td>
+          <td class="p-4 text-xs text-slate-500">${app.appliedAt}</td>

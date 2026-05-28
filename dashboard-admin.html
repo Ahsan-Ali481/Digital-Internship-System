@@ -354,3 +354,5 @@
 
     function approveCompanyCert() {
       if (currentVerifyingCompanyId) {
+        setUserStatus(currentVerifyingCompanyId, 'approved');
+        closeCertModal();

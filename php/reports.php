@@ -19,3 +19,4 @@ if ($action === 'submit') {
     echo json_encode(["status" => "success", "message" => "Progress report submitted."]);
 } elseif ($action === 'give_feedback') {
     $report_uid = $data['reportId'] ?? '';
+    $rating = $data['rating'] ?? 5;
