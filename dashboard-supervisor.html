@@ -303,3 +303,5 @@
     }
 
     function renderReviewReports() {
+      const reports = DIS.getProgressReports().filter(r => r.supervisorId === currentSup.id);
+      const container = document.getElementById('reports-review-list');

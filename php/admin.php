@@ -28,3 +28,4 @@ if ($action === 'stats') {
     $status = $data['status'] ?? 'approved';
 
     $stmt = $pdo->prepare("UPDATE users SET status = ? WHERE user_uid = ?");
+    $stmt->execute([$status, $user_uid]);

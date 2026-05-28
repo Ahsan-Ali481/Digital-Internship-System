@@ -242,3 +242,5 @@
       toast.innerHTML = `
         <i class="fas ${icon} text-lg"></i>
         <div class="flex-1">${message}</div>
+        <button class="ml-2 hover:opacity-75" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+      `;

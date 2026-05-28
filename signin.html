@@ -107,3 +107,4 @@
       const user = users.find(u => u.role === role);
       if (user) {
         if (user.status === 'blocked') {
+          DIS.showToast('Account has been blocked by system admin!', 'danger');

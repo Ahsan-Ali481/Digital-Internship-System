@@ -126,3 +126,4 @@ body {
 
 @keyframes slideInRight {
   from {
+    transform: translateX(100%);

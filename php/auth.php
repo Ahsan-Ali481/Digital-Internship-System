@@ -54,3 +54,4 @@ if ($action === 'login') {
     if ($stmt->fetch()) {
         echo json_encode(["status" => "error", "message" => "User with email already exists."]);
         exit();
+    }
