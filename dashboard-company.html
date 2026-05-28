@@ -513,3 +513,7 @@
     function closeInterviewModal() {
       document.getElementById('interview-modal').classList.add('hidden');
     }
+    function toggleMeetingLinkInput() {
+      const mode = document.getElementById('int-mode').value;
+      const linkWrapper = document.getElementById('meeting-link-wrapper');
+      if (mode === 'Online') {

@@ -359,3 +359,5 @@
       }
     }
     function rejectCompanyCert() {
+      if (currentVerifyingCompanyId) {
+        setUserStatus(currentVerifyingCompanyId, 'rejected');

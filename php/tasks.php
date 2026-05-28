@@ -22,3 +22,4 @@ if ($action === 'create') {
     $stmt->execute([$task_uid, $student_uid, $sup_uid, $company_uid, $title, $desc, $deadline]);
 
     echo json_encode(["status" => "success", "message" => "Task created and assigned."]);
+} elseif ($action === 'update_status') {

@@ -85,3 +85,4 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `title` VARCHAR(250) NOT NULL,
   `description` TEXT NOT NULL,
   `deadline` DATE NOT NULL,
+  `status` ENUM('Pending', 'Completed') DEFAULT 'Pending',
