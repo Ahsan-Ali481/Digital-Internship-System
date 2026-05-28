@@ -33,3 +33,4 @@ if ($action === 'list') {
         $title,
         $category,
         $location,
+        $duration,

@@ -34,3 +34,5 @@ if ($action === 'apply') {
         echo json_encode(["status" => "error", "message" => "Interview date must be in the future."]);
         exit();
     }
+
+    $stmt = $pdo->prepare("UPDATE applications SET status = 'Shortlisted' WHERE application_uid = ?");
