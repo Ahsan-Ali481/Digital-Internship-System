@@ -515,3 +515,8 @@
         container.innerHTML = '<div class="col-span-2 text-center py-8 text-slate-400 text-sm">No tasks assigned by your supervisor yet.</div>';
         return;
       }
+
+      tasks.forEach(task => {
+        const isDone = task.status === 'Completed';
+        const card = document.createElement('div');
+        card.className = `p-6 rounded-2xl border ${isDone ? 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-80' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-sm'} flex flex-col justify-between space-y-4`;

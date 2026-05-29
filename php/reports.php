@@ -20,3 +20,4 @@ if ($action === 'submit') {
 } elseif ($action === 'give_feedback') {
     $report_uid = $data['reportId'] ?? '';
     $rating = $data['rating'] ?? 5;
+    $comment = $data['comment'] ?? '';

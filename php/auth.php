@@ -55,3 +55,5 @@ if ($action === 'login') {
         echo json_encode(["status" => "error", "message" => "User with email already exists."]);
         exit();
     }
+
+    $stmt = $pdo->prepare("INSERT INTO users (user_uid, role, name, email, password, phone, status, university, major, grad_year, company_name, industry, website, certificate_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");

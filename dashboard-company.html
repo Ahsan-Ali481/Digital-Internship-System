@@ -528,3 +528,7 @@
       const appId = document.getElementById('int-app-id').value;
       const date = document.getElementById('int-date').value;
       const time = document.getElementById('int-time').value;
+      const mode = document.getElementById('int-mode').value;
+      const meetingLink = document.getElementById('int-link').value;
+
+      if (!DIS.validateFutureDate(date)) {

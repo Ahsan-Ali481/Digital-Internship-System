@@ -369,3 +369,6 @@
       const apps = DIS.getApplications().filter(a => a.status === 'Selected' || a.status === 'Shortlisted');
       const reports = DIS.getProgressReports();
       const container = document.getElementById('completion-records-list');
+      container.innerHTML = '';
+
+      if (apps.length === 0) {
