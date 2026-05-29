@@ -86,3 +86,4 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `description` TEXT NOT NULL,
   `deadline` DATE NOT NULL,
   `status` ENUM('Pending', 'Completed') DEFAULT 'Pending',
+  `assigned_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

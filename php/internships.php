@@ -34,3 +34,4 @@ if ($action === 'list') {
         $category,
         $location,
         $duration,
+        $stipend,

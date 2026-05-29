@@ -505,3 +505,7 @@
         tbody.appendChild(tr);
       });
     }
+
+    function renderMyTasks() {
+      const tasks = DIS.getTasks().filter(t => t.studentId === currentUser.id);
+      const container = document.getElementById('student-tasks-list');

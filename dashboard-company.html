@@ -517,3 +517,6 @@
       const mode = document.getElementById('int-mode').value;
       const linkWrapper = document.getElementById('meeting-link-wrapper');
       if (mode === 'Online') {
+        linkWrapper.classList.remove('hidden');
+      } else {
+        linkWrapper.classList.add('hidden');
