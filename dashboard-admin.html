@@ -364,3 +364,6 @@
         closeCertModal();
       }
     }
+
+    function renderCompletionRecords() {
+      const apps = DIS.getApplications().filter(a => a.status === 'Selected' || a.status === 'Shortlisted');

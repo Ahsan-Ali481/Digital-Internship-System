@@ -247,3 +247,5 @@
       container.appendChild(toast);
       setTimeout(() => {
         if (toast.parentElement) toast.remove();
+      }, 4000);
+    },

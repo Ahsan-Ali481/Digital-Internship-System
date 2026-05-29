@@ -509,3 +509,6 @@
     function renderMyTasks() {
       const tasks = DIS.getTasks().filter(t => t.studentId === currentUser.id);
       const container = document.getElementById('student-tasks-list');
+      container.innerHTML = '';
+
+      if (tasks.length === 0) {
