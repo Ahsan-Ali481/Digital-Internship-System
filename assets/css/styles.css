@@ -130,3 +130,4 @@ body {
     opacity: 0;
   }
   to {
+    transform: translateX(0);

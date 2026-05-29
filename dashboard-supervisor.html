@@ -311,3 +311,6 @@
         container.innerHTML = '<div class="text-center py-8 text-slate-400 text-sm">No progress reports submitted for review.</div>';
         return;
       }
+
+      reports.forEach(rep => {
+        const student = DIS.getUsers().find(u => u.id === rep.studentId);

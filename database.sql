@@ -87,3 +87,4 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `deadline` DATE NOT NULL,
   `status` ENUM('Pending', 'Completed') DEFAULT 'Pending',
   `assigned_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE,

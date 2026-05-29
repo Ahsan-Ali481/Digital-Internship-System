@@ -249,3 +249,5 @@
         if (toast.parentElement) toast.remove();
       }, 4000);
     },
+
+    addNotification: function (userId, title, message, type = 'info') {

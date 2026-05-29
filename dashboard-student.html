@@ -512,3 +512,6 @@
       container.innerHTML = '';
 
       if (tasks.length === 0) {
+        container.innerHTML = '<div class="col-span-2 text-center py-8 text-slate-400 text-sm">No tasks assigned by your supervisor yet.</div>';
+        return;
+      }

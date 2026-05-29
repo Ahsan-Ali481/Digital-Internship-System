@@ -524,3 +524,7 @@
     }
 
     function saveInterviewSchedule(e) {
+      e.preventDefault();
+      const appId = document.getElementById('int-app-id').value;
+      const date = document.getElementById('int-date').value;
+      const time = document.getElementById('int-time').value;
