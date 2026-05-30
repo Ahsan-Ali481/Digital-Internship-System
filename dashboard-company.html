@@ -532,3 +532,6 @@
       const meetingLink = document.getElementById('int-link').value;
 
       if (!DIS.validateFutureDate(date)) {
+        DIS.showToast('Interview date must be a future date!', 'warning');
+        return;
+      }

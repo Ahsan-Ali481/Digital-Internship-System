@@ -520,3 +520,6 @@
         const isDone = task.status === 'Completed';
         const card = document.createElement('div');
         card.className = `p-6 rounded-2xl border ${isDone ? 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-80' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-sm'} flex flex-col justify-between space-y-4`;
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between">

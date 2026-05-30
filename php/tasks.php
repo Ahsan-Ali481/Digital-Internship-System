@@ -23,3 +23,4 @@ if ($action === 'create') {
 
     echo json_encode(["status" => "success", "message" => "Task created and assigned."]);
 } elseif ($action === 'update_status') {
+    $task_uid = $data['taskId'] ?? '';

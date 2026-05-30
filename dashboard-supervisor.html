@@ -317,3 +317,5 @@
         const card = document.createElement('div');
         card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4';
         
+        let feedbackSection = `
+          <button onclick="openFeedbackModal('${rep.id}')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-sm">

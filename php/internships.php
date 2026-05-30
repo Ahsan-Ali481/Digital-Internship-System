@@ -35,3 +35,4 @@ if ($action === 'list') {
         $location,
         $duration,
         $stipend,
+        $positions,
