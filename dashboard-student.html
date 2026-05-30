@@ -523,3 +523,7 @@
         card.innerHTML = `
           <div>
             <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-400"><i class="far fa-clock mr-1"></i> Deadline: ${task.deadline}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${isDone ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${task.status}</span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 dark:text-white mt-2">${task.title}</h4>

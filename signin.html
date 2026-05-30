@@ -113,3 +113,4 @@
         DIS.setCurrentUser(user);
         DIS.showToast(`Logged in as ${user.name} (${user.role.toUpperCase()})`, 'success');
         setTimeout(() => {
+          window.location.href = `dashboard-${user.role}.html`;

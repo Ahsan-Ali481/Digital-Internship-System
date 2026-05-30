@@ -254,3 +254,5 @@
       const notifications = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
       const newNotif = {
         id: 'notif_' + Date.now(),
+        userId,
+        title,

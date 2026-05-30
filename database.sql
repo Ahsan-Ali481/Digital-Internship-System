@@ -89,3 +89,4 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `assigned_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE,
   FOREIGN KEY (`supervisor_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

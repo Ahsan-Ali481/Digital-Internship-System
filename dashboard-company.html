@@ -535,3 +535,7 @@
         DIS.showToast('Interview date must be a future date!', 'warning');
         return;
       }
+
+      const apps = DIS.getApplications();
+      const app = apps.find(a => a.id === appId);
+      if (app) {

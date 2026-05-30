@@ -57,3 +57,4 @@ if ($action === 'login') {
     }
 
     $stmt = $pdo->prepare("INSERT INTO users (user_uid, role, name, email, password, phone, status, university, major, grad_year, company_name, industry, website, certificate_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->execute([
