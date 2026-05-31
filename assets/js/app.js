@@ -263,3 +263,4 @@
       };
       notifications.unshift(newNotif);
       localStorage.setItem('dis_notifications', JSON.stringify(notifications));
+    },
