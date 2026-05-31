@@ -550,3 +550,7 @@
         DIS.setApplications(apps);
 
         DIS.addNotification(app.studentId, 'Physical Onsite Interview Scheduled!', `An onsite interview has been scheduled for ${date} at ${time} at ${meetingLink}.`, 'warning');
+
+        DIS.showToast('Interview scheduled & student notified!', 'success');
+        closeInterviewModal();
+        renderDashboardStats();

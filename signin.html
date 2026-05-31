@@ -116,3 +116,4 @@
           window.location.href = `dashboard-${user.role}.html`;
         }, 800);
       } else {
+        DIS.showToast(`No demo user found for role ${role}`, 'warning');

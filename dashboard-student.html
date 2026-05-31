@@ -538,3 +538,7 @@
     }
 
     function toggleTaskStatus(taskId) {
+      const tasks = DIS.getTasks();
+      const task = tasks.find(t => t.id === taskId);
+      if (task) {
+        task.status = task.status === 'Completed' ? 'Pending' : 'Completed';
