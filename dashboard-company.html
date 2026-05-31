@@ -547,3 +547,6 @@
           address: meetingLink,
           scheduledAt: new Date().toISOString().split('T')[0]
         };
+        DIS.setApplications(apps);
+
+        DIS.addNotification(app.studentId, 'Physical Onsite Interview Scheduled!', `An onsite interview has been scheduled for ${date} at ${time} at ${meetingLink}.`, 'warning');

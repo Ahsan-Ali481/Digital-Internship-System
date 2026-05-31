@@ -260,3 +260,5 @@
         type,
         read: false,
         timestamp: new Date().toLocaleString()
+      };
+      notifications.unshift(newNotif);

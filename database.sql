@@ -90,3 +90,5 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE,
   FOREIGN KEY (`supervisor_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `progress_reports` (
