@@ -29,3 +29,5 @@ if ($action === 'stats') {
 
     $stmt = $pdo->prepare("UPDATE users SET status = ? WHERE user_uid = ?");
     $stmt->execute([$status, $user_uid]);
+
+    echo json_encode(["status" => "success", "message" => "User status updated to {$status}."]);

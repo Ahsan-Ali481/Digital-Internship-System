@@ -258,3 +258,5 @@
         title,
         message,
         type,
+        read: false,
+        timestamp: new Date().toLocaleString()

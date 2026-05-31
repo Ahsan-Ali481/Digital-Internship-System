@@ -531,3 +531,6 @@
           </div>
           <button onclick="toggleTaskStatus('${task.id}')" class="w-full py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
             <i class="fas ${isDone ? 'fa-undo' : 'fa-check'} mr-1 text-indigo-500"></i> Mark as ${isDone ? 'Pending' : 'Completed'}
+          </button>
+        `;
+        container.appendChild(card);
