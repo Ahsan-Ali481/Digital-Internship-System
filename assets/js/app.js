@@ -256,3 +256,5 @@
         id: 'notif_' + Date.now(),
         userId,
         title,
+        message,
+        type,

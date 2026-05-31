@@ -539,3 +539,7 @@
       const apps = DIS.getApplications();
       const app = apps.find(a => a.id === appId);
       if (app) {
+        app.status = 'Shortlisted';
+        app.interview = {
+          date,
+          time,
