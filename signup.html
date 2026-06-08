@@ -151,3 +151,4 @@
       const phone = document.getElementById('reg-phone').value;
 
       const users = DIS.getUsers();
+      if (users.some(u => u.email === email)) {

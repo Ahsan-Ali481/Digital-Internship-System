@@ -553,3 +553,6 @@
       const weekNumber = document.getElementById('rep-week').value;
       const summary = document.getElementById('rep-summary').value;
       const achievements = document.getElementById('rep-achievements').value;
+      const fileInput = document.getElementById('rep-file').files[0];
+
+      const apps = DIS.getApplications().find(a => a.studentId === currentUser.id && a.supervisorId);

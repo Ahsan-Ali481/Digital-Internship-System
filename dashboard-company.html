@@ -566,3 +566,6 @@
 
       if (supervisors.length === 0) {
         select.innerHTML = '<option value="">No supervisors added yet. Please add supervisor first.</option>';
+      } else {
+        supervisors.forEach(s => {
+          select.innerHTML += `<option value="${s.id}">${s.name} (${s.department})</option>`;

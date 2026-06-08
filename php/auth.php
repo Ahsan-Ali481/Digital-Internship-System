@@ -60,3 +60,4 @@ if ($action === 'login') {
     $stmt->execute([
         $user_uid,
         $role,
+        $name,

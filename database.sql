@@ -94,3 +94,4 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 CREATE TABLE IF NOT EXISTS `progress_reports` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `report_uid` VARCHAR(64) UNIQUE NOT NULL,
+  `student_uid` VARCHAR(64) NOT NULL,
