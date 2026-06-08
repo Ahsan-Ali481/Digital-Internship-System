@@ -557,3 +557,8 @@
         renderCompanyApplications();
       }
     }
+
+    function openAssignSupModal(appId) {
+      document.getElementById('assign-app-id').value = appId;
+      const supervisors = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
+      const select = document.getElementById('assign-sup-select');
