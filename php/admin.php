@@ -31,3 +31,4 @@ if ($action === 'stats') {
     $stmt->execute([$status, $user_uid]);
 
     echo json_encode(["status" => "success", "message" => "User status updated to {$status}."]);
+} elseif ($action === 'verify_completion') {

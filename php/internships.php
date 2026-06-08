@@ -37,3 +37,4 @@ if ($action === 'list') {
         $stipend,
         $positions,
         $deadline,
+        $description,

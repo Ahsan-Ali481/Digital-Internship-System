@@ -267,3 +267,5 @@
 
     initTheme: function () {
       const savedTheme = localStorage.getItem('dis_theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');

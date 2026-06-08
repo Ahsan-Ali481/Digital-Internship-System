@@ -549,3 +549,7 @@
     }
 
     function submitProgressReport(e) {
+      e.preventDefault();
+      const weekNumber = document.getElementById('rep-week').value;
+      const summary = document.getElementById('rep-summary').value;
+      const achievements = document.getElementById('rep-achievements').value;
