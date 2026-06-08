@@ -569,3 +569,7 @@
       } else {
         supervisors.forEach(s => {
           select.innerHTML += `<option value="${s.id}">${s.name} (${s.department})</option>`;
+        });
+      }
+      document.getElementById('assign-sup-modal').classList.remove('hidden');
+    }

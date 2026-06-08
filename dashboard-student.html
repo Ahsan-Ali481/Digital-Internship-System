@@ -556,3 +556,7 @@
       const fileInput = document.getElementById('rep-file').files[0];
 
       const apps = DIS.getApplications().find(a => a.studentId === currentUser.id && a.supervisorId);
+      
+      const reports = DIS.getProgressReports();
+      const newReport = {
+        id: 'rep_' + Date.now(),
