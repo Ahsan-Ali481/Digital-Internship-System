@@ -564,3 +564,6 @@
         supervisorId: apps ? apps.supervisorId : 'usr_sup1',
         weekNumber: parseInt(weekNumber),
         summary,
+        achievements,
+        attachmentName: fileInput ? fileInput.name : `week${weekNumber}_doc.pdf`,
+        submittedAt: new Date().toISOString().split('T')[0],

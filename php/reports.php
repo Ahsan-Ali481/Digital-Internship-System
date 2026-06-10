@@ -21,3 +21,5 @@ if ($action === 'submit') {
     $report_uid = $data['reportId'] ?? '';
     $rating = $data['rating'] ?? 5;
     $comment = $data['comment'] ?? '';
+
+    $stmt = $pdo->prepare("UPDATE progress_reports SET rating = ?, feedback_comment = ?, feedback_at = NOW() WHERE report_uid = ?");

@@ -404,3 +404,4 @@
       const app = apps.find(a => a.id === appId);
       if (app) {
         app.completionVerified = !app.completionVerified;
+        DIS.setApplications(apps);

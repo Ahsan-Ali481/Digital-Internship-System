@@ -32,3 +32,4 @@ if ($action === 'stats') {
 
     echo json_encode(["status" => "success", "message" => "User status updated to {$status}."]);
 } elseif ($action === 'verify_completion') {
+    $app_uid = $data['appId'] ?? '';

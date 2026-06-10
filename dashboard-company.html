@@ -576,3 +576,8 @@
     function closeAssignSupModal() {
       document.getElementById('assign-sup-modal').classList.add('hidden');
     }
+
+    function saveSupervisorAssignment(e) {
+      e.preventDefault();
+      const appId = document.getElementById('assign-app-id').value;
+      const supId = document.getElementById('assign-sup-select').value;
