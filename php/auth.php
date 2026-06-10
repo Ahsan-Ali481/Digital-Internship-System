@@ -61,3 +61,4 @@ if ($action === 'login') {
         $user_uid,
         $role,
         $name,
+        $email,

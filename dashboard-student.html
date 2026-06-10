@@ -560,3 +560,7 @@
       const reports = DIS.getProgressReports();
       const newReport = {
         id: 'rep_' + Date.now(),
+        studentId: currentUser.id,
+        supervisorId: apps ? apps.supervisorId : 'usr_sup1',
+        weekNumber: parseInt(weekNumber),
+        summary,

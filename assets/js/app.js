@@ -272,3 +272,5 @@
       } else {
         document.documentElement.classList.remove('dark');
       }
+    },
+    toggleTheme: function () {

@@ -38,3 +38,4 @@ if ($action === 'list') {
         $positions,
         $deadline,
         $description,
+        $requirements
