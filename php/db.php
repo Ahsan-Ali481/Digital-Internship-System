@@ -21,3 +21,4 @@ try {
         PDO::ATTR_EMULATE_PREPARES => false
     ]);
 } catch (PDOException $e) {
+    http_response_code(500);

@@ -63,3 +63,4 @@ if ($action === 'login') {
         $name,
         $email,
         $password,
+        $phone,

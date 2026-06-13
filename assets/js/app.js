@@ -281,3 +281,5 @@
 
     validateFutureDate: function (dateString) {
       if (!dateString) return false;
+      const inputDate = new Date(dateString);
+      const today = new Date();

@@ -352,3 +352,6 @@
     }
 
     function openFeedbackModal(reportId) {
+      document.getElementById('fb-report-id').value = reportId;
+      document.getElementById('feedback-modal').classList.remove('hidden');
+    }

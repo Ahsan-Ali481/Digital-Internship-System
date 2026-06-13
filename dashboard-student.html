@@ -578,3 +578,7 @@
       DIS.showToast(`Week ${weekNumber} Progress Report submitted!`, 'success');
       e.target.reset();
       renderMyReports();
+    }
+
+    function renderMyReports() {
+      const reports = DIS.getProgressReports().filter(r => r.studentId === currentUser.id);
