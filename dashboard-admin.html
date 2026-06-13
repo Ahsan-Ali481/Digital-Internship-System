@@ -409,3 +409,5 @@
         DIS.addNotification(app.studentId, 'Internship Completion Status', app.completionVerified ? 'Congratulations! Admin verified your internship completion record.' : 'Completion status updated.', 'success');
 
         DIS.showToast(`Completion status updated`, 'success');
+        renderCompletionRecords();
+      }

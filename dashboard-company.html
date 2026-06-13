@@ -584,3 +584,7 @@
 
       if (!supId) {
         DIS.showToast('Please select or add a supervisor first!', 'warning');
+        return;
+      }
+
+      const apps = DIS.getApplications();

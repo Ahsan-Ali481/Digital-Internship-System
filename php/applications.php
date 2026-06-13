@@ -40,3 +40,5 @@ if ($action === 'apply') {
 
     $stmt = $pdo->prepare("INSERT INTO interviews (application_uid, interview_date, interview_time, mode, meeting_link) VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([$app_uid, $date, $time, $mode, $meetingLink]);
+
+    echo json_encode(["status" => "success", "message" => "Interview scheduled."]);

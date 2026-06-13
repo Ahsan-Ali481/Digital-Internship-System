@@ -145,3 +145,4 @@ body {
 }
 @keyframes modalScaleUp {
   from {
+    opacity: 0;

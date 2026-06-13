@@ -571,3 +571,6 @@
       };
 
       reports.unshift(newReport);
+      DIS.setProgressReports(reports);
+
+      DIS.addNotification(newReport.supervisorId, 'New Learning Report Submitted', `${currentUser.name} submitted Week ${weekNumber} progress report.`, 'info');

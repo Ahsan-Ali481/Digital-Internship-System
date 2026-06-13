@@ -278,3 +278,5 @@
       localStorage.setItem('dis_theme', isDark ? 'dark' : 'light');
       this.showToast(`Switched to ${isDark ? 'Dark' : 'Light'} Mode`, 'info');
     },
+
+    validateFutureDate: function (dateString) {
