@@ -280,3 +280,4 @@
     },
 
     validateFutureDate: function (dateString) {
+      if (!dateString) return false;

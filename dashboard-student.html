@@ -574,3 +574,7 @@
       DIS.setProgressReports(reports);
 
       DIS.addNotification(newReport.supervisorId, 'New Learning Report Submitted', `${currentUser.name} submitted Week ${weekNumber} progress report.`, 'info');
+
+      DIS.showToast(`Week ${weekNumber} Progress Report submitted!`, 'success');
+      e.target.reset();
+      renderMyReports();

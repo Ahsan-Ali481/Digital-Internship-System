@@ -39,3 +39,4 @@ if ($action === 'list') {
         $deadline,
         $description,
         $requirements
+    ]);
