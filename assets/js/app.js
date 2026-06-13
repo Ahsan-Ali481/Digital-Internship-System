@@ -276,3 +276,5 @@
     toggleTheme: function () {
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('dis_theme', isDark ? 'dark' : 'light');
+      this.showToast(`Switched to ${isDark ? 'Dark' : 'Light'} Mode`, 'info');
+    },

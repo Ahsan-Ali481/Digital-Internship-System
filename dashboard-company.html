@@ -581,3 +581,6 @@
       e.preventDefault();
       const appId = document.getElementById('assign-app-id').value;
       const supId = document.getElementById('assign-sup-select').value;
+
+      if (!supId) {
+        DIS.showToast('Please select or add a supervisor first!', 'warning');

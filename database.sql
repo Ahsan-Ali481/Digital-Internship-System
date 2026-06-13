@@ -97,3 +97,4 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `student_uid` VARCHAR(64) NOT NULL,
   `supervisor_uid` VARCHAR(64) NOT NULL,
   `week_number` INT NOT NULL,
+  `summary` TEXT NOT NULL,

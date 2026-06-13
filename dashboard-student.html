@@ -567,3 +567,7 @@
         achievements,
         attachmentName: fileInput ? fileInput.name : `week${weekNumber}_doc.pdf`,
         submittedAt: new Date().toISOString().split('T')[0],
+        feedback: null
+      };
+
+      reports.unshift(newReport);
