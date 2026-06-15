@@ -582,3 +582,7 @@
 
     function renderMyReports() {
       const reports = DIS.getProgressReports().filter(r => r.studentId === currentUser.id);
+      const container = document.getElementById('reports-history-list');
+      container.innerHTML = '';
+
+      if (reports.length === 0) {

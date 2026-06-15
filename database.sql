@@ -99,3 +99,4 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `week_number` INT NOT NULL,
   `summary` TEXT NOT NULL,
   `achievements` TEXT NOT NULL,
+  `attachment_name` VARCHAR(255) NOT NULL,
