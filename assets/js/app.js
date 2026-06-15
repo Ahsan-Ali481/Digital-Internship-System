@@ -286,3 +286,5 @@
       today.setHours(0, 0, 0, 0);
       return inputDate >= today;
     },
+
+    getUsers: () => JSON.parse(localStorage.getItem('dis_users') || '[]'),

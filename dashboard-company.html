@@ -603,3 +603,7 @@
     function renderSupervisors() {
       const supervisors = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
       const container = document.getElementById('supervisors-grid');
+      container.innerHTML = '';
+
+      if (supervisors.length === 0) {
+        container.innerHTML = '<div class="col-span-3 text-center py-8 text-slate-400 text-sm">No supervisors registered under your company yet.</div>';

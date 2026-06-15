@@ -589,3 +589,7 @@
         container.innerHTML = '<div class="text-center py-6 text-slate-400 text-sm">No progress reports submitted yet.</div>';
         return;
       }
+
+      reports.forEach(rep => {
+        const card = document.createElement('div');
+        card.className = 'p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 space-y-3';
