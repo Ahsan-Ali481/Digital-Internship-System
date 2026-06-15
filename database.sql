@@ -101,3 +101,4 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `achievements` TEXT NOT NULL,
   `attachment_name` VARCHAR(255) NOT NULL,
   `submitted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `rating` INT DEFAULT NULL,

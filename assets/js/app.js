@@ -288,3 +288,4 @@
     },
 
     getUsers: () => JSON.parse(localStorage.getItem('dis_users') || '[]'),
+    setUsers: (users) => localStorage.setItem('dis_users', JSON.stringify(users)),

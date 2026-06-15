@@ -361,3 +361,6 @@
 
     function saveReportFeedback(e) {
       e.preventDefault();
+      const reportId = document.getElementById('fb-report-id').value;
+      const rating = parseInt(document.getElementById('fb-rating').value);
+      const comment = document.getElementById('fb-comment').value;

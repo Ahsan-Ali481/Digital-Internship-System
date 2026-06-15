@@ -425,3 +425,5 @@
       currentReportRows = [];
 
       if (type === 'students') {
+        const data = DIS.getUsers().filter(u => u.role === 'student');
+        thead.innerHTML = '<tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">University</th><th class="p-3">Major</th><th class="p-3">Status</th></tr>';

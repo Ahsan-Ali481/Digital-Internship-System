@@ -127,3 +127,5 @@
 
       const users = DIS.getUsers();
       const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+      if (!user) {

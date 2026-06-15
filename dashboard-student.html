@@ -593,3 +593,7 @@
       reports.forEach(rep => {
         const card = document.createElement('div');
         card.className = 'p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 space-y-3';
+        
+        let feedbackHtml = '<div class="text-xs italic text-slate-400 mt-2"><i class="far fa-clock mr-1"></i> Awaiting supervisor review & rating.</div>';
+        if (rep.feedback) {
+          feedbackHtml = `
