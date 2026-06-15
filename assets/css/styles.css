@@ -149,3 +149,4 @@ body {
     transform: scale(0.95) translateY(10px);
   }
   to {
+    opacity: 1;

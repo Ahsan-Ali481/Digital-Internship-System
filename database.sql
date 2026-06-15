@@ -100,3 +100,4 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `summary` TEXT NOT NULL,
   `achievements` TEXT NOT NULL,
   `attachment_name` VARCHAR(255) NOT NULL,
+  `submitted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

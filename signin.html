@@ -126,3 +126,4 @@
       const password = document.getElementById('login-password').value;
 
       const users = DIS.getUsers();
+      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());

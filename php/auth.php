@@ -64,3 +64,4 @@ if ($action === 'login') {
         $email,
         $password,
         $phone,
+        $status,

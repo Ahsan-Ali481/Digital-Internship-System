@@ -599,3 +599,7 @@
         closeAssignSupModal();
       }
     }
+
+    function renderSupervisors() {
+      const supervisors = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
+      const container = document.getElementById('supervisors-grid');

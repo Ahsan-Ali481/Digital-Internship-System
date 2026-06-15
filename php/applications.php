@@ -42,3 +42,4 @@ if ($action === 'apply') {
     $stmt->execute([$app_uid, $date, $time, $mode, $meetingLink]);
 
     echo json_encode(["status" => "success", "message" => "Interview scheduled."]);
+} elseif ($action === 'assign_supervisor') {

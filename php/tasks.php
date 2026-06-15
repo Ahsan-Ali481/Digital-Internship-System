@@ -25,3 +25,5 @@ if ($action === 'create') {
 } elseif ($action === 'update_status') {
     $task_uid = $data['taskId'] ?? '';
     $status = $data['status'] ?? 'Pending';
+
+    $stmt = $pdo->prepare("UPDATE tasks SET status = ? WHERE task_uid = ?");
