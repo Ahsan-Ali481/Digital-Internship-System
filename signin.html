@@ -129,3 +129,4 @@
       const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
 
       if (!user) {
+        DIS.showToast('Invalid email or user does not exist!', 'danger');

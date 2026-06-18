@@ -102,3 +102,4 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `attachment_name` VARCHAR(255) NOT NULL,
   `submitted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `rating` INT DEFAULT NULL,
+  `feedback_comment` TEXT DEFAULT NULL,

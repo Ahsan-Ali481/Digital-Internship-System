@@ -289,3 +289,6 @@
 
     getUsers: () => JSON.parse(localStorage.getItem('dis_users') || '[]'),
     setUsers: (users) => localStorage.setItem('dis_users', JSON.stringify(users)),
+
+    getInternships: () => JSON.parse(localStorage.getItem('dis_internships') || '[]'),
+    setInternships: (data) => localStorage.setItem('dis_internships', JSON.stringify(data)),

@@ -611,3 +611,6 @@
       }
 
       supervisors.forEach(sup => {
+        const card = document.createElement('div');
+        card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4';
+        card.innerHTML = `

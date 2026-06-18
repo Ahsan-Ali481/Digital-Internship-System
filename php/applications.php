@@ -43,3 +43,4 @@ if ($action === 'apply') {
 
     echo json_encode(["status" => "success", "message" => "Interview scheduled."]);
 } elseif ($action === 'assign_supervisor') {
+    $app_uid = $data['appId'] ?? '';

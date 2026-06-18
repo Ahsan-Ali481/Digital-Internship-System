@@ -65,3 +65,4 @@ if ($action === 'login') {
         $password,
         $phone,
         $status,
+        $data['university'] ?? null,
