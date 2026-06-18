@@ -614,3 +614,7 @@
         const card = document.createElement('div');
         card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4';
         card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <img src="${sup.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'}" class="w-12 h-12 rounded-full object-cover">
+            <div>
+              <div class="font-bold text-slate-900 dark:text-white text-base">${sup.name}</div>

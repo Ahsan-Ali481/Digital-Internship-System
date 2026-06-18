@@ -366,3 +366,5 @@
       const comment = document.getElementById('fb-comment').value;
 
       const reports = DIS.getProgressReports();
+      const report = reports.find(r => r.id === reportId);
+      if (report) {
