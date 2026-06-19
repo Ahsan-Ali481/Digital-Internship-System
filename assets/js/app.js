@@ -297,3 +297,4 @@
     setApplications: (data) => localStorage.setItem('dis_applications', JSON.stringify(data)),
 
     getTasks: () => JSON.parse(localStorage.getItem('dis_tasks') || '[]'),
+    setTasks: (data) => localStorage.setItem('dis_tasks', JSON.stringify(data)),
