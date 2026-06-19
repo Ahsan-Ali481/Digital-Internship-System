@@ -446,3 +446,5 @@
         data.forEach(d => {
           const row = { ID: d.id, Title: d.title, Company: d.companyName, Category: d.category, Stipend: d.stipend, Deadline: d.deadline };
           currentReportRows.push(row);
+          tbody.innerHTML += `<tr><td class="p-3">${row.ID}</td><td class="p-3 font-bold">${row.Title}</td><td class="p-3">${row.Company}</td><td class="p-3">${row.Category}</td><td class="p-3">${row.Stipend}</td><td class="p-3">${row.Deadline}</td></tr>`;
+        });

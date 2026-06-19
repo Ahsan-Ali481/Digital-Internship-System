@@ -68,3 +68,4 @@ if ($action === 'login') {
         $data['university'] ?? null,
         $data['major'] ?? null,
         $data['gradYear'] ?? null,
+        $data['companyName'] ?? null,

@@ -303,3 +303,5 @@
     setProgressReports: (data) => localStorage.setItem('dis_progress_reports', JSON.stringify(data)),
 
     getNotifications: (userId) => {
+      const notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
+      return userId ? notifs.filter(n => n.userId === userId) : notifs;
