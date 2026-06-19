@@ -104,3 +104,4 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `rating` INT DEFAULT NULL,
   `feedback_comment` TEXT DEFAULT NULL,
   `feedback_at` DATETIME DEFAULT NULL,
+  FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE

@@ -295,3 +295,5 @@
 
     getApplications: () => JSON.parse(localStorage.getItem('dis_applications') || '[]'),
     setApplications: (data) => localStorage.setItem('dis_applications', JSON.stringify(data)),
+
+    getTasks: () => JSON.parse(localStorage.getItem('dis_tasks') || '[]'),

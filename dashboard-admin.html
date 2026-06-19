@@ -435,3 +435,6 @@
       } else if (type === 'companies') {
         const data = DIS.getUsers().filter(u => u.role === 'company');
         thead.innerHTML = '<tr><th class="p-3">ID</th><th class="p-3">Company Name</th><th class="p-3">HR Email</th><th class="p-3">Industry</th><th class="p-3">Website</th><th class="p-3">Status</th></tr>';
+        data.forEach(d => {
+          const row = { ID: d.id, Company: d.companyName || d.name, Email: d.email, Industry: d.industry || 'N/A', Website: d.website || 'N/A', Status: d.status };
+          currentReportRows.push(row);

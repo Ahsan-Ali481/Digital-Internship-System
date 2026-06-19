@@ -370,3 +370,6 @@
       if (report) {
         report.feedback = {
           rating,
+          comment,
+          givenAt: new Date().toISOString().split('T')[0]
+        };
