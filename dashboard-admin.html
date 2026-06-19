@@ -432,3 +432,6 @@
           currentReportRows.push(row);
           tbody.innerHTML += `<tr><td class="p-3">${row.ID}</td><td class="p-3 font-bold">${row.Name}</td><td class="p-3">${row.Email}</td><td class="p-3">${row.University}</td><td class="p-3">${row.Major}</td><td class="p-3">${row.Status}</td></tr>`;
         });
+      } else if (type === 'companies') {
+        const data = DIS.getUsers().filter(u => u.role === 'company');
+        thead.innerHTML = '<tr><th class="p-3">ID</th><th class="p-3">Company Name</th><th class="p-3">HR Email</th><th class="p-3">Industry</th><th class="p-3">Website</th><th class="p-3">Status</th></tr>';

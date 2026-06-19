@@ -66,3 +66,4 @@ if ($action === 'login') {
         $phone,
         $status,
         $data['university'] ?? null,
+        $data['major'] ?? null,

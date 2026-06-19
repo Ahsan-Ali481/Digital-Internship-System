@@ -103,3 +103,4 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `submitted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `rating` INT DEFAULT NULL,
   `feedback_comment` TEXT DEFAULT NULL,
+  `feedback_at` DATETIME DEFAULT NULL,

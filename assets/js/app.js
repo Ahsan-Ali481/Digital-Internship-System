@@ -294,3 +294,4 @@
     setInternships: (data) => localStorage.setItem('dis_internships', JSON.stringify(data)),
 
     getApplications: () => JSON.parse(localStorage.getItem('dis_applications') || '[]'),
+    setApplications: (data) => localStorage.setItem('dis_applications', JSON.stringify(data)),

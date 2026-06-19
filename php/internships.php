@@ -40,3 +40,5 @@ if ($action === 'list') {
         $description,
         $requirements
     ]);
+
+    echo json_encode(["status" => "success", "message" => "Internship posted successfully."]);
