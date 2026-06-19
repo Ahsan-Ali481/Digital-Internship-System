@@ -156,3 +156,4 @@ body {
 
 /* Status Badges */
 .badge-pending {
+  background-color: rgba(245, 158, 11, 0.15);

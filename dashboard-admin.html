@@ -440,3 +440,6 @@
           currentReportRows.push(row);
           tbody.innerHTML += `<tr><td class="p-3">${row.ID}</td><td class="p-3 font-bold">${row.Company}</td><td class="p-3">${row.Email}</td><td class="p-3">${row.Industry}</td><td class="p-3">${row.Website}</td><td class="p-3">${row.Status}</td></tr>`;
         });
+      } else if (type === 'internships') {
+        const data = DIS.getInternships();
+        thead.innerHTML = '<tr><th class="p-3">ID</th><th class="p-3">Title</th><th class="p-3">Company</th><th class="p-3">Category</th><th class="p-3">Stipend</th><th class="p-3">Deadline</th></tr>';

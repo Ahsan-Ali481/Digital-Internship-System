@@ -374,3 +374,5 @@
           givenAt: new Date().toISOString().split('T')[0]
         };
         DIS.setProgressReports(reports);
+
+        DIS.addNotification(report.studentId, 'Report Feedback Received', `Supervisor reviewed your Week ${report.weekNumber} report (Rating: ${rating}/5).`, 'success');

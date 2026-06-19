@@ -34,3 +34,5 @@ if ($action === 'stats') {
 } elseif ($action === 'verify_completion') {
     $app_uid = $data['appId'] ?? '';
     $verified = $data['verified'] ?? 1;
+
+    $stmt = $pdo->prepare("UPDATE applications SET completion_verified = ? WHERE application_uid = ?");

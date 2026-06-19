@@ -298,3 +298,6 @@
 
     getTasks: () => JSON.parse(localStorage.getItem('dis_tasks') || '[]'),
     setTasks: (data) => localStorage.setItem('dis_tasks', JSON.stringify(data)),
+
+    getProgressReports: () => JSON.parse(localStorage.getItem('dis_progress_reports') || '[]'),
+    setProgressReports: (data) => localStorage.setItem('dis_progress_reports', JSON.stringify(data)),
