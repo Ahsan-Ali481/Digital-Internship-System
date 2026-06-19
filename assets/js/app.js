@@ -301,3 +301,5 @@
 
     getProgressReports: () => JSON.parse(localStorage.getItem('dis_progress_reports') || '[]'),
     setProgressReports: (data) => localStorage.setItem('dis_progress_reports', JSON.stringify(data)),
+
+    getNotifications: (userId) => {

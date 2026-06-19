@@ -443,3 +443,6 @@
       } else if (type === 'internships') {
         const data = DIS.getInternships();
         thead.innerHTML = '<tr><th class="p-3">ID</th><th class="p-3">Title</th><th class="p-3">Company</th><th class="p-3">Category</th><th class="p-3">Stipend</th><th class="p-3">Deadline</th></tr>';
+        data.forEach(d => {
+          const row = { ID: d.id, Title: d.title, Company: d.companyName, Category: d.category, Stipend: d.stipend, Deadline: d.deadline };
+          currentReportRows.push(row);
