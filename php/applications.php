@@ -45,3 +45,5 @@ if ($action === 'apply') {
 } elseif ($action === 'assign_supervisor') {
     $app_uid = $data['appId'] ?? '';
     $sup_uid = $data['supervisorId'] ?? '';
+
+    $stmt = $pdo->prepare("UPDATE applications SET supervisor_uid = ? WHERE application_uid = ?");

@@ -637,3 +637,7 @@
       const major = document.getElementById('prof-major').value;
       const phone = document.getElementById('prof-phone').value;
       const resumeInput = document.getElementById('prof-resume').files[0];
+
+      const users = DIS.getUsers();
+      const user = users.find(u => u.id === currentUser.id);
+      if (user) {
