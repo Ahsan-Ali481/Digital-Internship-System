@@ -306,3 +306,5 @@
       const notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
       return userId ? notifs.filter(n => n.userId === userId) : notifs;
     },
+
+    markAllNotificationsRead: function (userId) {
