@@ -626,3 +626,7 @@
       document.getElementById('prof-uni').value = currentUser.university || '';
       document.getElementById('prof-major').value = currentUser.major || '';
       document.getElementById('prof-phone').value = currentUser.phone || '';
+      document.getElementById('current-cv-name').innerText = currentUser.resumeUrl ? `Current CV on file: ${currentUser.resumeUrl}` : 'No CV uploaded yet.';
+    }
+
+    function updateStudentProfile(e) {

@@ -106,3 +106,5 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `feedback_at` DATETIME DEFAULT NULL,
   FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `notifications` (

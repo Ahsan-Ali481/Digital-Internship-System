@@ -641,3 +641,6 @@
     }
 
     function saveNewSupervisor(e) {
+      e.preventDefault();
+      const name = document.getElementById('sup-new-name').value;
+      const email = document.getElementById('sup-new-email').value;
