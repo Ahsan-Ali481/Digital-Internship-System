@@ -389,3 +389,7 @@
       document.getElementById('prof-sup-dept').value = currentSup.department || '';
       document.getElementById('prof-sup-phone').value = currentSup.phone || '';
     }
+
+    function updateSupervisorProfile(e) {
+      e.preventDefault();
+      const name = document.getElementById('prof-sup-name').value;

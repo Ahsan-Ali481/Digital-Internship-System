@@ -641,3 +641,6 @@
       const users = DIS.getUsers();
       const user = users.find(u => u.id === currentUser.id);
       if (user) {
+        user.name = name;
+        user.email = email;
+        user.university = university;
