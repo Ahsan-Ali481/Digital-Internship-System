@@ -308,3 +308,5 @@
     },
 
     markAllNotificationsRead: function (userId) {
+      let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
+      notifs = notifs.map(n => n.userId === userId ? { ...n, read: true } : n);

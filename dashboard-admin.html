@@ -453,3 +453,6 @@
         thead.innerHTML = '<tr><th class="p-3">App ID</th><th class="p-3">Student Name</th><th class="p-3">Email</th><th class="p-3">Status</th><th class="p-3">Applied Date</th></tr>';
         data.forEach(d => {
           const row = { AppID: d.id, StudentName: d.studentName, StudentEmail: d.studentEmail, Status: d.status, AppliedAt: d.appliedAt };
+          currentReportRows.push(row);
+          tbody.innerHTML += `<tr><td class="p-3">${row.AppID}</td><td class="p-3 font-bold">${row.StudentName}</td><td class="p-3">${row.StudentEmail}</td><td class="p-3">${row.Status}</td><td class="p-3">${row.AppliedAt}</td></tr>`;
+        });

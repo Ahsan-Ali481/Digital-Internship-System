@@ -648,3 +648,7 @@
       const pass = document.getElementById('sup-new-pass').value;
 
       const users = DIS.getUsers();
+      if (users.some(u => u.email === email)) {
+        DIS.showToast('Supervisor with this email already exists!', 'danger');
+        return;
+      }

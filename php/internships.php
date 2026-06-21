@@ -43,3 +43,4 @@ if ($action === 'list') {
 
     echo json_encode(["status" => "success", "message" => "Internship posted successfully."]);
 } elseif ($action === 'delete') {
+    $id = $_GET['id'] ?? '';
