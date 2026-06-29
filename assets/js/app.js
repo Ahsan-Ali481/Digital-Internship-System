@@ -314,3 +314,4 @@
     },
 
     clearAllNotifications: function (userId) {
+      let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');

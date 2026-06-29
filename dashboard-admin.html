@@ -461,3 +461,5 @@
 
     function downloadCurrentCSV() {
       const type = document.getElementById('report-type-select').value;
+      DIS.exportToCSV(`dis_${type}_report.csv`, currentReportRows);
+    }
