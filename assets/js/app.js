@@ -318,3 +318,6 @@
       notifs = notifs.filter(n => n.userId !== userId);
       localStorage.setItem('dis_notifications', JSON.stringify(notifs));
     },
+
+    markNotificationRead: function (notifId) {
+      let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');

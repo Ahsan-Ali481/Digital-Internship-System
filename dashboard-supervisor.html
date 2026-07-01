@@ -399,3 +399,6 @@
       const users = DIS.getUsers();
       const user = users.find(u => u.id === currentSup.id);
       if (user) {
+        user.name = name;
+        user.department = dept;
+        user.phone = phone;

@@ -112,3 +112,4 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `notification_uid` VARCHAR(64) UNIQUE NOT NULL,
   `user_uid` VARCHAR(64) NOT NULL,
   `title` VARCHAR(200) NOT NULL,
+  `message` TEXT NOT NULL,

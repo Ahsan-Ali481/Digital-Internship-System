@@ -468,3 +468,7 @@
       document.getElementById('prof-admin-name').value = currentAdmin.name || '';
       document.getElementById('prof-admin-email').value = currentAdmin.email || '';
     }
+
+    function updateAdminProfile(e) {
+      e.preventDefault();
+      const name = document.getElementById('prof-admin-name').value;
