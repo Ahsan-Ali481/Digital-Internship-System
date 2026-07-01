@@ -26,3 +26,4 @@ if ($action === 'submit') {
     $stmt->execute([$rating, $comment, $report_uid]);
 
     echo json_encode(["status" => "success", "message" => "Feedback and rating saved."]);
+}

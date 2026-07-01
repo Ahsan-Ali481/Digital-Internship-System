@@ -72,3 +72,4 @@ if ($action === 'login') {
         $data['industry'] ?? null,
         $data['website'] ?? null,
         $data['certificateUrl'] ?? null
+    ]);

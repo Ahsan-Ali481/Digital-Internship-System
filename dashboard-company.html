@@ -673,3 +673,8 @@
       renderDashboardStats();
       renderSupervisors();
     }
+
+    function deleteSupervisor(supId) {
+      if (confirm('Delete this supervisor account?')) {
+        let users = DIS.getUsers().filter(u => u.id !== supId);
+        DIS.setUsers(users);

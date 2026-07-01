@@ -45,3 +45,4 @@ if ($action === 'list') {
 } elseif ($action === 'delete') {
     $id = $_GET['id'] ?? '';
     $stmt = $pdo->prepare("DELETE FROM internships WHERE internship_uid = ?");
+    $stmt->execute([$id]);

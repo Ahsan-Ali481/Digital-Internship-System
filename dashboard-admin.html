@@ -472,3 +472,6 @@
     function updateAdminProfile(e) {
       e.preventDefault();
       const name = document.getElementById('prof-admin-name').value;
+      const email = document.getElementById('prof-admin-email').value;
+
+      const users = DIS.getUsers();
