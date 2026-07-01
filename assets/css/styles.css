@@ -166,3 +166,4 @@ body {
   border: 1px solid rgba(59, 130, 246, 0.3);
 }
 .badge-selected {
+  background-color: rgba(16, 185, 129, 0.15);

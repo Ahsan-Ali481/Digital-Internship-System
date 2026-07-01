@@ -667,3 +667,7 @@
       };
 
       users.push(newSup);
+      DIS.setUsers(users);
+      DIS.showToast('Supervisor account created!', 'success');
+      closeAddSupervisorModal();
+      renderDashboardStats();

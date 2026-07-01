@@ -397,3 +397,5 @@
       const phone = document.getElementById('prof-sup-phone').value;
 
       const users = DIS.getUsers();
+      const user = users.find(u => u.id === currentSup.id);
+      if (user) {
