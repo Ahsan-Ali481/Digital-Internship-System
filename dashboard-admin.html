@@ -463,3 +463,7 @@
       const type = document.getElementById('report-type-select').value;
       DIS.exportToCSV(`dis_${type}_report.csv`, currentReportRows);
     }
+
+    function loadProfileForm() {
+      document.getElementById('prof-admin-name').value = currentAdmin.name || '';
+      document.getElementById('prof-admin-email').value = currentAdmin.email || '';

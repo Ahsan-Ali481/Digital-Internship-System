@@ -28,3 +28,5 @@ if ($action === 'create') {
 
     $stmt = $pdo->prepare("UPDATE tasks SET status = ? WHERE task_uid = ?");
     $stmt->execute([$status, $task_uid]);
+
+    echo json_encode(["status" => "success", "message" => "Task status updated."]);

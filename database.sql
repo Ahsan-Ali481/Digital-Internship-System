@@ -111,3 +111,4 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `notification_uid` VARCHAR(64) UNIQUE NOT NULL,
   `user_uid` VARCHAR(64) NOT NULL,
+  `title` VARCHAR(200) NOT NULL,
