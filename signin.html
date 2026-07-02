@@ -142,3 +142,5 @@
         DIS.showToast('Your company account is pending Admin approval!', 'warning');
         return;
       }
+
+      if (user.status === 'blocked' || user.status === 'rejected') {

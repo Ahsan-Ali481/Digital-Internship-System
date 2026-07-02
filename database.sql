@@ -113,3 +113,4 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `user_uid` VARCHAR(64) NOT NULL,
   `title` VARCHAR(200) NOT NULL,
   `message` TEXT NOT NULL,
+  `type` VARCHAR(50) DEFAULT 'info',

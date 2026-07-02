@@ -404,3 +404,5 @@
         user.phone = phone;
         DIS.setUsers(users);
         DIS.setCurrentUser(user);
+        document.getElementById('sup-name').innerText = name;
+        DIS.showToast('Profile updated!', 'success');

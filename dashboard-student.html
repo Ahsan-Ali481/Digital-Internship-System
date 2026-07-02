@@ -663,3 +663,6 @@
       const notifs = DIS.getNotifications(currentUser.id);
       const container = document.getElementById('notif-list-container');
       const badge = document.getElementById('notif-badge');
+
+      const unreadCount = notifs.filter(n => n.read !== true).length;
+      if (badge) {

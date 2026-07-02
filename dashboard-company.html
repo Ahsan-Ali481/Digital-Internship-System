@@ -678,3 +678,7 @@
       if (confirm('Delete this supervisor account?')) {
         let users = DIS.getUsers().filter(u => u.id !== supId);
         DIS.setUsers(users);
+        DIS.showToast('Supervisor removed', 'info');
+        renderDashboardStats();
+        renderSupervisors();
+      }

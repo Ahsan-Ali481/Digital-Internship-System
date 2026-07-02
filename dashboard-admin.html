@@ -475,3 +475,5 @@
       const email = document.getElementById('prof-admin-email').value;
 
       const users = DIS.getUsers();
+      const user = users.find(u => u.id === currentAdmin.id);
+      if (user) {

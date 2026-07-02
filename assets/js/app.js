@@ -322,3 +322,5 @@
     markNotificationRead: function (notifId) {
       let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
       notifs = notifs.map(n => n.id === notifId ? { ...n, read: true } : n);
+      localStorage.setItem('dis_notifications', JSON.stringify(notifs));
+    },

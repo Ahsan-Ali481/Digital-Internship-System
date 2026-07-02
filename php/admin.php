@@ -37,3 +37,5 @@ if ($action === 'stats') {
 
     $stmt = $pdo->prepare("UPDATE applications SET completion_verified = ? WHERE application_uid = ?");
     $stmt->execute([$verified, $app_uid]);
+
+    echo json_encode(["status" => "success", "message" => "Completion verification updated."]);
