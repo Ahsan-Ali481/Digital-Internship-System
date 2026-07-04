@@ -697,3 +697,7 @@
       const industry = document.getElementById('prof-industry').value;
       const website = document.getElementById('prof-website').value;
       const phone = document.getElementById('prof-phone').value;
+
+      const users = DIS.getUsers();
+      const user = users.find(u => u.id === currentHR.id);
+      if (user) {

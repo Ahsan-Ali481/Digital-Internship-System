@@ -330,3 +330,6 @@
       notifs = notifs.filter(n => n.id !== notifId);
       localStorage.setItem('dis_notifications', JSON.stringify(notifs));
     },
+
+    exportToCSV: function (filename, rows) {
+      if (!rows || !rows.length) {

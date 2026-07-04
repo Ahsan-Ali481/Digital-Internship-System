@@ -39,3 +39,4 @@ if ($action === 'stats') {
     $stmt->execute([$verified, $app_uid]);
 
     echo json_encode(["status" => "success", "message" => "Completion verification updated."]);
+}

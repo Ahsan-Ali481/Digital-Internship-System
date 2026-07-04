@@ -488,3 +488,5 @@
     }
 
     function loadNotifications() {
+      const notifs = DIS.getNotifications(currentAdmin.id);
+      const container = document.getElementById('notif-list-container');
