@@ -73,3 +73,5 @@ if ($action === 'login') {
         $data['website'] ?? null,
         $data['certificateUrl'] ?? null
     ]);
+
+    echo json_encode(["status" => "success", "message" => "User registered successfully."]);

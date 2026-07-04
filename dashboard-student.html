@@ -677,3 +677,7 @@
 
       if (!container) return;
       container.innerHTML = '';
+      if (notifs.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-slate-400 text-xs"><i class="far fa-bell-slash text-2xl mb-2 block text-slate-300 dark:text-slate-600"></i>No notifications present</div>';
+        return;
+      }

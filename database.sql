@@ -116,3 +116,4 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `type` VARCHAR(50) DEFAULT 'info',
   `is_read` TINYINT(1) DEFAULT 0,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
