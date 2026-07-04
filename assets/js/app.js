@@ -324,3 +324,5 @@
       notifs = notifs.map(n => n.id === notifId ? { ...n, read: true } : n);
       localStorage.setItem('dis_notifications', JSON.stringify(notifs));
     },
+
+    clearNotification: function (notifId) {

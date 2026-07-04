@@ -477,3 +477,6 @@
       const users = DIS.getUsers();
       const user = users.find(u => u.id === currentAdmin.id);
       if (user) {
+        user.name = name;
+        user.email = email;
+        DIS.setUsers(users);

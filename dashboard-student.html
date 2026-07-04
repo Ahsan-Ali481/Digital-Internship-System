@@ -666,3 +666,7 @@
 
       const unreadCount = notifs.filter(n => n.read !== true).length;
       if (badge) {
+        if (unreadCount > 0) {
+          badge.innerText = unreadCount;
+          badge.classList.remove('hidden');
+        } else {

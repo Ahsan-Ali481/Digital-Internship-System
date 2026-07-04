@@ -30,3 +30,4 @@ if ($action === 'create') {
     $stmt->execute([$status, $task_uid]);
 
     echo json_encode(["status" => "success", "message" => "Task status updated."]);
+}
