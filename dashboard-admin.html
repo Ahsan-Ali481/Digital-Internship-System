@@ -482,3 +482,6 @@
         DIS.setUsers(users);
         DIS.setCurrentUser(user);
         document.getElementById('admin-name').innerText = name;
+        document.getElementById('admin-email').innerText = email;
+        DIS.showToast('Admin profile updated!', 'success');
+      }

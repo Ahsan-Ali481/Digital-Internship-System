@@ -328,3 +328,5 @@
     clearNotification: function (notifId) {
       let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
       notifs = notifs.filter(n => n.id !== notifId);
+      localStorage.setItem('dis_notifications', JSON.stringify(notifs));
+    },

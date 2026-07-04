@@ -46,3 +46,4 @@ if ($action === 'list') {
     $id = $_GET['id'] ?? '';
     $stmt = $pdo->prepare("DELETE FROM internships WHERE internship_uid = ?");
     $stmt->execute([$id]);
+    echo json_encode(["status" => "success", "message" => "Internship deleted."]);

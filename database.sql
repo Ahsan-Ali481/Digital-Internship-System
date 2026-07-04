@@ -115,3 +115,4 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `message` TEXT NOT NULL,
   `type` VARCHAR(50) DEFAULT 'info',
   `is_read` TINYINT(1) DEFAULT 0,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
