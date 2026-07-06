@@ -151,3 +151,4 @@
       DIS.setCurrentUser(user);
       DIS.showToast('Sign in successful!', 'success');
       setTimeout(() => {
+        window.location.href = `dashboard-${user.role}.html`;

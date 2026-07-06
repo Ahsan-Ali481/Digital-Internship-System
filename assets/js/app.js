@@ -340,3 +340,5 @@
       const body = rows.map(r => 
         Object.values(r).map(v => `"${String(v || '').replace(/"/g, '""')}"`).join(',')
       ).join('\n');
+      const csvContent = 'data:text/csv;charset=utf-8,' + headers + '\n' + body;
+      const encodedUri = encodeURI(csvContent);
