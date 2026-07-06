@@ -27,3 +27,4 @@ if ($action === 'submit') {
 
     echo json_encode(["status" => "success", "message" => "Feedback and rating saved."]);
 }
+?>

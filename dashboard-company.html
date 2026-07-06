@@ -701,3 +701,6 @@
       const users = DIS.getUsers();
       const user = users.find(u => u.id === currentHR.id);
       if (user) {
+        user.companyName = companyName;
+        user.industry = industry;
+        user.website = website;

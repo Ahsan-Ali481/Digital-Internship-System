@@ -333,3 +333,5 @@
 
     exportToCSV: function (filename, rows) {
       if (!rows || !rows.length) {
+        this.showToast('No data available to export', 'warning');
+        return;

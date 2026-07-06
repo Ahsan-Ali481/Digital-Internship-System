@@ -685,3 +685,6 @@
       notifs.forEach(n => {
         const div = document.createElement('div');
         div.className = `p-3.5 rounded-2xl border ${n.read ? 'bg-slate-50/70 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700/60 opacity-80' : 'bg-indigo-50/60 dark:bg-indigo-950/40 border-indigo-200 dark:border-indigo-800/80 shadow-sm'} text-xs space-y-2`;
+        div.innerHTML = `
+          <div class="font-bold text-slate-900 dark:text-white flex items-center justify-between">
+            <span class="flex items-center gap-2">

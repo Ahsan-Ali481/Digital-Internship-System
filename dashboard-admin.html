@@ -490,3 +490,6 @@
     function loadNotifications() {
       const notifs = DIS.getNotifications(currentAdmin.id);
       const container = document.getElementById('notif-list-container');
+      const badge = document.getElementById('notif-badge');
+
+      if (notifs.length > 0) {
