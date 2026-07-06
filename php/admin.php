@@ -40,3 +40,4 @@ if ($action === 'stats') {
 
     echo json_encode(["status" => "success", "message" => "Completion verification updated."]);
 }
+?>

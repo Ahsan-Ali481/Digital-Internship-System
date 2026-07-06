@@ -76,3 +76,4 @@ if ($action === 'login') {
 
     echo json_encode(["status" => "success", "message" => "User registered successfully."]);
 } else {
+    echo json_encode(["status" => "error", "message" => "Invalid endpoint action."]);

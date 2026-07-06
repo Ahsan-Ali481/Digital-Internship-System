@@ -498,3 +498,6 @@
       }
 
       container.innerHTML = '';
+      if (notifs.length === 0) {
+        container.innerHTML = '<div class="text-center py-6 text-slate-400 text-xs">No system notifications</div>';
+        return;

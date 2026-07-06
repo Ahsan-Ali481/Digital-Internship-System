@@ -118,3 +118,5 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`user_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `users` (`user_uid`, `role`, `name`, `email`, `password`, `status`, `university`, `major`, `grad_year`, `company_name`, `industry`, `department`) VALUES

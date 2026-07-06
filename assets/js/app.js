@@ -339,3 +339,4 @@
       const headers = Object.keys(rows[0]).join(',');
       const body = rows.map(r => 
         Object.values(r).map(v => `"${String(v || '').replace(/"/g, '""')}"`).join(',')
+      ).join('\n');

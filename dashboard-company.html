@@ -711,3 +711,8 @@
         DIS.showToast('Company profile updated!', 'success');
       }
     }
+
+    function loadNotifications() {
+      const notifs = DIS.getNotifications(currentHR.id);
+      const container = document.getElementById('notif-list-container');
+      const badge = document.getElementById('notif-badge');
