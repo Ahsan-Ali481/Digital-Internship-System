@@ -50,3 +50,4 @@ if ($action === 'apply') {
     $stmt->execute([$sup_uid, $app_uid]);
 
     echo json_encode(["status" => "success", "message" => "Supervisor assigned."]);
+}
