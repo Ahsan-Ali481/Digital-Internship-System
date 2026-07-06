@@ -704,3 +704,7 @@
         user.companyName = companyName;
         user.industry = industry;
         user.website = website;
+        user.phone = phone;
+        DIS.setUsers(users);
+        DIS.setCurrentUser(user);
+        document.getElementById('hr-company-title').innerText = companyName;

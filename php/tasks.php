@@ -31,3 +31,4 @@ if ($action === 'create') {
 
     echo json_encode(["status" => "success", "message" => "Task status updated."]);
 }
+?>

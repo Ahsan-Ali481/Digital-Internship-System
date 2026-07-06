@@ -493,3 +493,6 @@
       const badge = document.getElementById('notif-badge');
 
       if (notifs.length > 0) {
+        badge.innerText = notifs.length;
+        badge.classList.remove('hidden');
+      }

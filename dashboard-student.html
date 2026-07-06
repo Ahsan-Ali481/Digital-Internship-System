@@ -688,3 +688,7 @@
         div.innerHTML = `
           <div class="font-bold text-slate-900 dark:text-white flex items-center justify-between">
             <span class="flex items-center gap-2">
+              ${!n.read ? '<span class="w-2 h-2 rounded-full bg-indigo-600 inline-block animate-pulse"></span>' : ''}
+              ${n.title}
+            </span>
+            <span class="text-[10px] font-normal text-slate-400">${n.timestamp}</span>

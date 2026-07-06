@@ -335,3 +335,5 @@
       if (!rows || !rows.length) {
         this.showToast('No data available to export', 'warning');
         return;
+      }
+      const headers = Object.keys(rows[0]).join(',');
