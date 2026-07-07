@@ -51,3 +51,4 @@ if ($action === 'apply') {
 
     echo json_encode(["status" => "success", "message" => "Supervisor assigned."]);
 }
+?>

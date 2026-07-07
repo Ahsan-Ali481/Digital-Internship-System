@@ -48,3 +48,4 @@ if ($action === 'list') {
     $stmt->execute([$id]);
     echo json_encode(["status" => "success", "message" => "Internship deleted."]);
 }
+?>

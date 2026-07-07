@@ -179,3 +179,4 @@ body {
 /* Dark mode form field helper */
 .dark input, .dark select, .dark textarea {
   background-color: #1f2937 !important;
+  color: #f9fafb !important;

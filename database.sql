@@ -120,3 +120,4 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `users` (`user_uid`, `role`, `name`, `email`, `password`, `status`, `university`, `major`, `grad_year`, `company_name`, `industry`, `department`) VALUES
+('usr_admin1', 'admin', 'System Administrator', 'admin@dis.com', 'password123', 'approved', NULL, NULL, NULL, NULL, NULL, NULL),

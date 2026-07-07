@@ -702,3 +702,8 @@
         container.appendChild(div);
       });
     }
+
+    function markAllNotificationsRead() {
+      DIS.markAllNotificationsRead(currentUser.id);
+      DIS.showToast('All notifications marked as read', 'success');
+      loadNotifications();
