@@ -710,3 +710,7 @@
     }
 
     function clearAllNotifications() {
+      DIS.clearAllNotifications(currentUser.id);
+      DIS.showToast('All notifications cleared', 'info');
+      loadNotifications();
+    }

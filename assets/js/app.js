@@ -346,3 +346,5 @@
       link.setAttribute('href', encodedUri);
       link.setAttribute('download', filename);
       document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
