@@ -180,3 +180,4 @@ body {
 .dark input, .dark select, .dark textarea {
   background-color: #1f2937 !important;
   color: #f9fafb !important;
+  border-color: #374151 !important;
