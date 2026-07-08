@@ -731,3 +731,6 @@
       notifs.forEach(n => {
         const div = document.createElement('div');
         div.className = 'p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs space-y-1';
+        div.innerHTML = `
+          <div class="font-bold text-slate-900 dark:text-white flex items-center justify-between">
+            <span>${n.title}</span>

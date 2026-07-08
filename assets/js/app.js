@@ -348,3 +348,4 @@
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      this.showToast(`Exported ${filename} successfully`, 'success');

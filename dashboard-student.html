@@ -714,3 +714,7 @@
       DIS.showToast('All notifications cleared', 'info');
       loadNotifications();
     }
+
+    function markSingleNotifRead(notifId) {
+      DIS.markNotificationRead(notifId);
+      loadNotifications();

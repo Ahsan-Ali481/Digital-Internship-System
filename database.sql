@@ -122,3 +122,4 @@ CREATE TABLE IF NOT EXISTS `notifications` (
 INSERT INTO `users` (`user_uid`, `role`, `name`, `email`, `password`, `status`, `university`, `major`, `grad_year`, `company_name`, `industry`, `department`) VALUES
 ('usr_admin1', 'admin', 'System Administrator', 'admin@dis.com', 'password123', 'approved', NULL, NULL, NULL, NULL, NULL, NULL),
 ('usr_std1', 'student', 'Ahmed Hassan', 'ahmed@student.com', 'password123', 'approved', 'National University of Sciences & Technology', 'Software Engineering', '2027', NULL, NULL, NULL),
+('usr_hr1', 'company', 'Sarah Jenkins', 'hr@techcorp.com', 'password123', 'approved', NULL, NULL, NULL, 'TechCorp Solutions', 'Software & Cloud Solutions', NULL),
