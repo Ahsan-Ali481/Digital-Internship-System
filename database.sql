@@ -123,3 +123,4 @@ INSERT INTO `users` (`user_uid`, `role`, `name`, `email`, `password`, `status`, 
 ('usr_admin1', 'admin', 'System Administrator', 'admin@dis.com', 'password123', 'approved', NULL, NULL, NULL, NULL, NULL, NULL),
 ('usr_std1', 'student', 'Ahmed Hassan', 'ahmed@student.com', 'password123', 'approved', 'National University of Sciences & Technology', 'Software Engineering', '2027', NULL, NULL, NULL),
 ('usr_hr1', 'company', 'Sarah Jenkins', 'hr@techcorp.com', 'password123', 'approved', NULL, NULL, NULL, 'TechCorp Solutions', 'Software & Cloud Solutions', NULL),
+('usr_sup1', 'supervisor', 'Dr. Robert Chen', 'supervisor@techcorp.com', 'password123', 'approved', NULL, NULL, NULL, NULL, NULL, 'Engineering & AI Labs');
