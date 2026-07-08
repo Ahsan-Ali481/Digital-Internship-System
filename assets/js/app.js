@@ -353,3 +353,5 @@
   };
 
   window.DIS.initTheme();
+
+})();
