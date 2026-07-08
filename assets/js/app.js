@@ -351,3 +351,5 @@
       this.showToast(`Exported ${filename} successfully`, 'success');
     }
   };
+
+  window.DIS.initTheme();
