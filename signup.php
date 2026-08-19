@@ -14,7 +14,7 @@
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between font-sans">
 
   <header class="p-6 flex items-center justify-between max-w-7xl mx-auto w-full">
-    <a href="index.html" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
+    <a href="index.php" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
       <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white">
         <i class="fas fa-graduation-cap text-xl"></i>
       </div>
@@ -25,7 +25,7 @@
         <i class="fas fa-moon dark:hidden"></i>
         <i class="fas fa-sun hidden dark:block text-amber-400"></i>
       </button>
-      <a href="signin.html" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Already registered? Sign In</a>
+      <a href="signin.php" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Already registered? Sign In</a>
     </div>
   </header>
 
@@ -193,7 +193,7 @@
       }
 
       setTimeout(() => {
-        window.location.href = 'signin.html';
+        window.location.href = 'signin.php';
       }, 1500);
     }
   </script>

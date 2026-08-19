@@ -1,32 +1,12 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Internship System | Modern Internship & Career Platform</title>
-  <meta name="description" content="Streamlined digital internship management platform connecting students, companies, supervisors, and institutional admins.">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca' }
-          }
-        }
-      }
-    }
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 font-sans">
+<?php
+$pageTitle = 'Digital Internship System | Modern Internship & Career Platform';
+require_once __DIR__ . '/includes/header.php';
+?>
 
   <!-- Navigation Bar -->
   <header class="sticky top-0 z-50 glass border-b border-slate-200 dark:border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
+      <a href="index.php" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
         <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
           <i class="fas fa-graduation-cap text-xl"></i>
         </div>
@@ -46,8 +26,8 @@
           <i class="fas fa-moon dark:hidden text-lg"></i>
           <i class="fas fa-sun hidden dark:block text-amber-400 text-lg"></i>
         </button>
-        <a href="signin.html" class="px-4 py-2.5 rounded-xl text-slate-700 dark:text-slate-200 font-semibold hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Sign In</a>
-        <a href="signup.html" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-500/25 transition-all transform hover:-translate-y-0.5">Get Started</a>
+        <a href="signin.php" class="px-4 py-2.5 rounded-xl text-slate-700 dark:text-slate-200 font-semibold hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Sign In</a>
+        <a href="signup.php" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-500/25 transition-all transform hover:-translate-y-0.5">Get Started</a>
       </div>
     </div>
   </header>
@@ -73,10 +53,10 @@
       </p>
 
       <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="signup.html" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-xl shadow-indigo-500/30 transition-all transform hover:-translate-y-0.5">
+        <a href="signup.php" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-xl shadow-indigo-500/30 transition-all transform hover:-translate-y-0.5">
           <i class="fas fa-rocket mr-2"></i> Register Now
         </a>
-        <a href="signin.html" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 font-bold text-lg border border-slate-200 dark:border-slate-700 shadow-md transition-all">
+        <a href="signin.php" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 font-bold text-lg border border-slate-200 dark:border-slate-700 shadow-md transition-all">
           <i class="fas fa-bolt text-amber-500 mr-2"></i> Instant Demo Dashboards
         </a>
       </div>
@@ -302,6 +282,4 @@
     </div>
   </footer>
 
-  <script src="assets/js/app.js"></script>
-</body>
-</html>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

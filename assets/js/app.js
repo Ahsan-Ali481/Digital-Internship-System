@@ -208,17 +208,17 @@
     },
     logout: function () {
       localStorage.removeItem('dis_current_user');
-      window.location.href = 'signin.html';
+      window.location.href = 'signin.php';
     },
     checkAuth: function (allowedRoles) {
       const user = this.getCurrentUser();
       if (!user) {
-        window.location.href = 'signin.html';
+        window.location.href = 'signin.php';
         return null;
       }
       if (allowedRoles && !allowedRoles.includes(user.role)) {
         alert('Unauthorized access! Redirecting to correct dashboard...');
-        window.location.href = `dashboard-${user.role}.html`;
+        window.location.href = `dashboard-${user.role}.php`;
         return null;
       }
       return user;

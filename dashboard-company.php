@@ -16,7 +16,7 @@
   <header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <div class="flex items-center gap-4">
-        <a href="index.html" class="flex items-center gap-2 font-bold text-xl text-indigo-600 dark:text-indigo-400">
+        <a href="index.php" class="flex items-center gap-2 font-bold text-xl text-indigo-600 dark:text-indigo-400">
           <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-sm">
             <i class="fas fa-building"></i>
           </div>

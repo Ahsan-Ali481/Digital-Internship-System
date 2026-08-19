@@ -18,7 +18,7 @@
     <div class="space-y-8">
       <!-- Sidebar Brand Header -->
       <div class="flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3 font-bold text-xl tracking-tight text-indigo-600 dark:text-indigo-400">
+        <a href="index.php" class="flex items-center gap-3 font-bold text-xl tracking-tight text-indigo-600 dark:text-indigo-400">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
             <i class="fas fa-graduation-cap text-xl"></i>
           </div>
