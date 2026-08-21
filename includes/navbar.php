@@ -5,13 +5,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 ?>
-<nav class="navbar navbar-expand-lg navbar-dark bg-gradient-dark shadow-sm sticky-top border-bottom border-dark-subtle">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top border-bottom border-2 border-indigo-100 py-3">
   <div class="container">
-    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.php">
-      <div class="bg-gradient-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
-        <i class="fas fa-graduation-cap"></i>
+    <a class="navbar-brand fw-extrabold d-flex align-items-center gap-2" href="index.php">
+      <div class="bg-gradient-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px;">
+        <i class="fas fa-graduation-cap fa-lg"></i>
       </div>
-      <span class="fs-5 text-white">Digital <span class="fw-light text-indigo-200">Internship</span></span>
+      <span class="fs-4 text-dark-contrast fw-black">Digital <span class="gradient-text-mask">Internship</span></span>
     </a>
     
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
@@ -20,45 +20,45 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
     
     <div class="collapse navbar-collapse" id="navbarMain">
       <!-- Navbar Modules: Home, Browse Internships, About Us, Contact Us -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-extrabold fs-6">
         <li class="nav-item">
-          <a class="nav-link text-white-50 hover-white px-3" href="index.php#home">
-            <i class="fas fa-home me-1 text-indigo-400"></i> Home
+          <a class="nav-link text-dark-contrast hover-indigo px-3" href="index.php#home">
+            <i class="fas fa-home me-1 text-primary"></i> Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white-50 hover-white px-3" href="index.php#browse-internships">
-            <i class="fas fa-search me-1 text-indigo-400"></i> Browse Internships
+          <a class="nav-link text-dark-contrast hover-indigo px-3" href="index.php#browse-internships">
+            <i class="fas fa-search me-1 text-primary"></i> Browse Internships
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white-50 hover-white px-3" href="index.php#about">
-            <i class="fas fa-info-circle me-1 text-indigo-400"></i> About Us
+          <a class="nav-link text-dark-contrast hover-indigo px-3" href="index.php#about">
+            <i class="fas fa-info-circle me-1 text-primary"></i> About Us
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white-50 hover-white px-3" href="index.php#contact">
-            <i class="fas fa-envelope me-1 text-indigo-400"></i> Contact Us
+          <a class="nav-link text-dark-contrast hover-indigo px-3" href="index.php#contact">
+            <i class="fas fa-envelope me-1 text-primary"></i> Contact Us
           </a>
         </li>
       </ul>
       
       <div class="d-flex align-items-center gap-2">
         <?php if ($user): ?>
-          <span class="navbar-text text-white me-3 font-weight-semibold small">
-            <i class="fas fa-user-circle me-1 text-warning"></i> <?php echo htmlspecialchars($user['name']); ?> (<?php echo ucfirst($user['role']); ?>)
+          <span class="navbar-text text-dark-contrast me-3 font-weight-bold">
+            <i class="fas fa-user-circle me-1 text-primary"></i> <?php echo htmlspecialchars($user['name']); ?> (<?php echo ucfirst($user['role']); ?>)
           </span>
-          <a href="dashboard-<?php echo strtolower($user['role']); ?>.php" class="btn btn-warning btn-sm font-weight-bold shadow-sm me-2">
+          <a href="dashboard-<?php echo strtolower($user['role']); ?>.php" class="btn btn-adv-primary btn-sm px-4">
             <i class="fas fa-tachometer-alt me-1"></i> Dashboard
           </a>
-          <a href="logout.php" class="btn btn-outline-light btn-sm font-weight-bold">
+          <a href="logout.php" class="btn btn-adv-secondary btn-sm px-3">
             <i class="fas fa-sign-out-alt me-1"></i> Logout
           </a>
         <?php else: ?>
-          <a href="signin.php" class="btn btn-outline-light btn-sm fw-bold me-1 px-3">
+          <a href="signin.php" class="btn btn-adv-secondary btn-sm px-4 me-1">
             <i class="fas fa-sign-in-alt me-1"></i> Sign In
           </a>
-          <a href="signup.php" class="btn btn-primary-gradient btn-sm fw-bold px-3 shadow-sm">
+          <a href="signup.php" class="btn btn-adv-primary btn-sm px-4">
             <i class="fas fa-user-plus me-1"></i> Get Started
           </a>
         <?php endif; ?>

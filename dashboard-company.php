@@ -1,5 +1,5 @@
 <?php
-// dashboard-company.php - Premium Company HR Portal
+// dashboard-company.php - High Contrast Company HR Portal
 $pageTitle = "Company HR Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -15,21 +15,21 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'company') {
 $currentHR = $_SESSION['user'];
 ?>
 
-<!-- Premium Top Header Bar -->
-<header class="bg-gradient-dark text-white border-bottom border-dark-subtle py-2 sticky-top shadow-sm">
+<!-- High Contrast Top Header Bar -->
+<header class="bg-white border-bottom border-2 border-slate-200 py-3 sticky-top shadow-sm">
   <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
-      <a href="index.php" class="navbar-brand fw-bold text-white mb-0 d-flex align-items-center gap-2">
-        <div class="bg-gradient-secondary text-white rounded-3 p-1 d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+      <a href="index.php" class="navbar-brand fw-extrabold text-dark-contrast mb-0 d-flex align-items-center gap-2">
+        <div class="bg-gradient-secondary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
           <i class="fas fa-building"></i>
         </div>
-        <span>Digital Internship</span>
+        <span class="fs-4">Digital <span class="gradient-text-mask">Internship</span></span>
       </a>
-      <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-20 px-3 py-1">Company HR Portal</span>
+      <span class="badge badge-adv badge-adv-info px-3 py-2">Company HR Portal</span>
     </div>
     
     <div class="d-flex align-items-center gap-3">
-      <button onclick="toggleNotificationModal()" class="btn btn-outline-light btn-sm position-relative rounded-pill px-3">
+      <button onclick="toggleNotificationModal()" class="btn btn-adv-secondary btn-sm position-relative px-3">
         <i class="fas fa-bell me-1 text-warning"></i> Notifications
         <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
       </button>
@@ -41,27 +41,25 @@ $currentHR = $_SESSION['user'];
   <div class="row g-4">
     <!-- Left Sidebar Navigation -->
     <div class="col-md-3 col-lg-2">
-      <div class="card border-0 shadow-sm rounded-4 mb-4 glass-card">
-        <div class="card-body text-center p-3">
-          <div class="bg-gradient-secondary text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 54px; height: 54px;">
-            <i class="fas fa-building fa-lg"></i>
-          </div>
-          <h6 id="hr-name" class="fw-bold mb-0 text-dark"><?php echo htmlspecialchars($currentHR['name']); ?></h6>
-          <small class="text-muted extra-small d-block"><?php echo htmlspecialchars($currentHR['companyName'] ?? 'TechCorp'); ?></small>
+      <div class="adv-card mb-4 p-3 text-center">
+        <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 56px; height: 56px; background-color: #e0f2fe;">
+          <i class="fas fa-building fa-lg text-info"></i>
         </div>
-        
-        <div class="p-2 border-top d-flex flex-column gap-1">
+        <h6 id="hr-name" class="fw-extrabold mb-0 text-dark-contrast"><?php echo htmlspecialchars($currentHR['name']); ?></h6>
+        <small class="text-dark-contrast font-weight-bold extra-small d-block"><?php echo htmlspecialchars($currentHR['companyName'] ?? 'TechCorp'); ?></small>
+
+        <div class="pt-3 mt-3 border-top d-flex flex-column gap-2">
           <button onclick="switchHRTab('post')" class="sidebar-link active w-100 text-start border-0" id="link-hr-post">
-            <i class="fas fa-plus-circle me-2 text-indigo-500"></i> Post Role
+            <i class="fas fa-plus-circle me-2"></i> Post Role
           </button>
           <button onclick="switchHRTab('applicants')" class="sidebar-link w-100 text-start border-0" id="link-hr-applicants">
-            <i class="fas fa-users me-2 text-cyan-500"></i> Applicants
+            <i class="fas fa-users me-2"></i> Applicants
           </button>
           <button onclick="switchHRTab('supervisors')" class="sidebar-link w-100 text-start border-0" id="link-hr-supervisors">
-            <i class="fas fa-user-tie me-2 text-emerald-500"></i> Supervisors
+            <i class="fas fa-user-tie me-2"></i> Supervisors
           </button>
           <button onclick="switchHRTab('profile')" class="sidebar-link w-100 text-start border-0" id="link-hr-profile">
-            <i class="fas fa-edit me-2 text-slate-500"></i> Company Profile
+            <i class="fas fa-edit me-2"></i> Company Profile
           </button>
           <a href="logout.php" class="sidebar-link text-danger w-100 text-start text-decoration-none">
             <i class="fas fa-sign-out-alt me-2"></i> Logout
@@ -74,99 +72,82 @@ $currentHR = $_SESSION['user'];
     <div class="col-md-9 col-lg-10">
       
       <!-- Stats Header Widgets -->
-      <div class="row g-3 mb-4">
+      <div class="row g-4 mb-4">
         <div class="col-md-4">
-          <div class="card border-0 shadow-sm bg-gradient-primary text-white p-3 rounded-4 card-hover">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <small class="text-white-50 font-weight-semibold">Active Postings</small>
-                <h3 class="mb-0 font-weight-extrabold" id="stat-postings">0</h3>
-              </div>
-              <i class="fas fa-briefcase fa-2x opacity-50"></i>
-            </div>
+          <div class="adv-card p-4 text-center">
+            <h3 class="font-weight-extrabold mb-1 text-primary fs-1" id="stat-postings">0</h3>
+            <p class="text-dark-contrast font-weight-extrabold mb-0 small">Active Postings</p>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card border-0 shadow-sm bg-gradient-secondary text-white p-3 rounded-4 card-hover">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <small class="text-white-50 font-weight-semibold">Total Applicants</small>
-                <h3 class="mb-0 font-weight-extrabold" id="stat-applicants">0</h3>
-              </div>
-              <i class="fas fa-users fa-2x opacity-50"></i>
-            </div>
+          <div class="adv-card p-4 text-center">
+            <h3 class="font-weight-extrabold mb-1 text-info fs-1" id="stat-applicants">0</h3>
+            <p class="text-dark-contrast font-weight-extrabold mb-0 small">Total Applicants</p>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card border-0 shadow-sm bg-gradient-success text-white p-3 rounded-4 card-hover">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <small class="text-white-50 font-weight-semibold">Workplace Supervisors</small>
-                <h3 class="mb-0 font-weight-extrabold" id="stat-supervisors">0</h3>
-              </div>
-              <i class="fas fa-user-tie fa-2x opacity-50"></i>
-            </div>
+          <div class="adv-card p-4 text-center">
+            <h3 class="font-weight-extrabold mb-1 text-success fs-1" id="stat-supervisors">0</h3>
+            <p class="text-dark-contrast font-weight-extrabold mb-0 small">Workplace Supervisors</p>
           </div>
         </div>
       </div>
 
       <!-- TAB 1: POST OPPORTUNITY -->
       <div id="tab-hr-post" class="tab-content">
-        <div class="card border-0 shadow-sm rounded-4 glass-card">
-          <div class="card-header bg-white fw-bold py-3 border-0">
+        <div class="adv-card p-4">
+          <h4 class="fw-extrabold text-dark-contrast mb-3">
             <i class="fas fa-plus-circle text-primary me-2"></i> Post New Internship Opportunity
-          </div>
-          <div class="card-body p-4">
-            <form onsubmit="saveNewInternship(event)">
-              <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold">Internship Title</label>
-                  <input type="text" id="post-title" required class="form-control" placeholder="e.g. Full Stack Web Developer Intern">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold">Category</label>
-                  <select id="post-category" required class="form-select">
-                    <option value="Software Development">Software Development</option>
-                    <option value="UI/UX Design">UI/UX Design</option>
-                    <option value="Data Science">Data Science</option>
-                  </select>
-                </div>
+          </h4>
+          <form onsubmit="saveNewInternship(event)">
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label font-weight-bold text-dark-contrast">Internship Title</label>
+                <input type="text" id="post-title" required class="form-control py-2" placeholder="e.g. Full Stack Web Developer Intern">
               </div>
-
-              <div class="row g-3 mb-3">
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Monthly Stipend</label>
-                  <input type="text" id="post-stipend" required class="form-control" placeholder="e.g. PKR 35,000 / month">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Office Location</label>
-                  <input type="text" id="post-location" required class="form-control" placeholder="e.g. Islamabad / Lahore">
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Application Deadline</label>
-                  <input type="date" id="post-deadline" required class="form-control">
-                </div>
+              <div class="col-md-6">
+                <label class="form-label font-weight-bold text-dark-contrast">Category</label>
+                <select id="post-category" required class="form-select py-2">
+                  <option value="Software Development">Software Development</option>
+                  <option value="UI/UX Design">UI/UX Design</option>
+                  <option value="Data Science">Data Science</option>
+                </select>
               </div>
+            </div>
 
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Job Description</label>
-                <textarea id="post-desc" required rows="3" class="form-control" placeholder="Provide role details..."></textarea>
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label class="form-label font-weight-bold text-dark-contrast">Monthly Stipend</label>
+                <input type="text" id="post-stipend" required class="form-control py-2" placeholder="e.g. PKR 35,000 / month">
               </div>
+              <div class="col-md-4">
+                <label class="form-label font-weight-bold text-dark-contrast">Office Location</label>
+                <input type="text" id="post-location" required class="form-control py-2" placeholder="e.g. Islamabad / Lahore">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label font-weight-bold text-dark-contrast">Application Deadline</label>
+                <input type="date" id="post-deadline" required class="form-control py-2">
+              </div>
+            </div>
 
-              <button type="submit" class="btn btn-primary-gradient px-4 font-weight-bold">
-                <i class="fas fa-check me-1"></i> Publish Opportunity
-              </button>
-            </form>
-          </div>
+            <div class="mb-3">
+              <label class="form-label font-weight-bold text-dark-contrast">Job Description</label>
+              <textarea id="post-desc" required rows="3" class="form-control py-2" placeholder="Provide role details..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-adv-primary font-weight-bold">
+              <i class="fas fa-check me-1"></i> Publish Opportunity
+            </button>
+          </form>
         </div>
       </div>
 
       <!-- TAB 2: APPLICANTS MANAGER -->
       <div id="tab-hr-applicants" class="tab-content d-none">
-        <h4 class="fw-extrabold mb-3">Manage Candidates</h4>
-        <div class="card border-0 shadow-sm rounded-4 glass-card overflow-hidden">
+        <h3 class="fw-extrabold text-dark-contrast mb-3">Manage Candidates</h3>
+        <div class="adv-card p-0 overflow-hidden">
           <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0 table-custom">
+            <table class="table-adv">
               <thead>
                 <tr>
                   <th>Candidate Name</th>
@@ -187,8 +168,8 @@ $currentHR = $_SESSION['user'];
       <!-- TAB 3: SUPERVISORS MANAGER -->
       <div id="tab-hr-supervisors" class="tab-content d-none">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="fw-extrabold mb-0">Workplace Supervisors</h4>
-          <button onclick="openAddSupervisorModal()" class="btn btn-primary-gradient btn-sm font-weight-bold shadow-sm">
+          <h3 class="fw-extrabold text-dark-contrast mb-0">Workplace Supervisors</h3>
+          <button onclick="openAddSupervisorModal()" class="btn btn-adv-primary btn-sm font-weight-bold">
             <i class="fas fa-user-plus me-1"></i> Register Supervisor
           </button>
         </div>
@@ -199,31 +180,29 @@ $currentHR = $_SESSION['user'];
 
       <!-- TAB 4: COMPANY PROFILE -->
       <div id="tab-hr-profile" class="tab-content d-none">
-        <div class="card border-0 shadow-sm rounded-4 glass-card">
-          <div class="card-header bg-white fw-bold py-3 border-0">
+        <div class="adv-card p-4">
+          <h4 class="fw-extrabold text-dark-contrast mb-3">
             <i class="fas fa-edit text-primary me-2"></i> Edit Company Information
-          </div>
-          <div class="card-body p-4">
-            <form onsubmit="updateCompanyProfile(event)">
-              <div class="mb-3">
-                <label class="form-label fw-semibold">Company Name</label>
-                <input type="text" id="prof-company-name" required class="form-control">
+          </h4>
+          <form onsubmit="updateCompanyProfile(event)">
+            <div class="mb-3">
+              <label class="form-label font-weight-bold text-dark-contrast">Company Name</label>
+              <input type="text" id="prof-company-name" required class="form-control py-2">
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label font-weight-bold text-dark-contrast">Industry Domain</label>
+                <input type="text" id="prof-industry" required class="form-control py-2">
               </div>
-              <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold">Industry Domain</label>
-                  <input type="text" id="prof-industry" required class="form-control">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold">Website URL</label>
-                  <input type="url" id="prof-website" required class="form-control">
-                </div>
+              <div class="col-md-6">
+                <label class="form-label font-weight-bold text-dark-contrast">Website URL</label>
+                <input type="url" id="prof-website" required class="form-control py-2">
               </div>
-              <button type="submit" class="btn btn-primary-gradient px-4 font-weight-bold">
-                <i class="fas fa-save me-1"></i> Save Changes
-              </button>
-            </form>
-          </div>
+            </div>
+            <button type="submit" class="btn btn-adv-primary font-weight-bold">
+              <i class="fas fa-save me-1"></i> Save Changes
+            </button>
+          </form>
         </div>
       </div>
 
@@ -235,8 +214,8 @@ $currentHR = $_SESSION['user'];
 <div class="modal fade" id="interviewModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content rounded-4 border-0">
-      <div class="modal-header bg-gradient-primary text-white border-0">
-        <h5 class="modal-title font-weight-bold">Schedule Physical Onsite Interview</h5>
+      <div class="modal-header bg-gradient-primary text-white border-0 py-3">
+        <h5 class="modal-title font-weight-extrabold text-white">Schedule Physical Onsite Interview</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveInterviewSchedule(event)">
@@ -244,22 +223,22 @@ $currentHR = $_SESSION['user'];
           <input type="hidden" id="int-app-id">
           <div class="row g-3 mb-3">
             <div class="col-6">
-              <label class="form-label fw-semibold">Interview Date</label>
-              <input type="date" id="int-date" required class="form-control">
+              <label class="form-label font-weight-bold text-dark-contrast">Interview Date</label>
+              <input type="date" id="int-date" required class="form-control py-2">
             </div>
             <div class="col-6">
-              <label class="form-label fw-semibold">Time</label>
-              <input type="time" id="int-time" required class="form-control">
+              <label class="form-label font-weight-bold text-dark-contrast">Time</label>
+              <input type="time" id="int-time" required class="form-control py-2">
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label fw-semibold">Physical Office Venue Address</label>
-            <input type="text" id="int-link" required placeholder="e.g. TechCorp Tower, Suite 400, Silicon Avenue, Islamabad" class="form-control">
+            <label class="form-label font-weight-bold text-dark-contrast">Physical Office Venue Address</label>
+            <input type="text" id="int-link" required placeholder="e.g. TechCorp Tower, Suite 400, Silicon Avenue, Islamabad" class="form-control py-2">
           </div>
         </div>
         <div class="modal-footer border-0">
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary-gradient btn-sm px-4 font-weight-bold">Save & Notify Candidate</button>
+          <button type="button" class="btn btn-adv-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-adv-primary btn-sm px-4 font-weight-bold">Save & Notify Candidate</button>
         </div>
       </form>
     </div>
@@ -270,28 +249,28 @@ $currentHR = $_SESSION['user'];
 <div class="modal fade" id="addSupModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content rounded-4 border-0">
-      <div class="modal-header bg-gradient-success text-white border-0">
-        <h5 class="modal-title font-weight-bold">Register New Supervisor</h5>
+      <div class="modal-header bg-gradient-success text-white border-0 py-3">
+        <h5 class="modal-title font-weight-extrabold text-white">Register New Supervisor</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveNewSupervisor(event)">
         <div class="modal-body p-4">
           <div class="mb-3">
-            <label class="form-label fw-semibold">Supervisor Name</label>
-            <input type="text" id="sup-name" required class="form-control">
+            <label class="form-label font-weight-bold text-dark-contrast">Supervisor Name</label>
+            <input type="text" id="sup-name" required class="form-control py-2">
           </div>
           <div class="mb-3">
-            <label class="form-label fw-semibold">Email Address</label>
-            <input type="email" id="sup-email" required class="form-control" placeholder="supervisor123@gmail.com">
+            <label class="form-label font-weight-bold text-dark-contrast">Email Address</label>
+            <input type="email" id="sup-email" required class="form-control py-2" placeholder="supervisor123@gmail.com">
           </div>
           <div class="mb-3">
-            <label class="form-label fw-semibold">Designation</label>
-            <input type="text" id="sup-designation" required class="form-control" placeholder="e.g. Senior Software Engineer">
+            <label class="form-label font-weight-bold text-dark-contrast">Designation</label>
+            <input type="text" id="sup-designation" required class="form-control py-2" placeholder="e.g. Senior Software Engineer">
           </div>
         </div>
         <div class="modal-footer border-0">
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-success btn-sm px-4 font-weight-bold">Register Supervisor</button>
+          <button type="button" class="btn btn-adv-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-adv-primary btn-sm px-4 font-weight-bold">Register Supervisor</button>
         </div>
       </form>
     </div>
@@ -302,21 +281,21 @@ $currentHR = $_SESSION['user'];
 <div class="modal fade" id="assignSupModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content rounded-4 border-0">
-      <div class="modal-header bg-gradient-primary text-white border-0">
-        <h5 class="modal-title font-weight-bold">Assign Supervisor</h5>
+      <div class="modal-header bg-gradient-primary text-white border-0 py-3">
+        <h5 class="modal-title font-weight-extrabold text-white">Assign Supervisor</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveSupervisorAssignment(event)">
         <div class="modal-body p-4">
           <input type="hidden" id="assign-app-id">
           <div class="mb-3">
-            <label class="form-label fw-semibold">Select Supervisor</label>
-            <select id="assign-sup-select" required class="form-select"></select>
+            <label class="form-label font-weight-bold text-dark-contrast">Select Supervisor</label>
+            <select id="assign-sup-select" required class="form-select py-2"></select>
           </div>
         </div>
         <div class="modal-footer border-0">
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary-gradient btn-sm px-4 font-weight-bold">Assign Supervisor</button>
+          <button type="button" class="btn btn-adv-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-adv-primary btn-sm px-4 font-weight-bold">Assign Supervisor</button>
         </div>
       </form>
     </div>
@@ -327,9 +306,9 @@ $currentHR = $_SESSION['user'];
 <div class="modal fade" id="notifModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content rounded-4 border-0">
-      <div class="modal-header bg-gradient-dark text-white border-0">
-        <h5 class="modal-title font-weight-bold"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      <div class="modal-header bg-white border-bottom border-2 py-3">
+        <h5 class="modal-title font-weight-extrabold text-dark-contrast"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body p-4">
         <div id="notif-list-container" class="space-y-2"></div>
@@ -412,26 +391,26 @@ $currentHR = $_SESSION['user'];
     tbody.innerHTML = '';
 
     if (apps.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No applications received.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-dark-contrast font-weight-bold">No applications received.</td></tr>';
       return;
     }
 
     apps.forEach(app => {
       const internship = internships.find(i => i.id === app.internshipId);
-      let badgeClass = 'badge-soft-warning';
-      if (app.status === 'Shortlisted') badgeClass = 'badge-soft-info';
-      if (app.status === 'Selected') badgeClass = 'badge-soft-success';
-      if (app.status === 'Rejected') badgeClass = 'badge-soft-danger';
+      let badgeClass = 'badge-adv-warning';
+      if (app.status === 'Shortlisted') badgeClass = 'badge-adv-info';
+      if (app.status === 'Selected') badgeClass = 'badge-adv-success';
+      if (app.status === 'Rejected') badgeClass = 'badge-adv-danger';
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>
-          <div class="fw-bold text-dark">${app.studentName}</div>
-          <small class="text-muted">${app.studentEmail}</small>
+          <div class="fw-bold text-dark-contrast">${app.studentName}</div>
+          <small class="text-primary font-weight-bold">${app.studentEmail}</small>
         </td>
         <td class="small font-weight-bold text-primary">${internship ? internship.title : 'Position'}</td>
-        <td class="small">${app.appliedAt}</td>
-        <td><span class="badge ${badgeClass} px-3 py-2 rounded-pill">${app.status}</span></td>
+        <td class="small text-dark-contrast font-weight-semibold">${app.appliedAt}</td>
+        <td><span class="badge badge-adv ${badgeClass}">${app.status}</span></td>
         <td>
           <div class="btn-group btn-group-sm">
             <button onclick="openInterviewModal('${app.id}')" class="btn btn-outline-info" title="Schedule Onsite Interview"><i class="fas fa-calendar-alt"></i></button>
@@ -492,7 +471,7 @@ $currentHR = $_SESSION['user'];
     grid.innerHTML = '';
 
     if (sups.length === 0) {
-      grid.innerHTML = '<div class="col-12 text-center py-4 text-muted">No supervisors registered yet.</div>';
+      grid.innerHTML = '<div class="col-12 text-center py-4 text-dark-contrast font-weight-bold">No supervisors registered yet.</div>';
       return;
     }
 
@@ -500,15 +479,13 @@ $currentHR = $_SESSION['user'];
       const col = document.createElement('div');
       col.className = 'col-md-4';
       col.innerHTML = `
-        <div class="card h-100 border-0 shadow-sm rounded-4 glass-card card-hover text-center p-3">
-          <div class="card-body">
-            <div class="bg-gradient-success text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 50px; height: 50px;">
-              <i class="fas fa-user-tie fa-lg"></i>
-            </div>
-            <h6 class="fw-bold mb-1 text-dark">${s.name}</h6>
-            <small class="text-muted d-block">${s.designation || 'Supervisor'}</small>
-            <small class="text-primary fw-semibold">${s.email}</small>
+        <div class="adv-card p-4 text-center">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 50px; height: 50px; background-color: #d1fae5;">
+            <i class="fas fa-user-tie fa-lg text-success"></i>
           </div>
+          <h6 class="fw-bold mb-1 text-dark-contrast">${s.name}</h6>
+          <small class="text-dark-contrast font-weight-semibold d-block">${s.designation || 'Supervisor'}</small>
+          <small class="text-primary font-weight-bold">${s.email}</small>
         </div>
       `;
       grid.appendChild(col);
@@ -609,9 +586,9 @@ $currentHR = $_SESSION['user'];
     const notifs = DIS.getNotifications(currentHR.id);
     const container = document.getElementById('notif-list-container');
     if (!container) return;
-    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No notifications</div>';
+    container.innerHTML = notifs.length ? '' : '<div class="text-center text-dark-contrast font-weight-bold small py-3">No notifications</div>';
     notifs.forEach(n => {
-      container.innerHTML += `<div class="p-2 border rounded-3 small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
+      container.innerHTML += `<div class="p-3 border rounded-3 small bg-light mb-2 text-dark-contrast font-weight-semibold"><strong>${n.title}</strong><br>${n.message}</div>`;
     });
   }
 
