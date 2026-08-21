@@ -1,5 +1,5 @@
 <?php
-// includes/navbar.php - Stylish Top Navigation Bar with Generous Spacing
+// includes/navbar.php - Hyper-Modern Top Navigation Bar (No user name text, generous spacing, hover lift)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -8,7 +8,7 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 <nav class="navbar navbar-expand-lg navbar-stylish sticky-top py-3">
   <div class="container">
     <a class="navbar-brand fw-black d-flex align-items-center gap-2" href="index.php">
-      <div class="bg-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px;">
+      <div class="bg-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 44px; height: 44px;">
         <i class="fas fa-graduation-cap text-white fs-5"></i>
       </div>
       <span class="fs-4 text-black fw-black">Digital <span class="text-primary">Internship</span></span>
@@ -19,29 +19,26 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
     </button>
     
     <div class="collapse navbar-collapse" id="navbarMain">
-      <!-- Stylish Top Navigation Links with Generous Spacing -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-black ms-lg-5 d-flex gap-2 gap-lg-4">
+      <!-- Modern Navigation Links with High Padding & Distance -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-black ms-lg-5 d-flex gap-3 gap-lg-5">
         <li class="nav-item">
-          <a class="nav-link nav-link-stylish text-black" href="index.php#home">Home</a>
+          <a class="nav-link nav-link-modern-hover text-black" href="index.php#home">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-link-stylish text-black" href="index.php#browse-internships">Browse Internships</a>
+          <a class="nav-link nav-link-modern-hover text-black" href="index.php#browse-internships">Browse Internships</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-link-stylish text-black" href="index.php#about">About Us</a>
+          <a class="nav-link nav-link-modern-hover text-black" href="index.php#about">About Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-link-stylish text-black" href="index.php#contact">Contact Us</a>
+          <a class="nav-link nav-link-modern-hover text-black" href="index.php#contact">Contact Us</a>
         </li>
       </ul>
       
-      <!-- Action Buttons with Clean Spacing -->
-      <div class="d-flex align-items-center gap-3 ms-lg-3">
+      <!-- Clean Action Buttons (User name completely removed) -->
+      <div class="d-flex align-items-center gap-3 ms-lg-4">
         <?php if ($user): ?>
-          <span class="navbar-text text-black me-2 font-weight-black">
-            <i class="fas fa-user-circle me-1 text-primary"></i> <?php echo htmlspecialchars($user['name']); ?>
-          </span>
-          <a href="logout.php" class="btn btn-black-secondary btn-sm px-3">
+          <a href="logout.php" class="btn btn-black-secondary btn-sm px-4">
             <i class="fas fa-sign-out-alt me-1"></i> Logout
           </a>
         <?php else: ?>
