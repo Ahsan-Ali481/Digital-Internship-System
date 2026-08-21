@@ -1,357 +1,280 @@
 /**
- * Digital Internship System (DIS) - Core Application Logic & State Engine
- * Handles session management, localStorage state, Dark/Light mode, notifications,
- * modals, form validation, and CSV reports generation.
+ * Digital Internship System (DIS) - Core App Engine
  */
 
-(function () {
-  'use strict';
-
-  // Seed Initial Sample Data if absent
-  function initSeedData() {
-    if (!localStorage.getItem('dis_users')) {
-      const users = [
-        {
-          id: 'usr_admin1',
-          role: 'admin',
-          name: 'System Administrator',
-          email: 'admin@dis.com',
-          password: 'password123',
-          status: 'approved',
-          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
-          createdAt: '2026-01-01'
-        },
-        {
-          id: 'usr_std1',
-          role: 'student',
-          name: 'Ahmed Hassan',
-          email: 'ahmed@student.com',
-          password: 'password123',
-          university: 'National University of Sciences & Technology',
-          major: 'Software Engineering',
-          gradYear: '2027',
-          phone: '+92 300 1234567',
-          resumeUrl: 'ahmed_hassan_resume.pdf',
-          status: 'approved',
-          avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80',
-          createdAt: '2026-02-10'
-        },
-        {
-          id: 'usr_hr1',
-          role: 'company',
-          name: 'Sarah Jenkins',
-          email: 'hr@techcorp.com',
-          password: 'password123',
-          companyName: 'TechCorp Solutions',
-          industry: 'Software & Cloud Solutions',
-          website: 'https://techcorp.com',
-          phone: '+1 415 555 0199',
-          certificateUrl: 'techcorp_inc_certificate.pdf',
-          status: 'approved',
-          avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80',
-          createdAt: '2026-01-15'
-        },
-        {
-          id: 'usr_sup1',
-          role: 'supervisor',
-          name: 'Dr. Robert Chen',
-          email: 'supervisor@techcorp.com',
-          password: 'password123',
-          companyId: 'usr_hr1',
-          department: 'Engineering & AI Labs',
-          phone: '+1 415 555 0188',
-          status: 'approved',
-          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
-          createdAt: '2026-01-20'
-        }
+const DIS = {
+  getUsers: function () {
+    const data = localStorage.getItem('dis_users');
+    if (!data) {
+      const defaultUsers = [
+        { id: 'usr_adm1', name: 'System Admin', email: 'admin123@gmail.com', role: 'admin', status: 'approved' },
+        { id: 'usr_std1', name: 'Ahmed Hassan', email: 'ahmed123@gmail.com', role: 'student', status: 'approved', university: 'NUST' },
+        { id: 'usr_hr1', name: 'Sarah Jenkins', email: 'hr123@gmail.com', role: 'company', companyName: 'TechCorp Solutions', status: 'approved', verified: true },
+        { id: 'usr_sup1', name: 'Dr. Robert Chen', email: 'supervisor123@gmail.com', role: 'supervisor', companyId: 'usr_hr1', designation: 'Senior AI Engineer', status: 'approved' }
       ];
-      localStorage.setItem('dis_users', JSON.stringify(users));
+      localStorage.setItem('dis_users', JSON.stringify(defaultUsers));
+      return defaultUsers;
     }
+    return JSON.parse(data);
+  },
 
-    if (!localStorage.getItem('dis_internships')) {
-      const internships = [
+  setUsers: function (users) {
+    localStorage.setItem('dis_users', JSON.stringify(users));
+  },
+
+  getInternships: function () {
+    const data = localStorage.getItem('dis_internships');
+    if (!data) {
+      const defaultInternships = [
         {
-          id: 'int_1',
+          id: 'int_101',
           companyId: 'usr_hr1',
           companyName: 'TechCorp Solutions',
-          title: 'Frontend Developer Intern',
-          category: 'Web Development',
-          location: 'San Francisco, CA (Hybrid)',
-          duration: '3 Months',
-          stipend: '$1,200 / month',
-          positions: 3,
+          title: 'Full Stack Web Developer Intern',
+          category: 'Software Development',
+          stipend: 'PKR 35,000 / month',
+          location: 'Islamabad (Onsite)',
           deadline: '2026-09-30',
-          description: 'Join our dynamic frontend team building next-generation web platforms using React, Tailwind CSS, and HTML5/JS.',
-          requirements: 'Basic proficiency in HTML, CSS, JavaScript. Knowledge of Git and dynamic layout design.',
+          description: 'Build dynamic PHP & MySQL web applications using Bootstrap 5 and modern REST endpoints.',
           status: 'active',
-          postedAt: '2026-07-01'
+          createdAt: '2026-03-10'
         },
         {
-          id: 'int_2',
+          id: 'int_102',
           companyId: 'usr_hr1',
           companyName: 'TechCorp Solutions',
-          title: 'AI & Data Science Intern',
-          category: 'Data Science',
+          title: 'UI/UX Product Design Intern',
+          category: 'UI/UX Design',
+          stipend: 'PKR 30,000 / month',
           location: 'Remote',
-          duration: '6 Months',
-          stipend: '$1,500 / month',
-          positions: 2,
           deadline: '2026-10-15',
-          description: 'Assist in building predictive models and processing datasets for modern software engines.',
-          requirements: 'Python, SQL, basic understanding of Machine Learning principles.',
+          description: 'Design responsive user interfaces and interactive prototypes for enterprise platforms.',
           status: 'active',
-          postedAt: '2026-07-10'
+          createdAt: '2026-03-12'
         }
       ];
-      localStorage.setItem('dis_internships', JSON.stringify(internships));
+      localStorage.setItem('dis_internships', JSON.stringify(defaultInternships));
+      return defaultInternships;
     }
+    return JSON.parse(data);
+  },
 
-    if (!localStorage.getItem('dis_applications')) {
-      const apps = [
+  setInternships: function (items) {
+    localStorage.setItem('dis_internships', JSON.stringify(items));
+  },
+
+  getApplications: function () {
+    const data = localStorage.getItem('dis_applications');
+    if (!data) {
+      const defaultApps = [
         {
-          id: 'app_1',
-          internshipId: 'int_1',
+          id: 'app_201',
+          internshipId: 'int_101',
           studentId: 'usr_std1',
           studentName: 'Ahmed Hassan',
-          studentEmail: 'ahmed@student.com',
+          studentEmail: 'ahmed123@gmail.com',
           companyId: 'usr_hr1',
-          cvName: 'ahmed_hassan_cv.pdf',
-          status: 'Shortlisted',
-          appliedAt: '2026-08-01',
           supervisorId: 'usr_sup1',
-          completionVerified: false,
+          cvName: 'Ahmed_Hassan_CV.pdf',
+          status: 'Shortlisted',
+          appliedAt: '2026-03-15',
           interview: {
-            date: '2026-08-20',
-            time: '14:00',
+            date: '2026-09-25',
+            time: '11:00',
             mode: 'Onsite',
-            address: 'TechCorp Solutions HQ, Suite 400, Silicon Avenue, San Francisco',
-            scheduledAt: '2026-08-05'
+            address: 'TechCorp Tower, Suite 400, Silicon Avenue, Islamabad'
           }
         }
       ];
-      localStorage.setItem('dis_applications', JSON.stringify(apps));
+      localStorage.setItem('dis_applications', JSON.stringify(defaultApps));
+      return defaultApps;
     }
+    return JSON.parse(data);
+  },
 
-    if (!localStorage.getItem('dis_tasks')) {
-      const tasks = [
+  setApplications: function (apps) {
+    localStorage.setItem('dis_applications', JSON.stringify(apps));
+  },
+
+  getTasks: function () {
+    const data = localStorage.getItem('dis_tasks');
+    if (!data) {
+      const defaultTasks = [
         {
-          id: 'tsk_1',
+          id: 'tsk_301',
           studentId: 'usr_std1',
           supervisorId: 'usr_sup1',
           companyId: 'usr_hr1',
-          title: 'Implement Responsive Navigation Bar',
-          description: 'Build a fully accessible responsive navbar with mobile drawer and theme toggle.',
-          deadline: '2026-08-25',
+          title: 'Implement Navigation Component in PHP',
+          description: 'Create a clean, responsive navbar component using Bootstrap 5 and PHP includes.',
+          deadline: '2026-09-28',
           status: 'Pending',
-          assignedAt: '2026-08-10'
+          assignedAt: '2026-03-20'
         }
       ];
-      localStorage.setItem('dis_tasks', JSON.stringify(tasks));
+      localStorage.setItem('dis_tasks', JSON.stringify(defaultTasks));
+      return defaultTasks;
     }
+    return JSON.parse(data);
+  },
 
-    if (!localStorage.getItem('dis_progress_reports')) {
-      const reports = [
+  setTasks: function (tasks) {
+    localStorage.setItem('dis_tasks', JSON.stringify(tasks));
+  },
+
+  getProgressReports: function () {
+    const data = localStorage.getItem('dis_reports');
+    if (!data) {
+      const defaultReports = [
         {
-          id: 'rep_1',
+          id: 'rep_401',
           studentId: 'usr_std1',
           supervisorId: 'usr_sup1',
           weekNumber: 1,
-          summary: 'Completed onboarding, set up environment, and reviewed codebase architecture.',
-          achievements: 'Configured local development server and resolved 2 layout UI issues.',
-          attachmentName: 'week1_progress_doc.pdf',
-          submittedAt: '2026-08-11',
-          feedback: {
-            rating: 5,
-            comment: 'Excellent initiative! Great job setting up the development setup quickly.',
-            givenAt: '2026-08-12'
-          }
+          summary: 'Configured XAMPP MySQL database schema and built user authentication forms.',
+          achievements: 'Mastered PHP PDO prepared statements and session management.',
+          fileName: 'Week1_Report.pdf',
+          submittedAt: '2026-03-25',
+          rating: 5,
+          feedback: 'Excellent progress and structured database implementation.'
         }
       ];
-      localStorage.setItem('dis_progress_reports', JSON.stringify(reports));
+      localStorage.setItem('dis_reports', JSON.stringify(defaultReports));
+      return defaultReports;
     }
+    return JSON.parse(data);
+  },
 
-    if (!localStorage.getItem('dis_notifications')) {
-      const notifications = [
+  setProgressReports: function (reports) {
+    localStorage.setItem('dis_reports', JSON.stringify(reports));
+  },
+
+  getNotifications: function (userId) {
+    const data = localStorage.getItem(`dis_notifs_${userId}`);
+    if (!data) {
+      const defaults = [
         {
           id: 'notif_1',
-          userId: 'usr_std1',
-          title: 'Application Shortlisted!',
-          message: 'TechCorp Solutions shortlisted your application for Frontend Developer Intern.',
-          type: 'info',
-          read: false,
-          timestamp: '2026-08-05 10:30'
-        },
-        {
-          id: 'notif_2',
-          userId: 'usr_std1',
-          title: 'New Task Assigned',
-          message: 'Dr. Robert Chen assigned a new task: Implement Responsive Navigation Bar.',
-          type: 'warning',
-          read: false,
-          timestamp: '2026-08-10 14:15'
+          title: 'Onsite Interview Scheduled',
+          message: 'Your onsite interview is scheduled on 25 September 2026 at TechCorp Tower, Suite 400, Islamabad.',
+          timestamp: '2026-03-16',
+          read: false
         }
       ];
-      localStorage.setItem('dis_notifications', JSON.stringify(notifications));
+      localStorage.setItem(`dis_notifs_${userId}`, JSON.stringify(defaults));
+      return defaults;
     }
+    return JSON.parse(data);
+  },
+
+  addNotification: function (userId, title, message, type) {
+    const notifs = this.getNotifications(userId);
+    notifs.unshift({
+      id: 'notif_' + Date.now(),
+      title,
+      message,
+      type: type || 'info',
+      timestamp: new Date().toISOString().split('T')[0],
+      read: false
+    });
+    localStorage.setItem(`dis_notifs_${userId}`, JSON.stringify(notifs));
+  },
+
+  markAllNotificationsRead: function (userId) {
+    const notifs = this.getNotifications(userId);
+    notifs.forEach(n => n.read = true);
+    localStorage.setItem(`dis_notifs_${userId}`, JSON.stringify(notifs));
+  },
+
+  clearAllNotifications: function (userId) {
+    localStorage.setItem(`dis_notifs_${userId}`, JSON.stringify([]));
+  },
+
+  getCurrentUser: function () {
+    const data = localStorage.getItem('dis_current_user');
+    return data ? JSON.parse(data) : null;
+  },
+
+  setCurrentUser: function (user) {
+    localStorage.setItem('dis_current_user', JSON.stringify(user));
+  },
+
+  logout: function () {
+    localStorage.removeItem('dis_current_user');
+    window.location.href = 'signin.php';
+  },
+
+  checkAuth: function (allowedRoles) {
+    const user = this.getCurrentUser();
+    if (!user) {
+      return null;
+    }
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+      alert('Unauthorized access! Redirecting to dashboard...');
+      window.location.href = `dashboard-${user.role}.php`;
+      return null;
+    }
+    return user;
+  },
+
+  validateFutureDate: function (dateString) {
+    if (!dateString) return false;
+    const inputDate = new Date(dateString);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return inputDate >= today;
+  },
+
+  exportCSV: function (type) {
+    let data = [];
+    let filename = `${type}_report_${new Date().toISOString().split('T')[0]}.csv`;
+
+    if (type === 'users') data = this.getUsers();
+    else if (type === 'internships') data = this.getInternships();
+    else if (type === 'applications') data = this.getApplications();
+
+    if (data.length === 0) {
+      alert('No data available to export.');
+      return;
+    }
+
+    const keys = Object.keys(data[0]);
+    let csvContent = 'data:text/csv;charset=utf-8,' + keys.join(',') + '\n';
+
+    data.forEach(row => {
+      let values = keys.map(k => {
+        let val = row[k] === null || row[k] === undefined ? '' : row[k];
+        if (typeof val === 'object') val = JSON.stringify(val).replace(/"/g, '""');
+        return `"${val}"`;
+      });
+      csvContent += values.join(',') + '\n';
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  },
+
+  showToast: function (message, type = 'info') {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type} alert-dismissible fade show position-fixed top-0 end-0 m-3 shadow-lg`;
+    alertDiv.style.zIndex = 9999;
+    alertDiv.innerHTML = `
+      <span>${message}</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(alertDiv);
+
+    setTimeout(() => {
+      if (document.body.contains(alertDiv)) {
+        alertDiv.remove();
+      }
+    }, 3500);
   }
+};
 
-  initSeedData();
-
-  // Helper State Management Functions
-  window.DIS = {
-    getCurrentUser: function () {
-      const userStr = localStorage.getItem('dis_current_user');
-      return userStr ? JSON.parse(userStr) : null;
-    },
-    setCurrentUser: function (user) {
-      localStorage.setItem('dis_current_user', JSON.stringify(user));
-    },
-    logout: function () {
-      localStorage.removeItem('dis_current_user');
-      window.location.href = 'signin.php';
-    },
-    checkAuth: function (allowedRoles) {
-      const user = this.getCurrentUser();
-      if (!user) {
-        window.location.href = 'signin.php';
-        return null;
-      }
-      if (allowedRoles && !allowedRoles.includes(user.role)) {
-        alert('Unauthorized access! Redirecting to correct dashboard...');
-        window.location.href = `dashboard-${user.role}.php`;
-        return null;
-      }
-      return user;
-    },
-
-    showToast: function (message, type = 'success') {
-      let container = document.getElementById('toast-container');
-      if (!container) {
-        container = document.createElement('div');
-        container.id = 'toast-container';
-        document.body.appendChild(container);
-      }
-      const toast = document.createElement('div');
-      toast.className = `toast toast-${type}`;
-      
-      let icon = 'fa-check-circle';
-      if (type === 'info') icon = 'fa-info-circle';
-      if (type === 'warning') icon = 'fa-exclamation-triangle';
-      if (type === 'danger') icon = 'fa-exclamation-circle';
-
-      toast.innerHTML = `
-        <i class="fas ${icon} text-lg"></i>
-        <div class="flex-1">${message}</div>
-        <button class="ml-2 hover:opacity-75" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
-      `;
-      container.appendChild(toast);
-      setTimeout(() => {
-        if (toast.parentElement) toast.remove();
-      }, 4000);
-    },
-
-    addNotification: function (userId, title, message, type = 'info') {
-      const notifications = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
-      const newNotif = {
-        id: 'notif_' + Date.now(),
-        userId,
-        title,
-        message,
-        type,
-        read: false,
-        timestamp: new Date().toLocaleString()
-      };
-      notifications.unshift(newNotif);
-      localStorage.setItem('dis_notifications', JSON.stringify(notifications));
-    },
-
-    initTheme: function () {
-      const savedTheme = localStorage.getItem('dis_theme') || 'light';
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    },
-    toggleTheme: function () {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('dis_theme', isDark ? 'dark' : 'light');
-      this.showToast(`Switched to ${isDark ? 'Dark' : 'Light'} Mode`, 'info');
-    },
-
-    validateFutureDate: function (dateString) {
-      if (!dateString) return false;
-      const inputDate = new Date(dateString);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return inputDate >= today;
-    },
-
-    getUsers: () => JSON.parse(localStorage.getItem('dis_users') || '[]'),
-    setUsers: (users) => localStorage.setItem('dis_users', JSON.stringify(users)),
-
-    getInternships: () => JSON.parse(localStorage.getItem('dis_internships') || '[]'),
-    setInternships: (data) => localStorage.setItem('dis_internships', JSON.stringify(data)),
-
-    getApplications: () => JSON.parse(localStorage.getItem('dis_applications') || '[]'),
-    setApplications: (data) => localStorage.setItem('dis_applications', JSON.stringify(data)),
-
-    getTasks: () => JSON.parse(localStorage.getItem('dis_tasks') || '[]'),
-    setTasks: (data) => localStorage.setItem('dis_tasks', JSON.stringify(data)),
-
-    getProgressReports: () => JSON.parse(localStorage.getItem('dis_progress_reports') || '[]'),
-    setProgressReports: (data) => localStorage.setItem('dis_progress_reports', JSON.stringify(data)),
-
-    getNotifications: (userId) => {
-      const notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
-      return userId ? notifs.filter(n => n.userId === userId) : notifs;
-    },
-
-    markAllNotificationsRead: function (userId) {
-      let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
-      notifs = notifs.map(n => n.userId === userId ? { ...n, read: true } : n);
-      localStorage.setItem('dis_notifications', JSON.stringify(notifs));
-    },
-
-    clearAllNotifications: function (userId) {
-      let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
-      notifs = notifs.filter(n => n.userId !== userId);
-      localStorage.setItem('dis_notifications', JSON.stringify(notifs));
-    },
-
-    markNotificationRead: function (notifId) {
-      let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
-      notifs = notifs.map(n => n.id === notifId ? { ...n, read: true } : n);
-      localStorage.setItem('dis_notifications', JSON.stringify(notifs));
-    },
-
-    clearNotification: function (notifId) {
-      let notifs = JSON.parse(localStorage.getItem('dis_notifications') || '[]');
-      notifs = notifs.filter(n => n.id !== notifId);
-      localStorage.setItem('dis_notifications', JSON.stringify(notifs));
-    },
-
-    exportToCSV: function (filename, rows) {
-      if (!rows || !rows.length) {
-        this.showToast('No data available to export', 'warning');
-        return;
-      }
-      const headers = Object.keys(rows[0]).join(',');
-      const body = rows.map(r => 
-        Object.values(r).map(v => `"${String(v || '').replace(/"/g, '""')}"`).join(',')
-      ).join('\n');
-      const csvContent = 'data:text/csv;charset=utf-8,' + headers + '\n' + body;
-      const encodedUri = encodeURI(csvContent);
-      const link = document.createElement('a');
-      link.setAttribute('href', encodedUri);
-      link.setAttribute('download', filename);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      this.showToast(`Exported ${filename} successfully`, 'success');
-    }
-  };
-
-  window.DIS.initTheme();
-
-})();
+window.DIS = DIS;

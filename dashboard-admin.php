@@ -1,33 +1,18 @@
 <?php
-// dashboard-admin.php - System Admin Dashboard
-$pageTitle = "Admin Dashboard - Digital Internship System";
-require_once __DIR__ . '/config/db.php';
+// dashboard-admin.php - System Administrator Portal
+$pageTitle = "Admin Portal - Digital Internship System";
+require_once __DIR__ . '/includes/header.php';
 
-// Session Auth Check
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     $_SESSION['user'] = [
         'id' => 'usr_adm1',
         'name' => 'System Admin',
-        'email' => 'admin@dis.com',
+        'email' => 'admin123@gmail.com',
         'role' => 'admin'
     ];
 }
 $currentAdmin = $_SESSION['user'];
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $pageTitle; ?></title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="bg-light">
 
 <!-- Top Header Bar -->
 <header class="bg-white border-bottom py-2 sticky-top shadow-sm">
@@ -40,23 +25,17 @@ $currentAdmin = $_SESSION['user'];
     </div>
     
     <div class="d-flex align-items-center gap-3">
-      <button onclick="DIS.toggleTheme()" class="btn btn-outline-secondary btn-sm" title="Toggle Theme">
-        <i class="fas fa-moon"></i>
+      <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
+        <i class="fas fa-bell"></i>
+        <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
       </button>
-
-      <div class="position-relative">
-        <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
-          <i class="fas fa-bell"></i>
-          <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-        </button>
-      </div>
     </div>
   </div>
 </header>
 
 <div class="container-fluid px-4 py-4">
   <div class="row g-4">
-    <!-- Left Sidebar -->
+    <!-- Left Sidebar Navigation -->
     <div class="col-md-3 col-lg-2">
       <div class="card shadow-sm border-0 mb-4">
         <div class="card-body text-center p-3">
@@ -64,7 +43,7 @@ $currentAdmin = $_SESSION['user'];
             <i class="fas fa-user-shield fa-lg"></i>
           </div>
           <h6 class="font-weight-bold mb-0"><?php echo htmlspecialchars($currentAdmin['name']); ?></h6>
-          <small class="text-muted extra-small d-block"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
+          <small class="text-muted extra-small d-block text-break"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
         </div>
         
         <div class="list-group list-group-flush border-top">
@@ -151,7 +130,7 @@ $currentAdmin = $_SESSION['user'];
                 </tr>
               </thead>
               <tbody id="admin-users-table-body">
-                <!-- Loaded via JS -->
+                <!-- Dynamically populated -->
               </tbody>
             </table>
           </div>
@@ -162,7 +141,7 @@ $currentAdmin = $_SESSION['user'];
       <div id="tab-adm-companies" class="tab-content d-none">
         <h4 class="font-weight-bold mb-3">Company Certificate Verification</h4>
         <div id="company-cert-list" class="space-y-3">
-          <!-- Loaded via JS -->
+          <!-- Dynamically populated -->
         </div>
       </div>
 
@@ -173,27 +152,27 @@ $currentAdmin = $_SESSION['user'];
             <i class="fas fa-file-csv text-success me-2"></i> Export System Audit Reports (CSV Format)
           </div>
           <div class="card-body">
-            <p class="text-muted small mb-4">Download structured CSV reports for university audits and official record keeping.</p>
+            <p class="text-muted small mb-4">Export structured CSV data for university audit and evaluation records.</p>
             <div class="row g-3">
               <div class="col-md-4">
                 <div class="p-3 border rounded text-center bg-light">
-                  <h6 class="font-weight-bold">Users Directory Report</h6>
-                  <p class="extra-small text-muted mb-3">Export all registered students, HRs, and supervisors.</p>
-                  <button onclick="DIS.exportCSV('users')" class="btn btn-outline-primary btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Download Users CSV</button>
+                  <h6 class="font-weight-bold">Users Directory</h6>
+                  <p class="extra-small text-muted mb-3">Export all registered users.</p>
+                  <button onclick="DIS.exportCSV('users')" class="btn btn-outline-primary btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Export Users CSV</button>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="p-3 border rounded text-center bg-light">
-                  <h6 class="font-weight-bold">Internship Postings Report</h6>
-                  <p class="extra-small text-muted mb-3">Export list of all active/expired internship postings.</p>
-                  <button onclick="DIS.exportCSV('internships')" class="btn btn-outline-success btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Download Postings CSV</button>
+                  <h6 class="font-weight-bold">Internship Postings</h6>
+                  <p class="extra-small text-muted mb-3">Export all posted opportunities.</p>
+                  <button onclick="DIS.exportCSV('internships')" class="btn btn-outline-success btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Export Postings CSV</button>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="p-3 border rounded text-center bg-light">
-                  <h6 class="font-weight-bold">Applications & Selection Report</h6>
-                  <p class="extra-small text-muted mb-3">Export application statuses, interviews, and selections.</p>
-                  <button onclick="DIS.exportCSV('applications')" class="btn btn-outline-warning btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Download Applications CSV</button>
+                  <h6 class="font-weight-bold">Applications Log</h6>
+                  <p class="extra-small text-muted mb-3">Export application statuses.</p>
+                  <button onclick="DIS.exportCSV('applications')" class="btn btn-outline-warning btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Export Applications CSV</button>
                 </div>
               </div>
             </div>
@@ -295,11 +274,11 @@ $currentAdmin = $_SESSION['user'];
   }
 
   function deleteUser(userId) {
-    if (confirm('Are you sure you want to delete this user?')) {
+    if (confirm('Delete this user account?')) {
       let users = DIS.getUsers();
       users = users.filter(u => u.id !== userId);
       DIS.setUsers(users);
-      DIS.showToast('User deleted successfully!', 'info');
+      DIS.showToast('User deleted!', 'info');
       renderUsersTable();
       renderAdminStats();
     }
@@ -311,7 +290,7 @@ $currentAdmin = $_SESSION['user'];
     container.innerHTML = '';
 
     if (companies.length === 0) {
-      container.innerHTML = '<div class="text-center py-4 text-muted">No companies registered yet.</div>';
+      container.innerHTML = '<div class="text-center py-4 text-muted">No companies registered.</div>';
       return;
     }
 
@@ -346,7 +325,7 @@ $currentAdmin = $_SESSION['user'];
     if (comp) {
       comp.verified = true;
       DIS.setUsers(users);
-      DIS.showToast('Company certificate verified!', 'success');
+      DIS.showToast('Company verified!', 'success');
       renderCompanyCertificates();
     }
   }
@@ -355,7 +334,7 @@ $currentAdmin = $_SESSION['user'];
     const notifs = DIS.getNotifications(currentAdmin.id);
     const container = document.getElementById('notif-list-container');
     if (!container) return;
-    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No new notifications</div>';
+    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No notifications</div>';
     notifs.forEach(n => {
       container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
     });

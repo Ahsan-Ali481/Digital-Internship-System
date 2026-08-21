@@ -1,34 +1,18 @@
 <?php
-// dashboard-student.php - Student Dashboard
-$pageTitle = "Student Dashboard - Digital Internship System";
-require_once __DIR__ . '/config/db.php';
+// dashboard-student.php - Student Portal with Left Sidebar Navigation
+$pageTitle = "Student Portal - Digital Internship System";
+require_once __DIR__ . '/includes/header.php';
 
-// Session Auth Check
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'student') {
-    // Default student session for demo if accessing directly
     $_SESSION['user'] = [
         'id' => 'usr_std1',
         'name' => 'Ahmed Hassan',
-        'email' => 'ahmed.hassan@gmail.com',
+        'email' => 'ahmed123@gmail.com',
         'role' => 'student'
     ];
 }
 $currentUser = $_SESSION['user'];
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $pageTitle; ?></title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="bg-light">
 
 <!-- Top Header Bar -->
 <header class="bg-white border-bottom py-2 sticky-top shadow-sm">
@@ -41,27 +25,17 @@ $currentUser = $_SESSION['user'];
     </div>
     
     <div class="d-flex align-items-center gap-3">
-      <!-- Theme Toggle -->
-      <button onclick="DIS.toggleTheme()" class="btn btn-outline-secondary btn-sm" title="Toggle Light/Dark Theme">
-        <i class="fas fa-moon"></i>
+      <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
+        <i class="fas fa-bell"></i>
+        <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
       </button>
-
-      <!-- Notification Bell with Badge -->
-      <div class="position-relative">
-        <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
-          <i class="fas fa-bell"></i>
-          <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            2
-          </span>
-        </button>
-      </div>
     </div>
   </div>
 </header>
 
 <div class="container-fluid px-4 py-4">
   <div class="row g-4">
-    <!-- Left Vertical Sidebar -->
+    <!-- Left Sidebar with Student Modules -->
     <div class="col-md-3 col-lg-2">
       <div class="card shadow-sm border-0 mb-4">
         <div class="card-body text-center p-3">
@@ -74,7 +48,7 @@ $currentUser = $_SESSION['user'];
         
         <div class="list-group list-group-flush border-top">
           <button onclick="switchTab('browse')" class="list-group-item list-group-item-action active text-start font-weight-semibold" id="link-browse">
-            <i class="fas fa-search me-2 text-primary"></i> Browse Internships
+            <i class="fas fa-search me-2 text-primary"></i> Browse Opportunities
           </button>
           <button onclick="switchTab('applications')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-applications">
             <i class="fas fa-paper-plane me-2 text-success"></i> My Applications
@@ -86,7 +60,7 @@ $currentUser = $_SESSION['user'];
             <i class="fas fa-clipboard-check me-2 text-info"></i> Weekly Reports
           </button>
           <button onclick="switchTab('profile')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-profile">
-            <i class="fas fa-user-edit me-2 text-secondary"></i> Profile & Resume
+            <i class="fas fa-user-edit me-2 text-secondary"></i> Profile Manager
           </button>
           <a href="logout.php" class="list-group-item list-group-item-action text-danger text-start font-weight-semibold">
             <i class="fas fa-sign-out-alt me-2"></i> Logout
@@ -101,12 +75,12 @@ $currentUser = $_SESSION['user'];
       <!-- TAB 1: BROWSE INTERNSHIPS -->
       <div id="tab-browse" class="tab-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="font-weight-bold mb-0">Browse Available Internships</h4>
-          <span class="text-muted small">Find software, design & engineering roles</span>
+          <h4 class="font-weight-bold mb-0">Available Internships</h4>
+          <span class="text-muted small">Explore software, design & engineering roles</span>
         </div>
 
         <div class="row g-3 mb-4">
-          <div class="col-md-5">
+          <div class="col-md-6">
             <input type="text" id="search-input" onkeyup="filterInternships()" class="form-control form-control-sm" placeholder="Search title or company...">
           </div>
           <div class="col-md-4">
@@ -120,7 +94,7 @@ $currentUser = $_SESSION['user'];
         </div>
 
         <div id="internships-grid" class="row g-3">
-          <!-- Dynamic Internships loaded via app.js -->
+          <!-- Dynamically populated -->
         </div>
       </div>
 
@@ -139,12 +113,12 @@ $currentUser = $_SESSION['user'];
                   <th>Internship Title & Company</th>
                   <th>Applied Date</th>
                   <th>Status</th>
-                  <th>Interview Schedule</th>
-                  <th>CV File</th>
+                  <th>Onsite Physical Interview Schedule</th>
+                  <th>CV Attachment</th>
                 </tr>
               </thead>
               <tbody id="student-apps-table-body">
-                <!-- Loaded via JS -->
+                <!-- Dynamically populated -->
               </tbody>
             </table>
           </div>
@@ -153,9 +127,9 @@ $currentUser = $_SESSION['user'];
 
       <!-- TAB 3: SUPERVISOR TASKS -->
       <div id="tab-tasks" class="tab-content d-none">
-        <h4 class="font-weight-bold mb-3">Workplace Supervisor Tasks</h4>
+        <h4 class="font-weight-bold mb-3">Assigned Supervisor Tasks</h4>
         <div id="student-tasks-list" class="row g-3">
-          <!-- Loaded via JS -->
+          <!-- Dynamically populated -->
         </div>
       </div>
 
@@ -173,36 +147,36 @@ $currentUser = $_SESSION['user'];
                   <input type="number" id="rep-week" min="1" max="16" required class="form-control form-control-sm" placeholder="e.g. 1">
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label font-weight-semibold">Attachment (PDF/ZIP)</label>
+                  <label class="form-label font-weight-semibold">Report Attachment (PDF/ZIP)</label>
                   <input type="file" id="rep-file" class="form-control form-control-sm">
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Weekly Summary of Tasks Completed</label>
-                <textarea id="rep-summary" required rows="3" class="form-control form-control-sm" placeholder="Describe the tasks completed this week..."></textarea>
+                <label class="form-label font-weight-semibold">Tasks Completed Summary</label>
+                <textarea id="rep-summary" required rows="3" class="form-control form-control-sm" placeholder="Describe tasks completed..."></textarea>
               </div>
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Key Achievements & Skills Learned</label>
-                <textarea id="rep-achievements" required rows="2" class="form-control form-control-sm" placeholder="Mention key achievements..."></textarea>
+                <label class="form-label font-weight-semibold">Key Achievements & Skills Gained</label>
+                <textarea id="rep-achievements" required rows="2" class="form-control form-control-sm" placeholder="Describe key achievements..."></textarea>
               </div>
               <button type="submit" class="btn btn-primary btn-sm font-weight-bold">
-                <i class="fas fa-paper-plane me-1"></i> Submit Progress Report
+                <i class="fas fa-paper-plane me-1"></i> Submit Report
               </button>
             </form>
           </div>
         </div>
 
-        <h5 class="font-weight-bold mb-3">Past Submitted Reports & Feedback</h5>
+        <h5 class="font-weight-bold mb-3">Submitted Reports History</h5>
         <div id="student-reports-list" class="space-y-3">
-          <!-- Loaded via JS -->
+          <!-- Dynamically populated -->
         </div>
       </div>
 
-      <!-- TAB 5: PROFILE & RESUME MANAGER -->
+      <!-- TAB 5: PROFILE MANAGER -->
       <div id="tab-profile" class="tab-content d-none">
         <div class="card shadow-sm border-0">
           <div class="card-header bg-white font-weight-bold">
-            <i class="fas fa-user-edit text-primary me-2"></i> Edit Student Profile & Resume
+            <i class="fas fa-user-edit text-primary me-2"></i> Update Profile & Gmail Address
           </div>
           <div class="card-body">
             <form onsubmit="saveStudentProfile(event)">
@@ -217,11 +191,11 @@ $currentUser = $_SESSION['user'];
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Update Resume / CV (PDF File)</label>
+                <label class="form-label font-weight-semibold">Upload Updated Resume (PDF)</label>
                 <input type="file" id="prof-resume" class="form-control">
               </div>
               <button type="submit" class="btn btn-primary font-weight-bold">
-                <i class="fas fa-save me-1"></i> Save Profile Changes
+                <i class="fas fa-save me-1"></i> Save Changes
               </button>
             </form>
           </div>
@@ -232,12 +206,12 @@ $currentUser = $_SESSION['user'];
   </div>
 </div>
 
-<!-- APPLY MODAL -->
+<!-- APPLICATION MODAL -->
 <div class="modal fade" id="applyModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title font-weight-bold">Submit Internship Application</h5>
+        <h5 class="modal-title font-weight-bold">Submit Application</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="submitApplication(event)">
@@ -245,17 +219,17 @@ $currentUser = $_SESSION['user'];
           <input type="hidden" id="apply-int-id">
           <input type="hidden" id="apply-comp-id">
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Position Title</label>
+            <label class="form-label font-weight-semibold">Internship Title</label>
             <input type="text" id="apply-int-title" readonly class="form-control-plaintext font-weight-bold text-primary">
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Upload CV / Resume (PDF)</label>
+            <label class="form-label font-weight-semibold">Upload CV (PDF)</label>
             <input type="file" id="apply-cv" required class="form-control">
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Confirm & Submit Application</button>
+          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Submit Application</button>
         </div>
       </form>
     </div>
@@ -272,16 +246,10 @@ $currentUser = $_SESSION['user'];
       </div>
       <div class="modal-body">
         <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
-          <button onclick="markAllNotificationsRead()" class="btn btn-link btn-sm text-decoration-none font-weight-bold p-0">
-            <i class="fas fa-check-double me-1"></i> Mark All as Read
-          </button>
-          <button onclick="clearAllNotifications()" class="btn btn-link btn-sm text-danger text-decoration-none font-weight-bold p-0">
-            <i class="fas fa-trash-alt me-1"></i> Clear All
-          </button>
+          <button onclick="markAllNotificationsRead()" class="btn btn-link btn-sm text-decoration-none font-weight-bold p-0">Mark All Read</button>
+          <button onclick="clearAllNotifications()" class="btn btn-link btn-sm text-danger text-decoration-none font-weight-bold p-0">Clear All</button>
         </div>
-        <div id="notif-list-container" class="space-y-2 max-vh-50 overflow-auto">
-          <!-- Loaded via JS -->
-        </div>
+        <div id="notif-list-container" class="space-y-2"></div>
       </div>
     </div>
   </div>
@@ -318,7 +286,7 @@ $currentUser = $_SESSION['user'];
     grid.innerHTML = '';
 
     if (internships.length === 0) {
-      grid.innerHTML = '<div class="col-12 text-center py-4 text-muted">No active internships posted at the moment.</div>';
+      grid.innerHTML = '<div class="col-12 text-center py-4 text-muted">No active internships posted.</div>';
       return;
     }
 
@@ -338,9 +306,7 @@ $currentUser = $_SESSION['user'];
           </div>
           <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center">
             <span class="text-success font-weight-bold small">${item.stipend}</span>
-            <button onclick="openApplyModal('${item.id}', '${item.companyId}', '${item.title}')" class="btn btn-primary btn-sm font-weight-bold">
-              Apply Now
-            </button>
+            <button onclick="openApplyModal('${item.id}', '${item.companyId}', '${item.title}')" class="btn btn-primary btn-sm font-weight-bold">Apply</button>
           </div>
         </div>
       `;
@@ -433,7 +399,7 @@ $currentUser = $_SESSION['user'];
 
         interviewHtml = `
           <div class="small">
-            <div class="font-weight-bold"><i class="far fa-calendar-alt text-primary me-1"></i> ${formattedDateTime}</div>
+            <div class="font-weight-bold text-dark"><i class="far fa-calendar-alt text-primary me-1"></i> ${formattedDateTime}</div>
             <div class="bg-light p-1 rounded mt-1 border extra-small">
               <i class="fas fa-map-marker-alt text-danger me-1"></i> <strong>Venue Address:</strong> ${venueAddress}
             </div>
@@ -462,7 +428,7 @@ $currentUser = $_SESSION['user'];
     container.innerHTML = '';
 
     if (tasks.length === 0) {
-      container.innerHTML = '<div class="col-12 text-center py-4 text-muted">No tasks assigned by your supervisor yet.</div>';
+      container.innerHTML = '<div class="col-12 text-center py-4 text-muted">No tasks assigned by supervisor yet.</div>';
       return;
     }
 
@@ -482,7 +448,7 @@ $currentUser = $_SESSION['user'];
           </div>
           <div class="card-footer bg-white border-0">
             <button onclick="toggleTaskStatus('${task.id}')" class="btn btn-outline-primary btn-sm w-100 font-weight-bold">
-              <i class="fas ${isDone ? 'fa-undo' : 'fa-check'} me-1"></i> Mark as ${isDone ? 'Pending' : 'Completed'}
+              Mark as ${isDone ? 'Pending' : 'Completed'}
             </button>
           </div>
         </div>
@@ -497,7 +463,7 @@ $currentUser = $_SESSION['user'];
     if (task) {
       task.status = task.status === 'Completed' ? 'Pending' : 'Completed';
       DIS.setTasks(tasks);
-      DIS.showToast(`Task status updated to ${task.status}`, 'success');
+      DIS.showToast(`Task marked as ${task.status}`, 'success');
       renderMyTasks();
     }
   }
@@ -554,9 +520,9 @@ $currentUser = $_SESSION['user'];
           ${r.rating ? `
             <div class="bg-light p-2 rounded border border-success extra-small">
               <span class="text-success font-weight-bold"><i class="fas fa-star text-warning me-1"></i> Rating: ${r.rating}/5</span>
-              <div class="text-muted mt-1"><strong>Supervisor Feedback:</strong> ${r.feedback || 'Great work!'}</div>
+              <div class="text-muted mt-1"><strong>Feedback:</strong> ${r.feedback || 'Great job!'}</div>
             </div>
-          ` : '<span class="badge bg-secondary extra-small">Pending Supervisor Review</span>'}
+          ` : '<span class="badge bg-secondary extra-small">Pending Review</span>'}
         </div>
       `;
       container.appendChild(card);
@@ -583,7 +549,7 @@ $currentUser = $_SESSION['user'];
 
       document.getElementById('user-name').innerText = name;
       document.getElementById('user-email').innerText = email;
-      DIS.showToast('Profile updated successfully!', 'success');
+      DIS.showToast('Profile updated!', 'success');
     }
   }
 
@@ -594,59 +560,25 @@ $currentUser = $_SESSION['user'];
 
     const unreadCount = notifs.filter(n => n.read !== true).length;
     if (badge) {
-      if (unreadCount > 0) {
-        badge.innerText = unreadCount;
-        badge.classList.remove('d-none');
-      } else {
-        badge.innerText = '0';
-        badge.classList.add('d-none');
-      }
+      badge.innerText = unreadCount;
+      if (unreadCount === 0) badge.classList.add('d-none');
+      else badge.classList.remove('d-none');
     }
 
     if (!container) return;
-    container.innerHTML = '';
-    if (notifs.length === 0) {
-      container.innerHTML = '<div class="text-center py-4 text-muted small"><i class="far fa-bell-slash me-1"></i> No notifications present</div>';
-      return;
-    }
-
+    container.innerHTML = notifs.length ? '' : '<div class="text-center py-3 text-muted small">No notifications</div>';
     notifs.forEach(n => {
-      const div = document.createElement('div');
-      div.className = `p-2 rounded border mb-2 small ${n.read ? 'bg-light text-muted' : 'bg-primary-subtle text-dark font-weight-semibold'}`;
-      div.innerHTML = `
-        <div class="d-flex justify-content-between">
-          <span>${n.title}</span>
-          <small class="text-muted extra-small">${n.timestamp}</small>
-        </div>
-        <p class="mb-1 extra-small">${n.message}</p>
-        <div class="d-flex justify-content-end gap-2">
-          ${!n.read ? `<button onclick="markSingleNotifRead('${n.id}')" class="btn btn-link btn-sm p-0 extra-small text-decoration-none">Mark Read</button>` : ''}
-          <button onclick="clearSingleNotif('${n.id}')" class="btn btn-link btn-sm p-0 extra-small text-danger text-decoration-none">Clear</button>
-        </div>
-      `;
-      container.appendChild(div);
+      container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
     });
   }
 
   function markAllNotificationsRead() {
     DIS.markAllNotificationsRead(currentUser.id);
-    DIS.showToast('All notifications marked as read', 'success');
     loadNotifications();
   }
 
   function clearAllNotifications() {
     DIS.clearAllNotifications(currentUser.id);
-    DIS.showToast('All notifications cleared', 'info');
-    loadNotifications();
-  }
-
-  function markSingleNotifRead(id) {
-    DIS.markNotificationRead(id);
-    loadNotifications();
-  }
-
-  function clearSingleNotif(id) {
-    DIS.clearNotification(id);
     loadNotifications();
   }
 

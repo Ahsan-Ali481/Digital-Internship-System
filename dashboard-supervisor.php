@@ -1,33 +1,18 @@
 <?php
-// dashboard-supervisor.php - Workplace Supervisor Dashboard
-$pageTitle = "Supervisor Dashboard - Digital Internship System";
-require_once __DIR__ . '/config/db.php';
+// dashboard-supervisor.php - Supervisor Portal with Left Sidebar Navigation
+$pageTitle = "Supervisor Portal - Digital Internship System";
+require_once __DIR__ . '/includes/header.php';
 
-// Session Auth Check
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'supervisor') {
     $_SESSION['user'] = [
         'id' => 'usr_sup1',
         'name' => 'Dr. Robert Chen',
-        'email' => 'supervisor@techcorp.com',
+        'email' => 'supervisor123@gmail.com',
         'role' => 'supervisor'
     ];
 }
 $currentSup = $_SESSION['user'];
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $pageTitle; ?></title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="bg-light">
 
 <!-- Top Header Bar -->
 <header class="bg-white border-bottom py-2 sticky-top shadow-sm">
@@ -40,23 +25,17 @@ $currentSup = $_SESSION['user'];
     </div>
     
     <div class="d-flex align-items-center gap-3">
-      <button onclick="DIS.toggleTheme()" class="btn btn-outline-secondary btn-sm" title="Toggle Theme">
-        <i class="fas fa-moon"></i>
+      <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
+        <i class="fas fa-bell"></i>
+        <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
       </button>
-
-      <div class="position-relative">
-        <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
-          <i class="fas fa-bell"></i>
-          <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-        </button>
-      </div>
     </div>
   </div>
 </header>
 
 <div class="container-fluid px-4 py-4">
   <div class="row g-4">
-    <!-- Left Sidebar -->
+    <!-- Left Sidebar Navigation -->
     <div class="col-md-3 col-lg-2">
       <div class="card shadow-sm border-0 mb-4">
         <div class="card-body text-center p-3">
@@ -64,7 +43,7 @@ $currentSup = $_SESSION['user'];
             <i class="fas fa-user-tie fa-lg"></i>
           </div>
           <h6 class="font-weight-bold mb-0"><?php echo htmlspecialchars($currentSup['name']); ?></h6>
-          <small class="text-muted extra-small d-block"><?php echo htmlspecialchars($currentSup['email']); ?></small>
+          <small class="text-muted extra-small d-block text-break"><?php echo htmlspecialchars($currentSup['email']); ?></small>
         </div>
         
         <div class="list-group list-group-flush border-top">
@@ -107,8 +86,8 @@ $currentSup = $_SESSION['user'];
                 <input type="text" id="task-title" required class="form-control" placeholder="e.g. Implement Responsive Navigation Component">
               </div>
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Task Instructions & Guidance</label>
-                <textarea id="task-desc" required rows="3" class="form-control" placeholder="Provide detailed instructions..."></textarea>
+                <label class="form-label font-weight-semibold">Task Instructions</label>
+                <textarea id="task-desc" required rows="3" class="form-control" placeholder="Provide instructions..."></textarea>
               </div>
               <button type="submit" class="btn btn-success font-weight-bold">
                 <i class="fas fa-paper-plane me-1"></i> Issue Task
@@ -117,17 +96,17 @@ $currentSup = $_SESSION['user'];
           </div>
         </div>
 
-        <h5 class="font-weight-bold mb-3">Assigned Tasks Overview</h5>
+        <h5 class="font-weight-bold mb-3">Issued Tasks Overview</h5>
         <div id="issued-tasks-grid" class="row g-3">
-          <!-- Loaded via JS -->
+          <!-- Dynamically populated -->
         </div>
       </div>
 
       <!-- TAB 2: REVIEW REPORTS -->
       <div id="tab-sup-reports" class="tab-content d-none">
-        <h4 class="font-weight-bold mb-3">Review Intern Progress Reports</h4>
+        <h4 class="font-weight-bold mb-3">Review Progress Reports</h4>
         <div id="supervisor-reports-container" class="space-y-3">
-          <!-- Loaded via JS -->
+          <!-- Dynamically populated -->
         </div>
       </div>
 
@@ -135,19 +114,19 @@ $currentSup = $_SESSION['user'];
   </div>
 </div>
 
-<!-- REVIEW RATING MODAL -->
+<!-- EVALUATION RATING MODAL -->
 <div class="modal fade" id="reviewModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title font-weight-bold">Evaluate Progress Report</h5>
+        <h5 class="modal-title font-weight-bold">Evaluate Report</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveReportEvaluation(event)">
         <div class="modal-body">
           <input type="hidden" id="rev-report-id">
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Performance Rating (1 - 5 Stars)</label>
+            <label class="form-label font-weight-semibold">Rating (1 - 5 Stars)</label>
             <select id="rev-rating" required class="form-select">
               <option value="5">5 Stars - Excellent</option>
               <option value="4">4 Stars - Very Good</option>
@@ -157,7 +136,7 @@ $currentSup = $_SESSION['user'];
             </select>
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Supervisor Feedback / Comments</label>
+            <label class="form-label font-weight-semibold">Supervisor Feedback</label>
             <textarea id="rev-feedback" required rows="3" class="form-control" placeholder="Provide constructive feedback..."></textarea>
           </div>
         </div>
@@ -227,7 +206,7 @@ $currentSup = $_SESSION['user'];
     const description = document.getElementById('task-desc').value;
 
     if (!DIS.validateFutureDate(deadline)) {
-      DIS.showToast('Task deadline must be a future date!', 'warning');
+      DIS.showToast('Deadline must be a future date!', 'warning');
       return;
     }
 
@@ -246,8 +225,8 @@ $currentSup = $_SESSION['user'];
 
     tasks.unshift(newTask);
     DIS.setTasks(tasks);
-    DIS.addNotification(studentId, 'New Workplace Task Assigned', `Your supervisor assigned a new task: ${title}`, 'info');
-    DIS.showToast('Task assigned successfully!', 'success');
+    DIS.addNotification(studentId, 'New Task Assigned', `Task assigned: ${title}`, 'info');
+    DIS.showToast('Task assigned!', 'success');
 
     e.target.reset();
     renderIssuedTasks();
@@ -289,7 +268,7 @@ $currentSup = $_SESSION['user'];
     container.innerHTML = '';
 
     if (reports.length === 0) {
-      container.innerHTML = '<div class="text-center py-4 text-muted">No reports submitted by interns yet.</div>';
+      container.innerHTML = '<div class="text-center py-4 text-muted">No reports submitted.</div>';
       return;
     }
 
@@ -339,8 +318,8 @@ $currentSup = $_SESSION['user'];
       rep.feedback = feedback;
       DIS.setProgressReports(reports);
 
-      DIS.addNotification(rep.studentId, 'Progress Report Evaluated', `Supervisor rated your Week ${rep.weekNumber} report: ${rating}/5`, 'success');
-      DIS.showToast('Evaluation submitted successfully!', 'success');
+      DIS.addNotification(rep.studentId, 'Report Evaluated', `Supervisor rated Week ${rep.weekNumber} report: ${rating}/5`, 'success');
+      DIS.showToast('Evaluation submitted!', 'success');
 
       const modalEl = document.getElementById('reviewModal');
       const modal = bootstrap.Modal.getInstance(modalEl);
@@ -354,7 +333,7 @@ $currentSup = $_SESSION['user'];
     const notifs = DIS.getNotifications(currentSup.id);
     const container = document.getElementById('notif-list-container');
     if (!container) return;
-    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No new notifications</div>';
+    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No notifications</div>';
     notifs.forEach(n => {
       container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
     });

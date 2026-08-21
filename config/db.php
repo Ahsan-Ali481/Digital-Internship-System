@@ -1,5 +1,5 @@
 <?php
-// config/db.php - Standard PDO MySQL Database Connection for Student Project
+// config/db.php - PDO MySQL Connection
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -15,6 +15,6 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
 } catch (PDOException $e) {
-    $db_connection_error = $e->getMessage();
+    $db_error = $e->getMessage();
 }
 ?>

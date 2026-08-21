@@ -1,34 +1,19 @@
 <?php
-// dashboard-company.php - Company HR Dashboard
-$pageTitle = "Company HR Dashboard - Digital Internship System";
-require_once __DIR__ . '/config/db.php';
+// dashboard-company.php - Company HR Portal with Left Sidebar Navigation
+$pageTitle = "Company HR Portal - Digital Internship System";
+require_once __DIR__ . '/includes/header.php';
 
-// Session Auth Check
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'company') {
     $_SESSION['user'] = [
         'id' => 'usr_hr1',
         'name' => 'Sarah Jenkins',
-        'email' => 'hr@techcorp.com',
+        'email' => 'hr123@gmail.com',
         'role' => 'company',
         'companyName' => 'TechCorp Solutions'
     ];
 }
 $currentHR = $_SESSION['user'];
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $pageTitle; ?></title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="bg-light">
 
 <!-- Top Header Bar -->
 <header class="bg-white border-bottom py-2 sticky-top shadow-sm">
@@ -41,23 +26,17 @@ $currentHR = $_SESSION['user'];
     </div>
     
     <div class="d-flex align-items-center gap-3">
-      <button onclick="DIS.toggleTheme()" class="btn btn-outline-secondary btn-sm" title="Toggle Theme">
-        <i class="fas fa-moon"></i>
+      <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
+        <i class="fas fa-bell"></i>
+        <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
       </button>
-
-      <div class="position-relative">
-        <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
-          <i class="fas fa-bell"></i>
-          <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-        </button>
-      </div>
     </div>
   </div>
 </header>
 
 <div class="container-fluid px-4 py-4">
   <div class="row g-4">
-    <!-- Left Sidebar -->
+    <!-- Left Sidebar Navigation -->
     <div class="col-md-3 col-lg-2">
       <div class="card shadow-sm border-0 mb-4">
         <div class="card-body text-center p-3">
@@ -70,7 +49,7 @@ $currentHR = $_SESSION['user'];
         
         <div class="list-group list-group-flush border-top">
           <button onclick="switchHRTab('post')" class="list-group-item list-group-item-action active text-start font-weight-semibold" id="link-hr-post">
-            <i class="fas fa-plus-circle me-2 text-primary"></i> Post Internship
+            <i class="fas fa-plus-circle me-2 text-primary"></i> Post Opportunity
           </button>
           <button onclick="switchHRTab('applicants')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-hr-applicants">
             <i class="fas fa-users me-2 text-info"></i> Applicant Manager
@@ -91,7 +70,7 @@ $currentHR = $_SESSION['user'];
     <!-- Main Content Area -->
     <div class="col-md-9 col-lg-10">
       
-      <!-- Summary Cards Header -->
+      <!-- Stats Header -->
       <div class="row g-3 mb-4">
         <div class="col-md-4">
           <div class="card border-0 shadow-sm bg-primary text-white p-3">
@@ -119,7 +98,7 @@ $currentHR = $_SESSION['user'];
           <div class="card border-0 shadow-sm bg-success text-white p-3">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <small class="text-white-50">Supervisors</small>
+                <small class="text-white-50">Workplace Supervisors</small>
                 <h3 class="mb-0 font-weight-bold" id="stat-supervisors">0</h3>
               </div>
               <i class="fas fa-user-tie fa-2x opacity-50"></i>
@@ -128,7 +107,7 @@ $currentHR = $_SESSION['user'];
         </div>
       </div>
 
-      <!-- TAB 1: POST INTERNSHIP -->
+      <!-- TAB 1: POST OPPORTUNITY -->
       <div id="tab-hr-post" class="tab-content">
         <div class="card shadow-sm border-0">
           <div class="card-header bg-white font-weight-bold">
@@ -167,12 +146,12 @@ $currentHR = $_SESSION['user'];
               </div>
 
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Job Description & Responsibilities</label>
-                <textarea id="post-desc" required rows="3" class="form-control" placeholder="Provide detailed role requirements..."></textarea>
+                <label class="form-label font-weight-semibold">Job Description</label>
+                <textarea id="post-desc" required rows="3" class="form-control" placeholder="Provide role details..."></textarea>
               </div>
 
               <button type="submit" class="btn btn-primary font-weight-bold">
-                <i class="fas fa-check me-1"></i> Publish Internship Opportunity
+                <i class="fas fa-check me-1"></i> Publish Opportunity
               </button>
             </form>
           </div>
@@ -181,7 +160,7 @@ $currentHR = $_SESSION['user'];
 
       <!-- TAB 2: APPLICANTS MANAGER -->
       <div id="tab-hr-applicants" class="tab-content d-none">
-        <h4 class="font-weight-bold mb-3">Manage Candidate Applications</h4>
+        <h4 class="font-weight-bold mb-3">Manage Applicants</h4>
         <div class="card shadow-sm border-0">
           <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
@@ -195,7 +174,7 @@ $currentHR = $_SESSION['user'];
                 </tr>
               </thead>
               <tbody id="company-apps-table-body">
-                <!-- Loaded via JS -->
+                <!-- Dynamically populated -->
               </tbody>
             </table>
           </div>
@@ -207,11 +186,11 @@ $currentHR = $_SESSION['user'];
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="font-weight-bold mb-0">Workplace Supervisors</h4>
           <button onclick="openAddSupervisorModal()" class="btn btn-success btn-sm font-weight-bold">
-            <i class="fas fa-user-plus me-1"></i> Add New Supervisor
+            <i class="fas fa-user-plus me-1"></i> Add Supervisor
           </button>
         </div>
         <div id="supervisors-grid" class="row g-3">
-          <!-- Loaded via JS -->
+          <!-- Dynamically populated -->
         </div>
       </div>
 
@@ -219,7 +198,7 @@ $currentHR = $_SESSION['user'];
       <div id="tab-hr-profile" class="tab-content d-none">
         <div class="card shadow-sm border-0">
           <div class="card-header bg-white font-weight-bold">
-            <i class="fas fa-edit text-primary me-2"></i> Edit Company Profile
+            <i class="fas fa-edit text-primary me-2"></i> Edit Company Info
           </div>
           <div class="card-body">
             <form onsubmit="updateCompanyProfile(event)">
@@ -238,7 +217,7 @@ $currentHR = $_SESSION['user'];
                 </div>
               </div>
               <button type="submit" class="btn btn-primary font-weight-bold">
-                <i class="fas fa-save me-1"></i> Save Company Info
+                <i class="fas fa-save me-1"></i> Save Changes
               </button>
             </form>
           </div>
@@ -249,12 +228,12 @@ $currentHR = $_SESSION['user'];
   </div>
 </div>
 
-<!-- ONSITE INTERVIEW SCHEDULER MODAL -->
+<!-- ONSITE PHYSICAL INTERVIEW SCHEDULER MODAL -->
 <div class="modal fade" id="interviewModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title font-weight-bold">Schedule Onsite Physical Interview</h5>
+        <h5 class="modal-title font-weight-bold">Schedule Physical Onsite Interview</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveInterviewSchedule(event)">
@@ -271,7 +250,7 @@ $currentHR = $_SESSION['user'];
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Interview Venue Address (Physical Office)</label>
+            <label class="form-label font-weight-semibold">Physical Office Venue Address</label>
             <input type="text" id="int-link" required placeholder="e.g. TechCorp Tower, Suite 400, Silicon Avenue, Islamabad" class="form-control form-control-sm">
           </div>
         </div>
@@ -295,15 +274,15 @@ $currentHR = $_SESSION['user'];
       <form onsubmit="saveNewSupervisor(event)">
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Supervisor Full Name</label>
+            <label class="form-label font-weight-semibold">Supervisor Name</label>
             <input type="text" id="sup-name" required class="form-control">
           </div>
           <div class="mb-3">
             <label class="form-label font-weight-semibold">Email Address</label>
-            <input type="email" id="sup-email" required class="form-control">
+            <input type="email" id="sup-email" required class="form-control" placeholder="supervisor123@gmail.com">
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Designation / Role</label>
+            <label class="form-label font-weight-semibold">Designation</label>
             <input type="text" id="sup-designation" required class="form-control" placeholder="e.g. Senior Software Engineer">
           </div>
         </div>
@@ -321,7 +300,7 @@ $currentHR = $_SESSION['user'];
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title font-weight-bold">Assign Workplace Supervisor</h5>
+        <h5 class="modal-title font-weight-bold">Assign Supervisor</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveSupervisorAssignment(event)">
@@ -334,7 +313,7 @@ $currentHR = $_SESSION['user'];
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Confirm Assignment</button>
+          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Assign Supervisor</button>
         </div>
       </form>
     </div>
@@ -418,7 +397,7 @@ $currentHR = $_SESSION['user'];
 
     internships.unshift(newInt);
     DIS.setInternships(internships);
-    DIS.showToast('Internship opportunity posted!', 'success');
+    DIS.showToast('Opportunity published!', 'success');
     e.target.reset();
     renderDashboardStats();
   }
@@ -430,7 +409,7 @@ $currentHR = $_SESSION['user'];
     tbody.innerHTML = '';
 
     if (apps.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No applications received yet.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No applications received.</td></tr>';
       return;
     }
 
@@ -493,7 +472,7 @@ $currentHR = $_SESSION['user'];
       };
       DIS.setApplications(apps);
 
-      DIS.addNotification(app.studentId, 'Onsite Interview Scheduled!', `Onsite interview scheduled on ${date} at ${time} at ${venueAddress}.`, 'warning');
+      DIS.addNotification(app.studentId, 'Onsite Interview Scheduled!', `Interview scheduled on ${date} at ${time} at ${venueAddress}.`, 'warning');
       DIS.showToast('Interview scheduled & candidate notified!', 'success');
 
       const modalEl = document.getElementById('interviewModal');
@@ -520,7 +499,7 @@ $currentHR = $_SESSION['user'];
       col.innerHTML = `
         <div class="card h-100 shadow-sm border-0">
           <div class="card-body text-center">
-            <div class="bg-success-subtle text-success rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+            <div class="bg-success text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
               <i class="fas fa-user-tie fa-lg"></i>
             </div>
             <h6 class="font-weight-bold mb-1">${s.name}</h6>
@@ -573,7 +552,7 @@ $currentHR = $_SESSION['user'];
     select.innerHTML = '';
 
     if (sups.length === 0) {
-      select.innerHTML = '<option value="">No supervisors available. Please register one first.</option>';
+      select.innerHTML = '<option value="">No supervisors available.</option>';
     } else {
       sups.forEach(s => {
         select.innerHTML += `<option value="${s.id}">${s.name} (${s.designation || 'Supervisor'})</option>`;
@@ -602,7 +581,7 @@ $currentHR = $_SESSION['user'];
       DIS.setApplications(apps);
 
       DIS.addNotification(app.studentId, 'Supervisor Assigned!', 'A supervisor has been assigned to guide your internship.', 'success');
-      DIS.showToast('Supervisor assigned & student selected!', 'success');
+      DIS.showToast('Supervisor assigned!', 'success');
 
       const modalEl = document.getElementById('assignSupModal');
       const modal = bootstrap.Modal.getInstance(modalEl);
@@ -620,14 +599,14 @@ $currentHR = $_SESSION['user'];
 
   function updateCompanyProfile(e) {
     e.preventDefault();
-    DIS.showToast('Company profile updated successfully!', 'success');
+    DIS.showToast('Company profile updated!', 'success');
   }
 
   function loadNotifications() {
     const notifs = DIS.getNotifications(currentHR.id);
     const container = document.getElementById('notif-list-container');
     if (!container) return;
-    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No new notifications</div>';
+    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No notifications</div>';
     notifs.forEach(n => {
       container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
     });

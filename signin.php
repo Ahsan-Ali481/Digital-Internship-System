@@ -1,7 +1,8 @@
 <?php
-// signin.php - Unified Login Screen for All Roles
+// signin.php - User Sign In Page
 $pageTitle = "Sign In - Digital Internship System";
-require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/includes/navbar.php';
 
 $error = '';
 $success = '';
@@ -10,10 +11,13 @@ if (isset($_GET['logged_out'])) {
     $success = "You have been logged out successfully.";
 }
 if (isset($_GET['registered'])) {
-    $success = "Account created successfully! Please sign in below.";
+    $success = "Account registered successfully! Please sign in below.";
+}
+if (isset($_GET['password_reset'])) {
+    $success = "Password reset successfully! Please sign in with your new password.";
 }
 
-// Handle PHP POST Login Submission
+// Handle Login Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
@@ -22,70 +26,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($email) || empty($password)) {
         $error = "Please enter both Email and Password.";
     } else {
-        // Sample fallback users array if DB is offline, or query PDO
         $userFound = null;
-        if (isset($pdo)) {
-            try {
-                $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
-                $stmt->execute([$email]);
-                $userFound = $stmt->fetch();
-            } catch (Exception $e) {
-                // fallback
+
+        // Credentials mapping for exact requested defaults
+        $demoUsers = [
+            'admin123@gmail.com' => ['id' => 'usr_adm1', 'name' => 'System Admin', 'email' => 'admin123@gmail.com', 'role' => 'admin', 'password' => '12345678'],
+            'ahmed123@gmail.com' => ['id' => 'usr_std1', 'name' => 'Ahmed Hassan', 'email' => 'ahmed123@gmail.com', 'role' => 'student', 'password' => '123456789'],
+            'hr123@gmail.com' => ['id' => 'usr_hr1', 'name' => 'Sarah Jenkins', 'email' => 'hr123@gmail.com', 'role' => 'company', 'password' => '123456789'],
+            'supervisor123@gmail.com' => ['id' => 'usr_sup1', 'name' => 'Dr. Robert Chen', 'email' => 'supervisor123@gmail.com', 'role' => 'supervisor', 'password' => '123456789']
+        ];
+
+        if (isset($demoUsers[$email])) {
+            $userFound = $demoUsers[$email];
+        } else {
+            if (isset($pdo)) {
+                try {
+                    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+                    $stmt->execute([$email]);
+                    $row = $stmt->fetch();
+                    if ($row) {
+                        $userFound = [
+                            'id' => $row['user_uid'],
+                            'name' => $row['name'],
+                            'email' => $row['email'],
+                            'role' => $row['role']
+                        ];
+                    }
+                } catch (Exception $e) {}
             }
         }
 
         if (!$userFound) {
-            // Default demo users fallback for testing
-            $demoUsers = [
-                'student@dis.com' => ['id' => 'usr_std1', 'name' => 'Ahmed Hassan', 'email' => 'student@dis.com', 'role' => 'student'],
-                'hr@techcorp.com' => ['id' => 'usr_hr1', 'name' => 'Sarah Jenkins', 'email' => 'hr@techcorp.com', 'role' => 'company'],
-                'supervisor@techcorp.com' => ['id' => 'usr_sup1', 'name' => 'Dr. Robert Chen', 'email' => 'supervisor@techcorp.com', 'role' => 'supervisor'],
-                'admin@dis.com' => ['id' => 'usr_adm1', 'name' => 'System Admin', 'email' => 'admin@dis.com', 'role' => 'admin']
+            $userFound = [
+                'id' => 'usr_' . time(),
+                'name' => explode('@', $email)[0],
+                'email' => $email,
+                'role' => $role ?: 'student'
             ];
-            if (isset($demoUsers[$email])) {
-                $userFound = $demoUsers[$email];
-            } else {
-                // Create user session from input
-                $userFound = [
-                    'id' => 'usr_' . time(),
-                    'name' => explode('@', $email)[0],
-                    'email' => $email,
-                    'role' => $role ?: 'student'
-                ];
-            }
         }
 
-        // Set PHP Session
         $_SESSION['user'] = $userFound;
-        $targetDashboard = "dashboard-" . strtolower($userFound['role']) . ".php";
-        header("Location: {$targetDashboard}");
+        header("Location: dashboard-" . strtolower($userFound['role']) . ".php");
         exit();
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $pageTitle; ?></title>
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body class="d-flex flex-column min-vh-100 bg-light">
-
-<?php require_once __DIR__ . '/includes/navbar.php'; ?>
 
 <div class="container py-5 my-auto">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
       <div class="card shadow border-0 rounded-3">
-        <div class="card-header bg-primary text-white text-center py-3 rounded-top-3">
-          <h4 class="mb-0 font-weight-bold"><i class="fas fa-lock me-2"></i> Account Sign In</h4>
+        <div class="card-header bg-primary text-white text-center py-3">
+          <h4 class="mb-0 font-weight-bold"><i class="fas fa-lock me-2"></i> User Sign In</h4>
         </div>
         <div class="card-body p-4">
 
@@ -108,20 +100,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label class="form-label font-weight-semibold text-secondary">Email Address</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-envelope text-muted"></i></span>
-                <input type="email" name="email" id="login-email" class="form-control" required placeholder="user@example.com">
+                <input type="email" name="email" id="login-email" class="form-control" required placeholder="user@gmail.com">
               </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label font-weight-semibold text-secondary">Password</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-key text-muted"></i></span>
+              <div class="d-flex justify-content-between align-items-center">
+                <label class="form-label font-weight-semibold text-secondary mb-0">Password</label>
+                <!-- Forgot Password Link for Student, Company, Supervisor -->
+                <a href="forgot-password.php" class="small text-primary font-weight-semibold text-decoration-none">
+                  <i class="fas fa-key me-1"></i> Forgot Password?
+                </a>
+              </div>
+              <div class="input-group mt-1">
+                <span class="input-group-text bg-light"><i class="fas fa-lock text-muted"></i></span>
                 <input type="password" name="password" id="login-password" class="form-control" required placeholder="••••••••">
               </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label font-weight-semibold text-secondary">Select User Role</label>
+              <label class="form-label font-weight-semibold text-secondary">Account Role</label>
               <select name="role" id="login-role" class="form-select">
                 <option value="student">Student</option>
                 <option value="company">Company HR</option>
@@ -131,20 +129,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <button type="submit" class="btn btn-primary w-100 py-2 font-weight-bold shadow-sm">
-              <i class="fas fa-sign-in-alt me-1"></i> Sign In to Dashboard
+              <i class="fas fa-sign-in-alt me-1"></i> Sign In
             </button>
           </form>
 
           <hr class="my-4">
 
-          <!-- 1-Click Demo Login Buttons for Testing -->
+          <!-- 1-Click Quick Demo Login Shortcuts -->
           <div class="text-center">
-            <p class="text-muted small font-weight-bold mb-2"><i class="fas fa-bolt text-warning me-1"></i> 1-Click Quick Demo Login:</p>
+            <p class="text-muted small font-weight-bold mb-2"><i class="fas fa-bolt text-warning me-1"></i> 1-Click Quick Demo Access:</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center flex-wrap">
-              <button onclick="fillDemo('student@dis.com', '123456', 'student')" class="btn btn-outline-primary btn-sm">Student</button>
-              <button onclick="fillDemo('hr@techcorp.com', '123456', 'company')" class="btn btn-outline-info btn-sm">Company HR</button>
-              <button onclick="fillDemo('supervisor@techcorp.com', '123456', 'supervisor')" class="btn btn-outline-success btn-sm">Supervisor</button>
-              <button onclick="fillDemo('admin@dis.com', '123456', 'admin')" class="btn btn-outline-warning btn-sm">Admin</button>
+              <button onclick="fillDemo('ahmed123@gmail.com', '123456789', 'student')" class="btn btn-outline-primary btn-sm font-weight-bold">Student</button>
+              <button onclick="fillDemo('hr123@gmail.com', '123456789', 'company')" class="btn btn-outline-info btn-sm font-weight-bold">Company HR</button>
+              <button onclick="fillDemo('supervisor123@gmail.com', '123456789', 'supervisor')" class="btn btn-outline-success btn-sm font-weight-bold">Supervisor</button>
+              <button onclick="fillDemo('admin123@gmail.com', '12345678', 'admin')" class="btn btn-outline-warning btn-sm text-dark font-weight-bold">Admin</button>
             </div>
           </div>
 
