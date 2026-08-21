@@ -1,79 +1,171 @@
 /* ==========================================================================
-   Digital Internship System (DIS) - Hero Background Picture Integration
+   Digital Internship System (DIS) - Master Comprehensive Professional CSS Engine
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* 1. TYPOGRAPHY IMPORT */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
+/* 2. ROOT CSS VARIABLES & CUSTOM PROPERTIES */
 :root {
+  /* Color Tokens */
   --primary: #4f46e5;
   --primary-hover: #4338ca;
+  --primary-light: #eef2ff;
   --secondary: #0284c7;
+  --secondary-light: #e0f2fe;
   --success: #059669;
+  --success-light: #d1fae5;
   --warning: #d97706;
+  --warning-light: #fef3c7;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
   
   --pure-black: #000000;
   --slate-900: #0f172a;
   --slate-800: #1e293b;
   --slate-700: #334155;
   --slate-600: #475569;
+  --slate-500: #64748b;
   --bg-slate: #f8fafc;
-  --border-color: #e2e8f0;
+  --border-color: #cbd5e1;
+
+  /* Elevation Box Shadow Tokens */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 25px 50px -12px rgba(79, 70, 229, 0.25);
+
+  /* Radius & Transition Tokens */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+  
+  --transition-fast: all 0.2s ease-in-out;
+  --transition-smooth: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-spring: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Force Solid Black Text Readability Across Application */
-* {
+/* 3. GLOBAL RESET & BASE RULES */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
   color: var(--pure-black) !important;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-slate);
   color: var(--pure-black) !important;
-  letter-spacing: -0.015em;
-  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.018em;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select, textarea {
+/* 4. TYPOGRAPHY & TEXT PROPERTIES */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--pure-black) !important;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+  text-wrap: balance;
+}
+
+h1 { font-size: calc(2.25rem + 1.2vw); }
+h2 { font-size: calc(1.75rem + 0.8vw); }
+h3 { font-size: calc(1.35rem + 0.4vw); }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 0.95rem; }
+
+p, span, div, td, th, label, small, li, a, input, select, textarea {
   color: var(--pure-black) !important;
   font-weight: 700;
 }
 
-/* Classic Professional Navbar */
-.navbar-classic {
-  background-color: #ffffff !important;
-  border-bottom: 2px solid #e2e8f0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+a {
+  text-decoration: none;
+  transition: var(--transition-fast);
 }
 
-/* 100% Equal Distance Navigation Links */
+a:hover {
+  color: var(--primary) !important;
+}
+
+/* 5. KEYFRAMES ANIMATIONS */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(79, 70, 229, 0); }
+}
+
+@keyframes floatIndicator {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+/* 6. NAVBAR PROPERTIES */
+.navbar-classic {
+  background-color: #ffffff !important;
+  border-bottom: 2px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
 .nav-link-equal {
   font-weight: 700 !important;
   font-size: 1rem !important;
-  color: #000000 !important;
-  padding: 8px 0 !important; /* Zero horizontal padding for exact gap calculation */
-  transition: color 0.2s ease;
+  color: var(--pure-black) !important;
+  padding: 8px 0 !important;
+  transition: var(--transition-fast);
   white-space: nowrap;
+  position: relative;
 }
 
 .nav-link-equal:hover {
-  color: #4f46e5 !important;
+  color: var(--primary) !important;
+  transform: translateY(-1px);
 }
 
-/* Hero Banner with Digital Internship Background Picture */
+/* 7. HERO BANNER WITH BACKGROUND IMAGE OVERLAY & ADVANCED PROPERTIES */
 .hero-picture-banner {
   background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.94)), url('../images/hero-bg.png') no-repeat center center / cover !important;
-  border-bottom: 2px solid #e2e8f0;
-}
-
-/* 3D Black-Text Master Cards */
-.master-card-black {
-  background: #ffffff !important;
-  border: 2px solid #cbd5e1 !important;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-bottom: 2px solid var(--border-color);
   position: relative;
   overflow: hidden;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  isolation: isolate;
+}
+
+/* 8. MASTER 3D CARDS WITH ADVANCED TRANSFORMS & VISUAL PROPERTIES */
+.master-card-black {
+  background: #ffffff !important;
+  border: 2px solid var(--border-color) !important;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
 .master-card-black::before {
@@ -83,103 +175,143 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
   left: 0;
   width: 100%;
   height: 5px;
-  background: linear-gradient(90deg, #4f46e5, #0284c7, #059669);
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--success));
   transition: height 0.3s ease;
 }
 
 .master-card-black:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.15) !important;
-  border-color: #4f46e5 !important;
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: var(--shadow-xl) !important;
+  border-color: var(--primary) !important;
 }
 
-/* Solid Black Buttons */
+.master-card-black:hover::before {
+  height: 7px;
+}
+
+/* 9. SOLID BLACK & GRADIENT BUTTONS WITH PSEUDO EFFECTS */
 .btn-black-primary {
-  background: #4f46e5 !important;
+  background: var(--primary) !important;
   color: #ffffff !important;
   border: none;
   font-weight: 800;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 12px 28px;
   box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
-  transition: all 0.25s ease;
+  transition: var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn-black-primary:hover {
-  background: #4338ca !important;
+  background: var(--primary-hover) !important;
   color: #ffffff !important;
   transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(79, 70, 229, 0.45);
+}
+
+.btn-black-primary:active {
+  transform: translateY(0);
 }
 
 .btn-black-secondary {
   background: #ffffff !important;
-  color: #000000 !important;
-  border: 2px solid #000000 !important;
+  color: var(--pure-black) !important;
+  border: 2px solid var(--pure-black) !important;
   font-weight: 800;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   padding: 10px 24px;
-  transition: all 0.25s ease;
+  transition: var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn-black-secondary:hover {
-  background: #f1f5f9 !important;
+  background: var(--primary-light) !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
   transform: translateY(-2px);
 }
 
-/* High Contrast Status Badges */
+/* 10. STATUS BADGES WITH BORDERS */
 .badge-black-pill {
   font-size: 0.825rem;
   font-weight: 800;
   padding: 6px 14px;
-  border-radius: 30px;
-  color: #000000 !important;
-  border: 1.5px solid #000000;
+  border-radius: var(--radius-full);
+  color: var(--pure-black) !important;
+  border: 1.5px solid var(--pure-black);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .badge-indigo {
-  background-color: #e0e7ff !important;
+  background-color: var(--primary-light) !important;
   border-color: #6366f1 !important;
 }
 
 .badge-emerald {
-  background-color: #d1fae5 !important;
+  background-color: var(--success-light) !important;
   border-color: #10b981 !important;
 }
 
 .badge-amber {
-  background-color: #fef3c7 !important;
+  background-color: var(--warning-light) !important;
   border-color: #f59e0b !important;
 }
 
 .badge-sky {
-  background-color: #e0f2fe !important;
-  border-color: #0284c7 !important;
+  background-color: var(--secondary-light) !important;
+  border-color: var(--secondary) !important;
 }
 
-/* Sidebar Navigation */
+/* 11. SIDEBAR & FORM INPUT PROPERTIES */
 .sidebar-link {
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   padding: 12px 18px;
   font-weight: 800;
-  color: #000000 !important;
-  transition: all 0.2s ease;
+  color: var(--pure-black) !important;
+  transition: var(--transition-fast);
   background-color: #ffffff !important;
-  border: 1.5px solid #cbd5e1 !important;
+  border: 1.5px solid var(--border-color) !important;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-link:hover {
-  background-color: #eef2ff !important;
-  border-color: #6366f1 !important;
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary) !important;
   transform: translateX(4px);
 }
 
 .sidebar-link.active {
-  background-color: #4f46e5 !important;
+  background-color: var(--primary) !important;
   color: #ffffff !important;
-  border-color: #4f46e5 !important;
+  border-color: var(--primary) !important;
   box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
 }
 
 .sidebar-link.active * {
   color: #ffffff !important;
+}
+
+.form-control, .form-select {
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-color);
+  padding: 10px 14px;
+  transition: var(--transition-fast);
+  font-weight: 700;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+  outline: none;
 }
