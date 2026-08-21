@@ -1,5 +1,5 @@
 <?php
-// signin.php - Unified User Sign In Page with Emojis
+// signin.php - Corporate Sign In Page
 $pageTitle = "Sign In - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -8,14 +8,14 @@ $error = '';
 $success = '';
 
 if (isset($_GET['logged_out'])) {
-    $success = "You have been logged out successfully. 🚪";
+    $success = "You have been logged out successfully.";
 }
 if (isset($_GET['registered'])) {
     $registeredEmail = htmlspecialchars($_GET['email'] ?? '');
-    $success = "Account registered successfully! 🚀 Please sign in with your Gmail (" . $registeredEmail . ") and password.";
+    $success = "Account registered successfully! Please sign in with your Gmail (" . $registeredEmail . ") and password.";
 }
 if (isset($_GET['password_reset'])) {
-    $success = "Password reset successfully! 🔑 Please sign in with your new password.";
+    $success = "Password reset successfully! Please sign in with your new password.";
 }
 
 // Handle Login Submission
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = trim($_POST['role'] ?? '');
 
     if (empty($email) || empty($password)) {
-        $error = "Please enter both Email and Password. ⚠️";
+        $error = "Please enter both Email and Password.";
     } else {
         $userFound = null;
 
@@ -74,21 +74,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container py-5 my-auto">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
-      <div class="card-premium p-0 overflow-hidden shadow-lg">
-        <div class="bg-gradient-primary text-white text-center py-4">
-          <h3 class="mb-0 font-weight-extrabold text-white"><span class="emoji-icon me-2">🔑</span> User Sign In</h3>
+      <div class="corp-card p-0 overflow-hidden shadow-sm">
+        <div class="bg-primary text-white text-center py-4">
+          <h4 class="mb-0 font-weight-bold text-white"><i class="fas fa-lock me-2"></i> User Sign In</h4>
         </div>
         <div class="p-4 p-md-5">
 
           <?php if (!empty($error)): ?>
-            <div class="alert alert-danger alert-dismissible fade show font-weight-bold" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show font-weight-semibold" role="alert">
               <i class="fas fa-exclamation-circle me-1"></i> <?php echo $error; ?>
               <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
           <?php endif; ?>
 
           <?php if (!empty($success)): ?>
-            <div class="alert alert-success alert-dismissible fade show font-weight-bold" role="alert">
+            <div class="alert alert-success alert-dismissible fade show font-weight-semibold" role="alert">
               <i class="fas fa-check-circle me-1"></i> <?php echo $success; ?>
               <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -96,62 +96,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
           <form action="signin.php" method="POST" onsubmit="handleSigninJS(event)">
             <div class="mb-3">
-              <label class="form-label font-weight-bold text-dark">✉️ Gmail / Email Address</label>
+              <label class="form-label font-weight-semibold text-dark">Gmail / Email Address</label>
               <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-envelope text-primary"></i></span>
+                <span class="input-group-text bg-light"><i class="fas fa-envelope text-muted"></i></span>
                 <input type="email" name="email" id="login-email" class="form-control py-2" required placeholder="yourname@gmail.com">
               </div>
             </div>
 
             <div class="mb-3">
               <div class="d-flex justify-content-between align-items-center mb-1">
-                <label class="form-label font-weight-bold text-dark mb-0">🔐 Password</label>
-                <a href="forgot-password.php" class="small text-primary font-weight-bold text-decoration-none">
-                  🔑 Forgot Password?
+                <label class="form-label font-weight-semibold text-dark mb-0">Password</label>
+                <a href="forgot-password.php" class="small text-primary font-weight-semibold text-decoration-none">
+                  Forgot Password?
                 </a>
               </div>
               <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
+                <span class="input-group-text bg-light"><i class="fas fa-lock text-muted"></i></span>
                 <input type="password" name="password" id="login-password" class="form-control py-2" required placeholder="••••••••">
               </div>
             </div>
 
             <div class="mb-4">
-              <label class="form-label font-weight-bold text-dark">🎯 Account Role</label>
+              <label class="form-label font-weight-semibold text-dark">Account Role</label>
               <select name="role" id="login-role" class="form-select py-2">
-                <option value="student">🎓 Student</option>
-                <option value="company">🏢 Company HR / Manager</option>
-                <option value="supervisor">👨‍🏫 Workplace Supervisor</option>
-                <option value="admin">🛡️ System Admin</option>
+                <option value="student">Student Account</option>
+                <option value="company">Company HR / Manager</option>
+                <option value="supervisor">Workplace Supervisor</option>
+                <option value="admin">System Admin</option>
               </select>
             </div>
 
-            <button type="submit" class="btn btn-premium-primary w-100 py-3 font-weight-bold shadow-md">
-              <span class="emoji-icon me-2">🚀</span> Sign In to Portal
+            <button type="submit" class="btn btn-corp-primary w-100 py-3 font-weight-bold shadow-sm">
+              <i class="fas fa-sign-in-alt me-2"></i> Sign In to Portal
             </button>
           </form>
 
           <hr class="my-4">
 
           <div class="text-center">
-            <p class="text-dark small font-weight-bold mb-2">⚡ Pre-Configured Accounts Access:</p>
+            <p class="text-muted small font-weight-semibold mb-2">Pre-Configured Demo Accounts:</p>
             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-              <button onclick="fillDemo('supervisor123@gmail.com', '123456789', 'supervisor')" class="btn btn-outline-success btn-sm font-weight-bold">
-                👨‍🏫 Supervisor Demo
+              <button onclick="fillDemo('supervisor123@gmail.com', '123456789', 'supervisor')" class="btn btn-outline-success btn-sm font-weight-semibold">
+                Supervisor Demo
               </button>
-              <button onclick="fillDemo('admin123@gmail.com', '12345678', 'admin')" class="btn btn-outline-warning btn-sm text-dark font-weight-bold">
-                🛡️ Admin Demo
+              <button onclick="fillDemo('admin123@gmail.com', '12345678', 'admin')" class="btn btn-outline-warning btn-sm text-dark font-weight-semibold">
+                Admin Demo
               </button>
             </div>
-            <p class="text-dark extra-small mt-3 mb-0 font-weight-semibold">
-              * Students & Company Managers register via <a href="signup.php" class="font-weight-bold text-primary">Registration Page</a>. 🚀
-            </p>
           </div>
 
         </div>
         <div class="card-footer bg-light text-center py-3 border-top">
-          <span class="text-dark small font-weight-semibold">Don't have an account yet?</span>
-          <a href="signup.php" class="text-primary font-weight-bold ms-1">Register New Account 🚀</a>
+          <span class="text-muted small font-weight-semibold">Don't have an account yet?</span>
+          <a href="signup.php" class="text-primary font-weight-bold ms-1">Register Account</a>
         </div>
       </div>
     </div>
