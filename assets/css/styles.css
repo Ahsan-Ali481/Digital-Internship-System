@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Digital Internship System (DIS) - 100% Solid Black Text Master Design
+   Digital Internship System (DIS) - Stylish Navbar & 100% Solid Black Text
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -34,12 +34,28 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
   font-weight: 700;
 }
 
-/* Gradient Text Mask with Dark Contrast Fallback */
-.gradient-text-mask {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: #4f46e5 !important;
-  font-weight: 900;
+/* Stylish Navbar Styling & Spacing */
+.navbar-stylish {
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(16px);
+  border-bottom: 2px solid #e2e8f0;
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.06);
+}
+
+.nav-link-stylish {
+  font-weight: 800 !important;
+  font-size: 1rem !important;
+  color: #000000 !important;
+  padding: 10px 18px !important;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.nav-link-stylish:hover {
+  background-color: #eef2ff !important;
+  color: #4f46e5 !important;
+  transform: translateY(-2px);
 }
 
 /* Clean White Hero Canvas */
@@ -165,29 +181,4 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
 
 .sidebar-link.active * {
   color: #ffffff !important;
-}
-
-/* Table Styling */
-.table-black-contrast {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.table-black-contrast thead tr th {
-  background-color: #f1f5f9 !important;
-  color: #000000 !important;
-  font-weight: 900;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 14px 16px;
-  border-bottom: 2px solid #000000;
-}
-
-.table-black-contrast tbody tr td {
-  padding: 14px 16px;
-  color: #000000 !important;
-  border-bottom: 1px solid #cbd5e1;
-  font-weight: 700;
 }

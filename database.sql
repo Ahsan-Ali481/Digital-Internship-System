@@ -90,5 +90,5 @@ INSERT INTO `users` (`user_uid`, `role`, `name`, `email`, `password`, `status`, 
 ('usr_adm1', 'admin', 'System Administrator', 'admin123@gmail.com', '12345678', 'approved', NULL, NULL, NULL),
 ('usr_std1', 'student', 'Ahmed Hassan', 'ahmed123@gmail.com', '123456789', 'approved', 'National University of Sciences & Technology', NULL, NULL),
 ('usr_hr1', 'company', 'Sarah Jenkins', 'hr123@gmail.com', '123456789', 'approved', NULL, 'TechCorp Solutions', NULL),
-('usr_sup1', 'supervisor', 'Dr. Robert Chen', 'supervisor123@gmail.com', '123456789', 'approved', NULL, 'TechCorp Solutions', 'Engineering & AI Labs')
+('usr_sup1', 'supervisor', 'Workplace Supervisor', 'supervisor123@gmail.com', '123456789', 'approved', NULL, 'TechCorp Solutions', 'Engineering & AI Labs')
 ON DUPLICATE KEY UPDATE `email` = VALUES(`email`), `password` = VALUES(`password`);

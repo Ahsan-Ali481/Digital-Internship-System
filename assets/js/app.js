@@ -10,7 +10,7 @@ const DIS = {
         { id: 'usr_adm1', name: 'System Admin', email: 'admin123@gmail.com', role: 'admin', status: 'approved' },
         { id: 'usr_std1', name: 'Ahmed Hassan', email: 'ahmed123@gmail.com', role: 'student', status: 'approved', university: 'NUST' },
         { id: 'usr_hr1', name: 'Sarah Jenkins', email: 'hr123@gmail.com', role: 'company', companyName: 'TechCorp Solutions', status: 'approved', verified: true },
-        { id: 'usr_sup1', name: 'Dr. Robert Chen', email: 'supervisor123@gmail.com', role: 'supervisor', companyId: 'usr_hr1', designation: 'Senior AI Engineer', status: 'approved' }
+        { id: 'usr_sup1', name: 'Workplace Supervisor', email: 'supervisor123@gmail.com', role: 'supervisor', companyId: 'usr_hr1', designation: 'Senior AI Engineer', status: 'approved' }
       ];
       localStorage.setItem('dis_users', JSON.stringify(defaultUsers));
       return defaultUsers;
