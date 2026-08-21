@@ -1,5 +1,5 @@
 <?php
-// dashboard-company.php - Company HR Portal with Left Sidebar Navigation
+// dashboard-company.php - Premium Company HR Portal
 $pageTitle = "Company HR Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -15,19 +15,22 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'company') {
 $currentHR = $_SESSION['user'];
 ?>
 
-<!-- Top Header Bar -->
-<header class="bg-white border-bottom py-2 sticky-top shadow-sm">
+<!-- Premium Top Header Bar -->
+<header class="bg-gradient-dark text-white border-bottom border-dark-subtle py-2 sticky-top shadow-sm">
   <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
-      <a href="index.php" class="navbar-brand font-weight-bold text-primary mb-0">
-        <i class="fas fa-graduation-cap me-1"></i> Digital Internship System
+      <a href="index.php" class="navbar-brand fw-bold text-white mb-0 d-flex align-items-center gap-2">
+        <div class="bg-gradient-secondary text-white rounded-3 p-1 d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+          <i class="fas fa-building"></i>
+        </div>
+        <span>Digital Internship</span>
       </a>
-      <span class="badge bg-info text-white">Company HR Portal</span>
+      <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-20 px-3 py-1">Company HR Portal</span>
     </div>
     
     <div class="d-flex align-items-center gap-3">
-      <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
-        <i class="fas fa-bell"></i>
+      <button onclick="toggleNotificationModal()" class="btn btn-outline-light btn-sm position-relative rounded-pill px-3">
+        <i class="fas fa-bell me-1 text-warning"></i> Notifications
         <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
       </button>
     </div>
@@ -38,29 +41,29 @@ $currentHR = $_SESSION['user'];
   <div class="row g-4">
     <!-- Left Sidebar Navigation -->
     <div class="col-md-3 col-lg-2">
-      <div class="card shadow-sm border-0 mb-4">
+      <div class="card border-0 shadow-sm rounded-4 mb-4 glass-card">
         <div class="card-body text-center p-3">
-          <div class="bg-info text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+          <div class="bg-gradient-secondary text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 54px; height: 54px;">
             <i class="fas fa-building fa-lg"></i>
           </div>
-          <h6 id="hr-name" class="font-weight-bold mb-0"><?php echo htmlspecialchars($currentHR['name']); ?></h6>
+          <h6 id="hr-name" class="fw-bold mb-0 text-dark"><?php echo htmlspecialchars($currentHR['name']); ?></h6>
           <small class="text-muted extra-small d-block"><?php echo htmlspecialchars($currentHR['companyName'] ?? 'TechCorp'); ?></small>
         </div>
         
-        <div class="list-group list-group-flush border-top">
-          <button onclick="switchHRTab('post')" class="list-group-item list-group-item-action active text-start font-weight-semibold" id="link-hr-post">
-            <i class="fas fa-plus-circle me-2 text-primary"></i> Post Opportunity
+        <div class="p-2 border-top d-flex flex-column gap-1">
+          <button onclick="switchHRTab('post')" class="sidebar-link active w-100 text-start border-0" id="link-hr-post">
+            <i class="fas fa-plus-circle me-2 text-indigo-500"></i> Post Role
           </button>
-          <button onclick="switchHRTab('applicants')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-hr-applicants">
-            <i class="fas fa-users me-2 text-info"></i> Applicant Manager
+          <button onclick="switchHRTab('applicants')" class="sidebar-link w-100 text-start border-0" id="link-hr-applicants">
+            <i class="fas fa-users me-2 text-cyan-500"></i> Applicants
           </button>
-          <button onclick="switchHRTab('supervisors')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-hr-supervisors">
-            <i class="fas fa-user-tie me-2 text-success"></i> Supervisors
+          <button onclick="switchHRTab('supervisors')" class="sidebar-link w-100 text-start border-0" id="link-hr-supervisors">
+            <i class="fas fa-user-tie me-2 text-emerald-500"></i> Supervisors
           </button>
-          <button onclick="switchHRTab('profile')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-hr-profile">
-            <i class="fas fa-edit me-2 text-secondary"></i> Company Profile
+          <button onclick="switchHRTab('profile')" class="sidebar-link w-100 text-start border-0" id="link-hr-profile">
+            <i class="fas fa-edit me-2 text-slate-500"></i> Company Profile
           </button>
-          <a href="logout.php" class="list-group-item list-group-item-action text-danger text-start font-weight-semibold">
+          <a href="logout.php" class="sidebar-link text-danger w-100 text-start text-decoration-none">
             <i class="fas fa-sign-out-alt me-2"></i> Logout
           </a>
         </div>
@@ -70,36 +73,36 @@ $currentHR = $_SESSION['user'];
     <!-- Main Content Area -->
     <div class="col-md-9 col-lg-10">
       
-      <!-- Stats Header -->
+      <!-- Stats Header Widgets -->
       <div class="row g-3 mb-4">
         <div class="col-md-4">
-          <div class="card border-0 shadow-sm bg-primary text-white p-3">
+          <div class="card border-0 shadow-sm bg-gradient-primary text-white p-3 rounded-4 card-hover">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <small class="text-white-50">Active Postings</small>
-                <h3 class="mb-0 font-weight-bold" id="stat-postings">0</h3>
+                <small class="text-white-50 font-weight-semibold">Active Postings</small>
+                <h3 class="mb-0 font-weight-extrabold" id="stat-postings">0</h3>
               </div>
               <i class="fas fa-briefcase fa-2x opacity-50"></i>
             </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card border-0 shadow-sm bg-info text-white p-3">
+          <div class="card border-0 shadow-sm bg-gradient-secondary text-white p-3 rounded-4 card-hover">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <small class="text-white-50">Total Applicants</small>
-                <h3 class="mb-0 font-weight-bold" id="stat-applicants">0</h3>
+                <small class="text-white-50 font-weight-semibold">Total Applicants</small>
+                <h3 class="mb-0 font-weight-extrabold" id="stat-applicants">0</h3>
               </div>
               <i class="fas fa-users fa-2x opacity-50"></i>
             </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card border-0 shadow-sm bg-success text-white p-3">
+          <div class="card border-0 shadow-sm bg-gradient-success text-white p-3 rounded-4 card-hover">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <small class="text-white-50">Workplace Supervisors</small>
-                <h3 class="mb-0 font-weight-bold" id="stat-supervisors">0</h3>
+                <small class="text-white-50 font-weight-semibold">Workplace Supervisors</small>
+                <h3 class="mb-0 font-weight-extrabold" id="stat-supervisors">0</h3>
               </div>
               <i class="fas fa-user-tie fa-2x opacity-50"></i>
             </div>
@@ -109,19 +112,19 @@ $currentHR = $_SESSION['user'];
 
       <!-- TAB 1: POST OPPORTUNITY -->
       <div id="tab-hr-post" class="tab-content">
-        <div class="card shadow-sm border-0">
-          <div class="card-header bg-white font-weight-bold">
+        <div class="card border-0 shadow-sm rounded-4 glass-card">
+          <div class="card-header bg-white fw-bold py-3 border-0">
             <i class="fas fa-plus-circle text-primary me-2"></i> Post New Internship Opportunity
           </div>
-          <div class="card-body">
+          <div class="card-body p-4">
             <form onsubmit="saveNewInternship(event)">
               <div class="row g-3 mb-3">
                 <div class="col-md-6">
-                  <label class="form-label font-weight-semibold">Internship Title</label>
+                  <label class="form-label fw-semibold">Internship Title</label>
                   <input type="text" id="post-title" required class="form-control" placeholder="e.g. Full Stack Web Developer Intern">
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label font-weight-semibold">Category</label>
+                  <label class="form-label fw-semibold">Category</label>
                   <select id="post-category" required class="form-select">
                     <option value="Software Development">Software Development</option>
                     <option value="UI/UX Design">UI/UX Design</option>
@@ -132,25 +135,25 @@ $currentHR = $_SESSION['user'];
 
               <div class="row g-3 mb-3">
                 <div class="col-md-4">
-                  <label class="form-label font-weight-semibold">Monthly Stipend</label>
+                  <label class="form-label fw-semibold">Monthly Stipend</label>
                   <input type="text" id="post-stipend" required class="form-control" placeholder="e.g. PKR 35,000 / month">
                 </div>
                 <div class="col-md-4">
-                  <label class="form-label font-weight-semibold">Office Location</label>
+                  <label class="form-label fw-semibold">Office Location</label>
                   <input type="text" id="post-location" required class="form-control" placeholder="e.g. Islamabad / Lahore">
                 </div>
                 <div class="col-md-4">
-                  <label class="form-label font-weight-semibold">Application Deadline</label>
+                  <label class="form-label fw-semibold">Application Deadline</label>
                   <input type="date" id="post-deadline" required class="form-control">
                 </div>
               </div>
 
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Job Description</label>
+                <label class="form-label fw-semibold">Job Description</label>
                 <textarea id="post-desc" required rows="3" class="form-control" placeholder="Provide role details..."></textarea>
               </div>
 
-              <button type="submit" class="btn btn-primary font-weight-bold">
+              <button type="submit" class="btn btn-primary-gradient px-4 font-weight-bold">
                 <i class="fas fa-check me-1"></i> Publish Opportunity
               </button>
             </form>
@@ -160,11 +163,11 @@ $currentHR = $_SESSION['user'];
 
       <!-- TAB 2: APPLICANTS MANAGER -->
       <div id="tab-hr-applicants" class="tab-content d-none">
-        <h4 class="font-weight-bold mb-3">Manage Applicants</h4>
-        <div class="card shadow-sm border-0">
+        <h4 class="fw-extrabold mb-3">Manage Candidates</h4>
+        <div class="card border-0 shadow-sm rounded-4 glass-card overflow-hidden">
           <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead class="table-light">
+            <table class="table table-hover align-middle mb-0 table-custom">
+              <thead>
                 <tr>
                   <th>Candidate Name</th>
                   <th>Position Applied</th>
@@ -184,9 +187,9 @@ $currentHR = $_SESSION['user'];
       <!-- TAB 3: SUPERVISORS MANAGER -->
       <div id="tab-hr-supervisors" class="tab-content d-none">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h4 class="font-weight-bold mb-0">Workplace Supervisors</h4>
-          <button onclick="openAddSupervisorModal()" class="btn btn-success btn-sm font-weight-bold">
-            <i class="fas fa-user-plus me-1"></i> Add Supervisor
+          <h4 class="fw-extrabold mb-0">Workplace Supervisors</h4>
+          <button onclick="openAddSupervisorModal()" class="btn btn-primary-gradient btn-sm font-weight-bold shadow-sm">
+            <i class="fas fa-user-plus me-1"></i> Register Supervisor
           </button>
         </div>
         <div id="supervisors-grid" class="row g-3">
@@ -196,27 +199,27 @@ $currentHR = $_SESSION['user'];
 
       <!-- TAB 4: COMPANY PROFILE -->
       <div id="tab-hr-profile" class="tab-content d-none">
-        <div class="card shadow-sm border-0">
-          <div class="card-header bg-white font-weight-bold">
-            <i class="fas fa-edit text-primary me-2"></i> Edit Company Info
+        <div class="card border-0 shadow-sm rounded-4 glass-card">
+          <div class="card-header bg-white fw-bold py-3 border-0">
+            <i class="fas fa-edit text-primary me-2"></i> Edit Company Information
           </div>
-          <div class="card-body">
+          <div class="card-body p-4">
             <form onsubmit="updateCompanyProfile(event)">
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Company Name</label>
+                <label class="form-label fw-semibold">Company Name</label>
                 <input type="text" id="prof-company-name" required class="form-control">
               </div>
               <div class="row g-3 mb-3">
                 <div class="col-md-6">
-                  <label class="form-label font-weight-semibold">Industry Domain</label>
+                  <label class="form-label fw-semibold">Industry Domain</label>
                   <input type="text" id="prof-industry" required class="form-control">
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label font-weight-semibold">Website URL</label>
+                  <label class="form-label fw-semibold">Website URL</label>
                   <input type="url" id="prof-website" required class="form-control">
                 </div>
               </div>
-              <button type="submit" class="btn btn-primary font-weight-bold">
+              <button type="submit" class="btn btn-primary-gradient px-4 font-weight-bold">
                 <i class="fas fa-save me-1"></i> Save Changes
               </button>
             </form>
@@ -231,32 +234,32 @@ $currentHR = $_SESSION['user'];
 <!-- ONSITE PHYSICAL INTERVIEW SCHEDULER MODAL -->
 <div class="modal fade" id="interviewModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header bg-gradient-primary text-white border-0">
         <h5 class="modal-title font-weight-bold">Schedule Physical Onsite Interview</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveInterviewSchedule(event)">
-        <div class="modal-body">
+        <div class="modal-body p-4">
           <input type="hidden" id="int-app-id">
           <div class="row g-3 mb-3">
             <div class="col-6">
-              <label class="form-label font-weight-semibold">Interview Date</label>
-              <input type="date" id="int-date" required class="form-control form-control-sm">
+              <label class="form-label fw-semibold">Interview Date</label>
+              <input type="date" id="int-date" required class="form-control">
             </div>
             <div class="col-6">
-              <label class="form-label font-weight-semibold">Time</label>
-              <input type="time" id="int-time" required class="form-control form-control-sm">
+              <label class="form-label fw-semibold">Time</label>
+              <input type="time" id="int-time" required class="form-control">
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Physical Office Venue Address</label>
-            <input type="text" id="int-link" required placeholder="e.g. TechCorp Tower, Suite 400, Silicon Avenue, Islamabad" class="form-control form-control-sm">
+            <label class="form-label fw-semibold">Physical Office Venue Address</label>
+            <input type="text" id="int-link" required placeholder="e.g. TechCorp Tower, Suite 400, Silicon Avenue, Islamabad" class="form-control">
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Save & Notify Candidate</button>
+          <button type="submit" class="btn btn-primary-gradient btn-sm px-4 font-weight-bold">Save & Notify Candidate</button>
         </div>
       </form>
     </div>
@@ -266,29 +269,29 @@ $currentHR = $_SESSION['user'];
 <!-- ADD SUPERVISOR MODAL -->
 <div class="modal fade" id="addSupModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header bg-gradient-success text-white border-0">
         <h5 class="modal-title font-weight-bold">Register New Supervisor</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveNewSupervisor(event)">
-        <div class="modal-body">
+        <div class="modal-body p-4">
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Supervisor Name</label>
+            <label class="form-label fw-semibold">Supervisor Name</label>
             <input type="text" id="sup-name" required class="form-control">
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Email Address</label>
+            <label class="form-label fw-semibold">Email Address</label>
             <input type="email" id="sup-email" required class="form-control" placeholder="supervisor123@gmail.com">
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Designation</label>
+            <label class="form-label fw-semibold">Designation</label>
             <input type="text" id="sup-designation" required class="form-control" placeholder="e.g. Senior Software Engineer">
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-success btn-sm font-weight-bold">Register Supervisor</button>
+          <button type="submit" class="btn btn-success btn-sm px-4 font-weight-bold">Register Supervisor</button>
         </div>
       </form>
     </div>
@@ -298,22 +301,22 @@ $currentHR = $_SESSION['user'];
 <!-- ASSIGN SUPERVISOR MODAL -->
 <div class="modal fade" id="assignSupModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header bg-gradient-primary text-white border-0">
         <h5 class="modal-title font-weight-bold">Assign Supervisor</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveSupervisorAssignment(event)">
-        <div class="modal-body">
+        <div class="modal-body p-4">
           <input type="hidden" id="assign-app-id">
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Select Supervisor</label>
+            <label class="form-label fw-semibold">Select Supervisor</label>
             <select id="assign-sup-select" required class="form-select"></select>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Assign Supervisor</button>
+          <button type="submit" class="btn btn-primary-gradient btn-sm px-4 font-weight-bold">Assign Supervisor</button>
         </div>
       </form>
     </div>
@@ -323,12 +326,12 @@ $currentHR = $_SESSION['user'];
 <!-- NOTIFICATIONS MODAL -->
 <div class="modal fade" id="notifModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header bg-gradient-dark text-white border-0">
         <h5 class="modal-title font-weight-bold"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body p-4">
         <div id="notif-list-container" class="space-y-2"></div>
       </div>
     </div>
@@ -350,7 +353,7 @@ $currentHR = $_SESSION['user'];
 
   function switchHRTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
 
     document.getElementById(`tab-hr-${tabId}`).classList.remove('d-none');
     document.getElementById(`link-hr-${tabId}`).classList.add('active');
@@ -415,20 +418,20 @@ $currentHR = $_SESSION['user'];
 
     apps.forEach(app => {
       const internship = internships.find(i => i.id === app.internshipId);
-      let badgeColor = 'bg-warning';
-      if (app.status === 'Shortlisted') badgeColor = 'bg-info';
-      if (app.status === 'Selected') badgeColor = 'bg-success';
-      if (app.status === 'Rejected') badgeColor = 'bg-danger';
+      let badgeClass = 'badge-soft-warning';
+      if (app.status === 'Shortlisted') badgeClass = 'badge-soft-info';
+      if (app.status === 'Selected') badgeClass = 'badge-soft-success';
+      if (app.status === 'Rejected') badgeClass = 'badge-soft-danger';
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>
-          <div class="font-weight-bold">${app.studentName}</div>
+          <div class="fw-bold text-dark">${app.studentName}</div>
           <small class="text-muted">${app.studentEmail}</small>
         </td>
         <td class="small font-weight-bold text-primary">${internship ? internship.title : 'Position'}</td>
         <td class="small">${app.appliedAt}</td>
-        <td><span class="badge ${badgeColor}">${app.status}</span></td>
+        <td><span class="badge ${badgeClass} px-3 py-2 rounded-pill">${app.status}</span></td>
         <td>
           <div class="btn-group btn-group-sm">
             <button onclick="openInterviewModal('${app.id}')" class="btn btn-outline-info" title="Schedule Onsite Interview"><i class="fas fa-calendar-alt"></i></button>
@@ -497,14 +500,14 @@ $currentHR = $_SESSION['user'];
       const col = document.createElement('div');
       col.className = 'col-md-4';
       col.innerHTML = `
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body text-center">
-            <div class="bg-success text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+        <div class="card h-100 border-0 shadow-sm rounded-4 glass-card card-hover text-center p-3">
+          <div class="card-body">
+            <div class="bg-gradient-success text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 50px; height: 50px;">
               <i class="fas fa-user-tie fa-lg"></i>
             </div>
-            <h6 class="font-weight-bold mb-1">${s.name}</h6>
+            <h6 class="fw-bold mb-1 text-dark">${s.name}</h6>
             <small class="text-muted d-block">${s.designation || 'Supervisor'}</small>
-            <small class="text-primary">${s.email}</small>
+            <small class="text-primary fw-semibold">${s.email}</small>
           </div>
         </div>
       `;
@@ -608,7 +611,7 @@ $currentHR = $_SESSION['user'];
     if (!container) return;
     container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No notifications</div>';
     notifs.forEach(n => {
-      container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
+      container.innerHTML += `<div class="p-2 border rounded-3 small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
     });
   }
 

@@ -1,5 +1,5 @@
 <?php
-// dashboard-supervisor.php - Supervisor Portal with Left Sidebar Navigation
+// dashboard-supervisor.php - Premium Supervisor Portal
 $pageTitle = "Supervisor Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -14,19 +14,22 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'supervisor') {
 $currentSup = $_SESSION['user'];
 ?>
 
-<!-- Top Header Bar -->
-<header class="bg-white border-bottom py-2 sticky-top shadow-sm">
+<!-- Premium Top Header Bar -->
+<header class="bg-gradient-dark text-white border-bottom border-dark-subtle py-2 sticky-top shadow-sm">
   <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
-      <a href="index.php" class="navbar-brand font-weight-bold text-primary mb-0">
-        <i class="fas fa-graduation-cap me-1"></i> Digital Internship System
+      <a href="index.php" class="navbar-brand fw-bold text-white mb-0 d-flex align-items-center gap-2">
+        <div class="bg-gradient-success text-white rounded-3 p-1 d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+          <i class="fas fa-user-tie"></i>
+        </div>
+        <span>Digital Internship</span>
       </a>
-      <span class="badge bg-success text-white">Supervisor Portal</span>
+      <span class="badge bg-white bg-opacity-10 text-white border border-white border-opacity-20 px-3 py-1">Supervisor Portal</span>
     </div>
     
     <div class="d-flex align-items-center gap-3">
-      <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
-        <i class="fas fa-bell"></i>
+      <button onclick="toggleNotificationModal()" class="btn btn-outline-light btn-sm position-relative rounded-pill px-3">
+        <i class="fas fa-bell me-1 text-warning"></i> Notifications
         <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
       </button>
     </div>
@@ -37,23 +40,23 @@ $currentSup = $_SESSION['user'];
   <div class="row g-4">
     <!-- Left Sidebar Navigation -->
     <div class="col-md-3 col-lg-2">
-      <div class="card shadow-sm border-0 mb-4">
+      <div class="card border-0 shadow-sm rounded-4 mb-4 glass-card">
         <div class="card-body text-center p-3">
-          <div class="bg-success text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+          <div class="bg-gradient-success text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 54px; height: 54px;">
             <i class="fas fa-user-tie fa-lg"></i>
           </div>
-          <h6 class="font-weight-bold mb-0"><?php echo htmlspecialchars($currentSup['name']); ?></h6>
+          <h6 class="fw-bold mb-0 text-dark"><?php echo htmlspecialchars($currentSup['name']); ?></h6>
           <small class="text-muted extra-small d-block text-break"><?php echo htmlspecialchars($currentSup['email']); ?></small>
         </div>
         
-        <div class="list-group list-group-flush border-top">
-          <button onclick="switchSupTab('tasks')" class="list-group-item list-group-item-action active text-start font-weight-semibold" id="link-sup-tasks">
-            <i class="fas fa-tasks me-2 text-warning"></i> Issue Workplace Task
+        <div class="p-2 border-top d-flex flex-column gap-1">
+          <button onclick="switchSupTab('tasks')" class="sidebar-link active w-100 text-start border-0" id="link-sup-tasks">
+            <i class="fas fa-tasks me-2 text-amber-500"></i> Issue Task
           </button>
-          <button onclick="switchSupTab('reports')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-sup-reports">
-            <i class="fas fa-clipboard-check me-2 text-info"></i> Review Reports
+          <button onclick="switchSupTab('reports')" class="sidebar-link w-100 text-start border-0" id="link-sup-reports">
+            <i class="fas fa-clipboard-check me-2 text-cyan-500"></i> Review Reports
           </button>
-          <a href="logout.php" class="list-group-item list-group-item-action text-danger text-start font-weight-semibold">
+          <a href="logout.php" class="sidebar-link text-danger w-100 text-start text-decoration-none">
             <i class="fas fa-sign-out-alt me-2"></i> Logout
           </a>
         </div>
@@ -65,38 +68,38 @@ $currentSup = $_SESSION['user'];
       
       <!-- TAB 1: ISSUE WORKPLACE TASK -->
       <div id="tab-sup-tasks" class="tab-content">
-        <div class="card shadow-sm border-0 mb-4">
-          <div class="card-header bg-white font-weight-bold">
+        <div class="card border-0 shadow-sm rounded-4 glass-card mb-4">
+          <div class="card-header bg-white fw-bold py-3 border-0">
             <i class="fas fa-plus-circle text-success me-2"></i> Issue New Task to Intern
           </div>
-          <div class="card-body">
+          <div class="card-body p-4">
             <form onsubmit="assignTaskToStudent(event)">
               <div class="row g-3 mb-3">
                 <div class="col-md-6">
-                  <label class="form-label font-weight-semibold">Select Intern Student</label>
+                  <label class="form-label fw-semibold">Select Intern Student</label>
                   <select id="task-student-select" required class="form-select"></select>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label font-weight-semibold">Task Completion Deadline</label>
+                  <label class="form-label fw-semibold">Task Completion Deadline</label>
                   <input type="date" id="task-deadline" required class="form-control">
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Task Title</label>
+                <label class="form-label fw-semibold">Task Title</label>
                 <input type="text" id="task-title" required class="form-control" placeholder="e.g. Implement Responsive Navigation Component">
               </div>
               <div class="mb-3">
-                <label class="form-label font-weight-semibold">Task Instructions</label>
+                <label class="form-label fw-semibold">Task Instructions</label>
                 <textarea id="task-desc" required rows="3" class="form-control" placeholder="Provide instructions..."></textarea>
               </div>
-              <button type="submit" class="btn btn-success font-weight-bold">
-                <i class="fas fa-paper-plane me-1"></i> Issue Task
+              <button type="submit" class="btn btn-primary-gradient px-4 font-weight-bold">
+                <i class="fas fa-paper-plane me-1"></i> Issue Workplace Task
               </button>
             </form>
           </div>
         </div>
 
-        <h5 class="font-weight-bold mb-3">Issued Tasks Overview</h5>
+        <h5 class="fw-extrabold mb-3">Issued Tasks Overview</h5>
         <div id="issued-tasks-grid" class="row g-3">
           <!-- Dynamically populated -->
         </div>
@@ -104,7 +107,7 @@ $currentSup = $_SESSION['user'];
 
       <!-- TAB 2: REVIEW REPORTS -->
       <div id="tab-sup-reports" class="tab-content d-none">
-        <h4 class="font-weight-bold mb-3">Review Progress Reports</h4>
+        <h4 class="fw-extrabold mb-3">Review Progress Reports</h4>
         <div id="supervisor-reports-container" class="space-y-3">
           <!-- Dynamically populated -->
         </div>
@@ -117,16 +120,16 @@ $currentSup = $_SESSION['user'];
 <!-- EVALUATION RATING MODAL -->
 <div class="modal fade" id="reviewModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header bg-gradient-success text-white border-0">
         <h5 class="modal-title font-weight-bold">Evaluate Report</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveReportEvaluation(event)">
-        <div class="modal-body">
+        <div class="modal-body p-4">
           <input type="hidden" id="rev-report-id">
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Rating (1 - 5 Stars)</label>
+            <label class="form-label fw-semibold">Rating (1 - 5 Stars)</label>
             <select id="rev-rating" required class="form-select">
               <option value="5">5 Stars - Excellent</option>
               <option value="4">4 Stars - Very Good</option>
@@ -136,13 +139,13 @@ $currentSup = $_SESSION['user'];
             </select>
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-semibold">Supervisor Feedback</label>
+            <label class="form-label fw-semibold">Supervisor Feedback</label>
             <textarea id="rev-feedback" required rows="3" class="form-control" placeholder="Provide constructive feedback..."></textarea>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-success btn-sm font-weight-bold">Submit Evaluation</button>
+          <button type="submit" class="btn btn-success btn-sm px-4 font-weight-bold">Submit Evaluation</button>
         </div>
       </form>
     </div>
@@ -152,12 +155,12 @@ $currentSup = $_SESSION['user'];
 <!-- NOTIFICATIONS MODAL -->
 <div class="modal fade" id="notifModal" tabindex="-1">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header bg-gradient-dark text-white border-0">
         <h5 class="modal-title font-weight-bold"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body p-4">
         <div id="notif-list-container" class="space-y-2"></div>
       </div>
     </div>
@@ -178,7 +181,7 @@ $currentSup = $_SESSION['user'];
 
   function switchSupTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
 
     document.getElementById(`tab-sup-${tabId}`).classList.remove('d-none');
     document.getElementById(`link-sup-${tabId}`).classList.add('active');
@@ -247,13 +250,13 @@ $currentSup = $_SESSION['user'];
       const col = document.createElement('div');
       col.className = 'col-md-6';
       col.innerHTML = `
-        <div class="card h-100 shadow-sm border-0">
+        <div class="card h-100 border-0 shadow-sm rounded-4 glass-card card-hover p-3">
           <div class="card-body">
             <div class="d-flex justify-content-between mb-2">
               <small class="text-muted"><i class="far fa-clock me-1"></i> Deadline: ${t.deadline}</small>
-              <span class="badge ${isDone ? 'bg-success' : 'bg-warning'}">${t.status}</span>
+              <span class="badge ${isDone ? 'badge-soft-success' : 'badge-soft-warning'} px-3 py-1 rounded-pill">${t.status}</span>
             </div>
-            <h6 class="card-title font-weight-bold mb-1">${t.title}</h6>
+            <h6 class="card-title font-weight-bold text-dark mb-1">${t.title}</h6>
             <p class="card-text text-muted small">${t.description}</p>
           </div>
         </div>
@@ -274,7 +277,7 @@ $currentSup = $_SESSION['user'];
 
     reports.forEach(r => {
       const card = document.createElement('div');
-      card.className = 'card shadow-sm border-0 mb-3';
+      card.className = 'card border-0 shadow-sm rounded-4 glass-card mb-3 p-3';
       card.innerHTML = `
         <div class="card-body">
           <div class="d-flex justify-content-between mb-2">
@@ -284,13 +287,13 @@ $currentSup = $_SESSION['user'];
           <p class="small text-muted mb-1"><strong>Summary:</strong> ${r.summary}</p>
           <p class="small text-muted mb-3"><strong>Achievements:</strong> ${r.achievements}</p>
           ${r.rating ? `
-            <div class="bg-light p-2 rounded border border-success extra-small">
-              <span class="text-success font-weight-bold"><i class="fas fa-star text-warning me-1"></i> Rating: ${r.rating}/5</span>
+            <div class="bg-light p-3 rounded-3 border border-success extra-small">
+              <span class="text-success font-weight-bold"><i class="fas fa-star text-warning me-1"></i> Rating: ${r.rating}/5 Stars</span>
               <div class="text-muted mt-1"><strong>Feedback:</strong> ${r.feedback}</div>
             </div>
           ` : `
-            <button onclick="openReviewModal('${r.id}')" class="btn btn-success btn-sm font-weight-bold">
-              <i class="fas fa-star me-1"></i> Evaluate & Submit Feedback
+            <button onclick="openReviewModal('${r.id}')" class="btn btn-success btn-sm px-3 font-weight-bold">
+              <i class="fas fa-star me-1"></i> Evaluate & Grade Report
             </button>
           `}
         </div>
@@ -335,7 +338,7 @@ $currentSup = $_SESSION['user'];
     if (!container) return;
     container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No notifications</div>';
     notifs.forEach(n => {
-      container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
+      container.innerHTML += `<div class="p-2 border rounded-3 small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
     });
   }
 
