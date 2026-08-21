@@ -1,66 +1,24 @@
 /* ==========================================================================
-   Digital Internship System (DIS) - Master Comprehensive Professional CSS Engine
+   Digital Internship System (DIS) - High Visibility 4K Hero Background
    ========================================================================== */
 
-/* 1. TYPOGRAPHY IMPORT */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
-/* 2. ROOT CSS VARIABLES & CUSTOM PROPERTIES */
 :root {
-  /* Color Tokens */
   --primary: #4f46e5;
   --primary-hover: #4338ca;
-  --primary-light: #eef2ff;
   --secondary: #0284c7;
-  --secondary-light: #e0f2fe;
   --success: #059669;
-  --success-light: #d1fae5;
   --warning: #d97706;
-  --warning-light: #fef3c7;
-  --danger: #dc2626;
-  --danger-light: #fee2e2;
   
   --pure-black: #000000;
-  --slate-900: #0f172a;
-  --slate-800: #1e293b;
-  --slate-700: #334155;
-  --slate-600: #475569;
-  --slate-500: #64748b;
   --bg-slate: #f8fafc;
   --border-color: #cbd5e1;
-
-  /* Elevation Box Shadow Tokens */
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 25px 50px -12px rgba(79, 70, 229, 0.25);
-
-  /* Radius & Transition Tokens */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-full: 9999px;
-  
-  --transition-fast: all 0.2s ease-in-out;
-  --transition-smooth: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  --transition-spring: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* 3. GLOBAL RESET & BASE RULES */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Force Solid Black Text Readability Across Application */
+* {
   color: var(--pure-black) !important;
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -70,63 +28,18 @@ body {
   letter-spacing: -0.018em;
   line-height: 1.6;
   overflow-x: hidden;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
-/* 4. TYPOGRAPHY & TEXT PROPERTIES */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select, textarea {
   color: var(--pure-black) !important;
   font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.025em;
-  margin-bottom: 0.5rem;
-  text-wrap: balance;
 }
 
-h1 { font-size: calc(2.25rem + 1.2vw); }
-h2 { font-size: calc(1.75rem + 0.8vw); }
-h3 { font-size: calc(1.35rem + 0.4vw); }
-h4 { font-size: 1.25rem; }
-h5 { font-size: 1.1rem; }
-h6 { font-size: 0.95rem; }
-
-p, span, div, td, th, label, small, li, a, input, select, textarea {
-  color: var(--pure-black) !important;
-  font-weight: 700;
-}
-
-a {
-  text-decoration: none;
-  transition: var(--transition-fast);
-}
-
-a:hover {
-  color: var(--primary) !important;
-}
-
-/* 5. KEYFRAMES ANIMATIONS */
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
-  50% { box-shadow: 0 0 0 12px rgba(79, 70, 229, 0); }
-}
-
-@keyframes floatIndicator {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-}
-
-/* 6. NAVBAR PROPERTIES */
+/* Classic Professional Navbar */
 .navbar-classic {
   background-color: #ffffff !important;
   border-bottom: 2px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
-  position: sticky;
-  top: 0;
-  z-index: 1030;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .nav-link-equal {
@@ -134,38 +47,35 @@ a:hover {
   font-size: 1rem !important;
   color: var(--pure-black) !important;
   padding: 8px 0 !important;
-  transition: var(--transition-fast);
+  transition: all 0.2s ease;
   white-space: nowrap;
-  position: relative;
 }
 
 .nav-link-equal:hover {
   color: var(--primary) !important;
-  transform: translateY(-1px);
 }
 
-/* 7. HERO BANNER WITH BACKGROUND IMAGE OVERLAY & ADVANCED PROPERTIES */
+/* High Visibility Hero Background Picture (Clear contrast & 100% picture visibility) */
 .hero-picture-banner {
-  background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.94)), url('../images/hero-bg.png') no-repeat center center / cover !important;
+  background: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.55)), url('../images/hero-bg.png') no-repeat center center / cover !important;
   border-bottom: 2px solid var(--border-color);
   position: relative;
   overflow: hidden;
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  isolation: isolate;
+  padding-top: 4.5rem;
+  padding-bottom: 4.5rem;
+  min-height: 540px;
 }
 
-/* 8. MASTER 3D CARDS WITH ADVANCED TRANSFORMS & VISUAL PROPERTIES */
+/* 3D Master Cards */
 .master-card-black {
-  background: #ffffff !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(10px);
   border: 2px solid var(--border-color) !important;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-smooth);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
 }
 
 .master-card-black::before {
@@ -181,40 +91,26 @@ a:hover {
 
 .master-card-black:hover {
   transform: translateY(-8px) scale(1.015);
-  box-shadow: var(--shadow-xl) !important;
+  box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.15) !important;
   border-color: var(--primary) !important;
 }
 
-.master-card-black:hover::before {
-  height: 7px;
-}
-
-/* 9. SOLID BLACK & GRADIENT BUTTONS WITH PSEUDO EFFECTS */
+/* Solid Black Buttons */
 .btn-black-primary {
   background: var(--primary) !important;
   color: #ffffff !important;
   border: none;
   font-weight: 800;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   padding: 12px 28px;
   box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
-  transition: var(--transition-fast);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  transition: all 0.25s ease;
 }
 
 .btn-black-primary:hover {
   background: var(--primary-hover) !important;
   color: #ffffff !important;
   transform: translateY(-2px);
-  box-shadow: 0 12px 22px rgba(79, 70, 229, 0.45);
-}
-
-.btn-black-primary:active {
-  transform: translateY(0);
 }
 
 .btn-black-secondary {
@@ -222,14 +118,9 @@ a:hover {
   color: var(--pure-black) !important;
   border: 2px solid var(--pure-black) !important;
   font-weight: 800;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   padding: 10px 24px;
-  transition: var(--transition-fast);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  transition: all 0.25s ease;
 }
 
 .btn-black-secondary:hover {
@@ -239,17 +130,14 @@ a:hover {
   transform: translateY(-2px);
 }
 
-/* 10. STATUS BADGES WITH BORDERS */
+/* Badges */
 .badge-black-pill {
   font-size: 0.825rem;
   font-weight: 800;
   padding: 6px 14px;
-  border-radius: var(--radius-full);
+  border-radius: 30px;
   color: var(--pure-black) !important;
   border: 1.5px solid var(--pure-black);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .badge-indigo {
@@ -272,17 +160,15 @@ a:hover {
   border-color: var(--secondary) !important;
 }
 
-/* 11. SIDEBAR & FORM INPUT PROPERTIES */
+/* Sidebar */
 .sidebar-link {
-  border-radius: var(--radius-md);
+  border-radius: 10px;
   padding: 12px 18px;
   font-weight: 800;
   color: var(--pure-black) !important;
-  transition: var(--transition-fast);
+  transition: all 0.2s ease;
   background-color: #ffffff !important;
   border: 1.5px solid var(--border-color) !important;
-  display: flex;
-  align-items: center;
 }
 
 .sidebar-link:hover {
@@ -300,18 +186,4 @@ a:hover {
 
 .sidebar-link.active * {
   color: #ffffff !important;
-}
-
-.form-control, .form-select {
-  border-radius: var(--radius-md);
-  border: 2px solid var(--border-color);
-  padding: 10px 14px;
-  transition: var(--transition-fast);
-  font-weight: 700;
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
-  outline: none;
 }
