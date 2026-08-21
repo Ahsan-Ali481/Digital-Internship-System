@@ -1,178 +1,193 @@
 /* ==========================================================================
-   Digital Internship System (DIS) - Pinnacle Masterpiece Engine
+   Digital Internship System (DIS) - 100% Solid Black Text Master Design
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  --primary-grad: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #d946ef 100%);
-  --secondary-grad: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-  --success-grad: linear-gradient(135deg, #059669 0%, #10b981 100%);
-  --warning-grad: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --secondary: #0284c7;
+  --success: #059669;
+  --warning: #d97706;
   
-  --hero-mesh: radial-gradient(ellipse at 50% 0%, #312e81 0%, #0f172a 70%, #020617 100%);
-  
-  --text-dark: #0f172a;
-  --text-slate: #334155;
+  --pure-black: #000000;
   --bg-slate: #f8fafc;
-  --border-color: #e2e8f0;
+  --border-color: #cbd5e1;
+}
+
+/* Force 100% Solid Black Text Across Entire Application */
+* {
+  color: var(--pure-black) !important;
 }
 
 body {
   font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, sans-serif;
   background-color: var(--bg-slate);
-  color: var(--text-dark);
+  color: var(--pure-black) !important;
   letter-spacing: -0.015em;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Solid Charcoal Text Readability */
-p, span, div, td, th, label, small, li, input, select, textarea {
-  color: var(--text-dark);
+h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select, textarea {
+  color: var(--pure-black) !important;
+  font-weight: 700;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #0f172a !important;
-  font-weight: 800;
-}
-
-/* Gradient Text Mask */
+/* Gradient Text Mask with Dark Contrast Fallback */
 .gradient-text-mask {
-  background: var(--primary-grad);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: #4f46e5 !important;
   font-weight: 900;
 }
 
-/* Hero Mesh Background */
-.bg-hero-mesh {
-  background: var(--hero-mesh) !important;
+/* Clean White Hero Canvas */
+.hero-white-canvas {
+  background: #ffffff !important;
+  border-bottom: 2px solid #e2e8f0;
 }
 
-/* Pinnacle 3D Floating Master Cards */
-.pinnacle-card {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: 18px;
-  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.06), 0 4px 6px -2px rgba(15, 23, 42, 0.02);
+/* 3D Black-Text Master Cards */
+.master-card-black {
+  background: #ffffff !important;
+  border: 2px solid #cbd5e1 !important;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
 }
 
-.pinnacle-card::before {
+.master-card-black::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 5px;
-  background: var(--primary-grad);
+  background: linear-gradient(90deg, #4f46e5, #0284c7, #059669);
   transition: height 0.3s ease;
 }
 
-.pinnacle-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 30px 60px -15px rgba(79, 70, 229, 0.25) !important;
-  border-color: #6366f1 !important;
+.master-card-black:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.15) !important;
+  border-color: #4f46e5 !important;
 }
 
-.pinnacle-card:hover::before {
-  height: 8px;
-}
-
-/* Pinnacle Master Buttons */
-.btn-pinnacle-primary {
-  background: var(--primary-grad);
+/* Solid Black Buttons */
+.btn-black-primary {
+  background: #4f46e5 !important;
   color: #ffffff !important;
   border: none;
   font-weight: 800;
   border-radius: 12px;
-  padding: 12px 30px;
-  box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+  padding: 12px 28px;
+  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
   transition: all 0.25s ease;
 }
 
-.btn-pinnacle-primary:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.6);
+.btn-black-primary:hover {
+  background: #4338ca !important;
   color: #ffffff !important;
-}
-
-.btn-pinnacle-secondary {
-  background: #ffffff;
-  color: #0f172a !important;
-  border: 1.5px solid var(--border-color);
-  font-weight: 800;
-  border-radius: 12px;
-  padding: 10px 26px;
-  transition: all 0.25s ease;
-}
-
-.btn-pinnacle-secondary:hover {
-  background: #eef2ff;
-  border-color: #6366f1;
-  color: #4f46e5 !important;
   transform: translateY(-2px);
 }
 
-/* Badges */
-.badge-pinnacle {
-  font-size: 0.8rem;
+.btn-black-secondary {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  font-weight: 800;
+  border-radius: 12px;
+  padding: 10px 24px;
+  transition: all 0.25s ease;
+}
+
+.btn-black-secondary:hover {
+  background: #f1f5f9 !important;
+  transform: translateY(-2px);
+}
+
+/* High Contrast Status Badges */
+.badge-black-pill {
+  font-size: 0.825rem;
   font-weight: 800;
   padding: 6px 14px;
   border-radius: 30px;
+  color: #000000 !important;
+  border: 1.5px solid #000000;
 }
 
 .badge-indigo {
-  background-color: #e0e7ff;
-  color: #3730a3 !important;
-  border: 1px solid #c7d2fe;
+  background-color: #e0e7ff !important;
+  border-color: #6366f1 !important;
 }
 
 .badge-emerald {
-  background-color: #d1fae5;
-  color: #065f46 !important;
-  border: 1px solid #a7f3d0;
+  background-color: #d1fae5 !important;
+  border-color: #10b981 !important;
 }
 
 .badge-amber {
-  background-color: #fef3c7;
-  color: #92400e !important;
-  border: 1px solid #fde68a;
+  background-color: #fef3c7 !important;
+  border-color: #f59e0b !important;
 }
 
 .badge-sky {
-  background-color: #e0f2fe;
-  color: #075985 !important;
-  border: 1px solid #7dd3fc;
+  background-color: #e0f2fe !important;
+  border-color: #0284c7 !important;
 }
 
-/* Sidebar Links */
+/* Sidebar Navigation */
 .sidebar-link {
   border-radius: 10px;
   padding: 12px 18px;
-  font-weight: 700;
-  color: #334155 !important;
+  font-weight: 800;
+  color: #000000 !important;
   transition: all 0.2s ease;
-  background-color: #ffffff;
-  border: 1px solid var(--border-color);
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
 .sidebar-link:hover {
-  background-color: #eef2ff;
-  color: #4f46e5 !important;
-  border-color: #c7d2fe;
+  background-color: #eef2ff !important;
+  border-color: #6366f1 !important;
   transform: translateX(4px);
 }
 
 .sidebar-link.active {
-  background: var(--primary-grad);
+  background-color: #4f46e5 !important;
   color: #ffffff !important;
-  border-color: transparent;
-  box-shadow: 0 8px 20px -4px rgba(79, 70, 229, 0.4);
+  border-color: #4f46e5 !important;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
 }
 
 .sidebar-link.active * {
   color: #ffffff !important;
+}
+
+/* Table Styling */
+.table-black-contrast {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table-black-contrast thead tr th {
+  background-color: #f1f5f9 !important;
+  color: #000000 !important;
+  font-weight: 900;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 14px 16px;
+  border-bottom: 2px solid #000000;
+}
+
+.table-black-contrast tbody tr td {
+  padding: 14px 16px;
+  color: #000000 !important;
+  border-bottom: 1px solid #cbd5e1;
+  font-weight: 700;
 }
