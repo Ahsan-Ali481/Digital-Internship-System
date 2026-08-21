@@ -1,5 +1,5 @@
 <?php
-// signin.php - User Sign In Page
+// signin.php - Unified User Sign In Page
 $pageTitle = "Sign In - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -11,7 +11,8 @@ if (isset($_GET['logged_out'])) {
     $success = "You have been logged out successfully.";
 }
 if (isset($_GET['registered'])) {
-    $success = "Account registered successfully! Please sign in below.";
+    $registeredEmail = htmlspecialchars($_GET['email'] ?? '');
+    $success = "Account registered successfully! Please sign in with your Gmail (" . $registeredEmail . ") and password.";
 }
 if (isset($_GET['password_reset'])) {
     $success = "Password reset successfully! Please sign in with your new password.";
@@ -28,17 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $userFound = null;
 
-        // Credentials mapping for exact requested defaults
-        $demoUsers = [
-            'admin123@gmail.com' => ['id' => 'usr_adm1', 'name' => 'System Admin', 'email' => 'admin123@gmail.com', 'role' => 'admin', 'password' => '12345678'],
-            'ahmed123@gmail.com' => ['id' => 'usr_std1', 'name' => 'Ahmed Hassan', 'email' => 'ahmed123@gmail.com', 'role' => 'student', 'password' => '123456789'],
-            'hr123@gmail.com' => ['id' => 'usr_hr1', 'name' => 'Sarah Jenkins', 'email' => 'hr123@gmail.com', 'role' => 'company', 'password' => '123456789'],
-            'supervisor123@gmail.com' => ['id' => 'usr_sup1', 'name' => 'Dr. Robert Chen', 'email' => 'supervisor123@gmail.com', 'role' => 'supervisor', 'password' => '123456789']
+        // Pre-configured accounts for Supervisor & Admin
+        $preconfiguredUsers = [
+            'admin123@gmail.com' => ['id' => 'usr_adm1', 'name' => 'System Admin', 'email' => 'admin123@gmail.com', 'role' => 'admin'],
+            'supervisor123@gmail.com' => ['id' => 'usr_sup1', 'name' => 'Dr. Robert Chen', 'email' => 'supervisor123@gmail.com', 'role' => 'supervisor']
         ];
 
-        if (isset($demoUsers[$email])) {
-            $userFound = $demoUsers[$email];
+        if (isset($preconfiguredUsers[$email])) {
+            $userFound = $preconfiguredUsers[$email];
         } else {
+            // Check Database for registered student / company manager
             if (isset($pdo)) {
                 try {
                     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
@@ -49,13 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             'id' => $row['user_uid'],
                             'name' => $row['name'],
                             'email' => $row['email'],
-                            'role' => $row['role']
+                            'role' => $row['role'],
+                            'companyName' => $row['company_name'] ?? null
                         ];
                     }
                 } catch (Exception $e) {}
             }
         }
 
+        // Fallback for custom user signup
         if (!$userFound) {
             $userFound = [
                 'id' => 'usr_' . time(),
@@ -95,12 +97,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
           <?php endif; ?>
 
-          <form action="signin.php" method="POST">
+          <form action="signin.php" method="POST" onsubmit="handleSigninJS(event)">
             <div class="mb-3">
-              <label class="form-label font-weight-semibold text-secondary">Email Address</label>
+              <label class="form-label font-weight-semibold text-secondary">Gmail / Email Address</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-envelope text-muted"></i></span>
-                <input type="email" name="email" id="login-email" class="form-control" required placeholder="user@gmail.com">
+                <input type="email" name="email" id="login-email" class="form-control" required placeholder="yourname@gmail.com">
               </div>
             </div>
 
@@ -122,34 +124,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label class="form-label font-weight-semibold text-secondary">Account Role</label>
               <select name="role" id="login-role" class="form-select">
                 <option value="student">Student</option>
-                <option value="company">Company HR</option>
+                <option value="company">Company HR / Manager</option>
                 <option value="supervisor">Workplace Supervisor</option>
                 <option value="admin">System Admin</option>
               </select>
             </div>
 
             <button type="submit" class="btn btn-primary w-100 py-2 font-weight-bold shadow-sm">
-              <i class="fas fa-sign-in-alt me-1"></i> Sign In
+              <i class="fas fa-sign-in-alt me-1"></i> Sign In to Dashboard
             </button>
           </form>
 
           <hr class="my-4">
 
-          <!-- 1-Click Quick Demo Login Shortcuts -->
+          <!-- Demo Login Buttons ONLY for Pre-configured Roles: Supervisor & Admin -->
           <div class="text-center">
-            <p class="text-muted small font-weight-bold mb-2"><i class="fas fa-bolt text-warning me-1"></i> 1-Click Quick Demo Access:</p>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center flex-wrap">
-              <button onclick="fillDemo('ahmed123@gmail.com', '123456789', 'student')" class="btn btn-outline-primary btn-sm font-weight-bold">Student</button>
-              <button onclick="fillDemo('hr123@gmail.com', '123456789', 'company')" class="btn btn-outline-info btn-sm font-weight-bold">Company HR</button>
-              <button onclick="fillDemo('supervisor123@gmail.com', '123456789', 'supervisor')" class="btn btn-outline-success btn-sm font-weight-bold">Supervisor</button>
-              <button onclick="fillDemo('admin123@gmail.com', '12345678', 'admin')" class="btn btn-outline-warning btn-sm text-dark font-weight-bold">Admin</button>
+            <p class="text-muted small font-weight-bold mb-2"><i class="fas fa-bolt text-warning me-1"></i> Pre-Configured Accounts Access:</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+              <button onclick="fillDemo('supervisor123@gmail.com', '123456789', 'supervisor')" class="btn btn-outline-success btn-sm font-weight-bold">
+                <i class="fas fa-user-tie me-1"></i> Supervisor Demo
+              </button>
+              <button onclick="fillDemo('admin123@gmail.com', '12345678', 'admin')" class="btn btn-outline-warning btn-sm text-dark font-weight-bold">
+                <i class="fas fa-user-shield me-1"></i> Admin Demo
+              </button>
             </div>
+            <p class="text-muted extra-small mt-2 mb-0">
+              * Note: Students & Company Managers register their own custom Gmail & Password via <a href="signup.php" class="font-weight-bold text-primary">Registration</a>.
+            </p>
           </div>
 
         </div>
         <div class="card-footer bg-light text-center py-3">
-          <span class="text-muted small">Don't have an account?</span>
-          <a href="signup.php" class="text-primary font-weight-bold ms-1">Register Here</a>
+          <span class="text-muted small">Don't have an account yet?</span>
+          <a href="signup.php" class="text-primary font-weight-bold ms-1">Register New Account</a>
         </div>
       </div>
     </div>
@@ -161,6 +168,27 @@ function fillDemo(email, pass, role) {
   document.getElementById('login-email').value = email;
   document.getElementById('login-password').value = pass;
   document.getElementById('login-role').value = role;
+}
+
+function handleSigninJS(e) {
+  const email = document.getElementById('login-email').value;
+  const pass = document.getElementById('login-password').value;
+  const role = document.getElementById('login-role').value;
+
+  const users = DIS.getUsers();
+  let user = users.find(u => u.email === email);
+  if (!user) {
+    user = {
+      id: 'usr_' + Date.now(),
+      name: email.split('@')[0],
+      email: email,
+      role: role,
+      status: 'approved'
+    };
+    users.push(user);
+    DIS.setUsers(users);
+  }
+  DIS.setCurrentUser(user);
 }
 </script>
 
