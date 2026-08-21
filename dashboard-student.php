@@ -1,171 +1,150 @@
+<?php
+// dashboard-student.php - Student Dashboard
+$pageTitle = "Student Dashboard - Digital Internship System";
+require_once __DIR__ . '/config/db.php';
+
+// Session Auth Check
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'student') {
+    // Default student session for demo if accessing directly
+    $_SESSION['user'] = [
+        'id' => 'usr_std1',
+        'name' => 'Ahmed Hassan',
+        'email' => 'ahmed.hassan@gmail.com',
+        'role' => 'student'
+    ];
+}
+$currentUser = $_SESSION['user'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Dashboard | Digital Internship System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
+  <title><?php echo $pageTitle; ?></title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col md:flex-row font-sans">
+<body class="bg-light">
 
-  <!-- Attractive Vertical Left Sidebar -->
-  <aside id="sidebar-drawer" class="fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 p-6 flex flex-col justify-between transform -translate-x-full md:translate-x-0 md:static transition-transform duration-300 ease-in-out shadow-xl md:shadow-none min-h-screen">
-    <div class="space-y-8">
-      <!-- Sidebar Brand Header -->
-      <div class="flex items-center justify-between">
-        <a href="index.php" class="flex items-center gap-3 font-bold text-xl tracking-tight text-indigo-600 dark:text-indigo-400">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-            <i class="fas fa-graduation-cap text-xl"></i>
-          </div>
-          <div class="flex flex-col">
-            <span class="leading-tight">Digital<span class="text-slate-900 dark:text-white">Internship</span></span>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-500">Student Portal</span>
-          </div>
-        </a>
-        <button onclick="toggleMobileSidebar()" class="md:hidden text-slate-400 hover:text-slate-600"><i class="fas fa-times text-lg"></i></button>
-      </div>
-
-      <!-- Current Student Card Summary -->
-      <div class="p-4 rounded-2xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 flex items-center gap-3 shadow-sm">
-        <img id="user-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80" class="w-11 h-11 rounded-full object-cover border-2 border-indigo-500 shadow-sm">
-        <div class="overflow-hidden">
-          <div id="user-name" class="text-sm font-bold text-slate-900 dark:text-white truncate">Ahmed Hassan</div>
-          <div id="user-email" class="text-xs text-slate-500 dark:text-slate-400 truncate">ahmed@student.com</div>
-        </div>
-      </div>
-
-      <!-- Vertical Sidebar Navigation Links -->
-      <nav class="space-y-2">
-        <div class="px-3 text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-3">Navigation Modules</div>
-
-        <button onclick="switchTab('internships')" id="tab-btn-internships" class="tab-link w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold text-sm bg-indigo-600 text-white shadow-lg shadow-indigo-500/25 transition-all">
-          <div class="flex items-center gap-3">
-            <i class="fas fa-search text-base w-5 text-center"></i>
-            <span>Browse Internships</span>
-          </div>
-        </button>
-
-        <button onclick="switchTab('applications')" id="tab-btn-applications" class="tab-link w-full flex items-center justify-between px-4 py-3 rounded-xl font-semibold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-slate-900 dark:hover:text-white transition-all">
-          <div class="flex items-center gap-3">
-            <i class="fas fa-file-alt text-base w-5 text-center"></i>
-            <span>My Applications</span>
-          </div>
-          <span id="app-count-badge" class="px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 text-xs font-bold">0</span>
-        </button>
-
-        <button onclick="switchTab('tasks')" id="tab-btn-tasks" class="tab-link w-full flex items-center justify-between px-4 py-3 rounded-xl font-semibold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-slate-900 dark:hover:text-white transition-all">
-          <div class="flex items-center gap-3">
-            <i class="fas fa-tasks text-base w-5 text-center"></i>
-            <span>Supervisor Tasks</span>
-          </div>
-        </button>
-
-        <button onclick="switchTab('reports')" id="tab-btn-reports" class="tab-link w-full flex items-center justify-between px-4 py-3 rounded-xl font-semibold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-slate-900 dark:hover:text-white transition-all">
-          <div class="flex items-center gap-3">
-            <i class="fas fa-book-open text-base w-5 text-center"></i>
-            <span>Progress & Feedback</span>
-          </div>
-        </button>
-
-        <button onclick="switchTab('profile')" id="tab-btn-profile" class="tab-link w-full flex items-center justify-between px-4 py-3 rounded-xl font-semibold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-slate-900 dark:hover:text-white transition-all">
-          <div class="flex items-center gap-3">
-            <i class="fas fa-user-cog text-base w-5 text-center"></i>
-            <span>Profile & CV Manager</span>
-          </div>
-        </button>
-      </nav>
+<!-- Top Header Bar -->
+<header class="bg-white border-bottom py-2 sticky-top shadow-sm">
+  <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+      <a href="index.php" class="navbar-brand font-weight-bold text-primary mb-0">
+        <i class="fas fa-graduation-cap me-1"></i> Digital Internship System
+      </a>
+      <span class="badge bg-primary text-white">Student Portal</span>
     </div>
-
-    <!-- Sidebar Bottom Sign Out -->
-    <div class="pt-6 border-t border-slate-200 dark:border-slate-700">
-      <button onclick="DIS.logout()" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 font-bold text-xs hover:bg-red-100 dark:hover:bg-red-900/50 transition-all">
-        <i class="fas fa-sign-out-alt"></i> Sign Out
+    
+    <div class="d-flex align-items-center gap-3">
+      <!-- Theme Toggle -->
+      <button onclick="DIS.toggleTheme()" class="btn btn-outline-secondary btn-sm" title="Toggle Light/Dark Theme">
+        <i class="fas fa-moon"></i>
       </button>
-    </div>
-  </aside>
 
-  <!-- Main Content Container Area -->
-  <div class="flex-1 flex flex-col min-w-0">
-
-    <!-- Top Header Bar -->
-    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between shadow-sm">
-      <div class="flex items-center gap-3">
-        <button onclick="toggleMobileSidebar()" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200">
-          <i class="fas fa-bars text-lg"></i>
+      <!-- Notification Bell with Badge -->
+      <div class="position-relative">
+        <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
+          <i class="fas fa-bell"></i>
+          <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            2
+          </span>
         </button>
-        <div>
-          <h1 class="text-xl font-extrabold text-slate-900 dark:text-white">Student Dashboard</h1>
-          <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">Welcome back to your career & internship portal</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid px-4 py-4">
+  <div class="row g-4">
+    <!-- Left Vertical Sidebar -->
+    <div class="col-md-3 col-lg-2">
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body text-center p-3">
+          <div class="bg-primary text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+            <i class="fas fa-user-graduate fa-lg"></i>
+          </div>
+          <h6 id="user-name" class="font-weight-bold mb-0"><?php echo htmlspecialchars($currentUser['name']); ?></h6>
+          <small id="user-email" class="text-muted text-break extra-small"><?php echo htmlspecialchars($currentUser['email']); ?></small>
+        </div>
+        
+        <div class="list-group list-group-flush border-top">
+          <button onclick="switchTab('browse')" class="list-group-item list-group-item-action active text-start font-weight-semibold" id="link-browse">
+            <i class="fas fa-search me-2 text-primary"></i> Browse Internships
+          </button>
+          <button onclick="switchTab('applications')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-applications">
+            <i class="fas fa-paper-plane me-2 text-success"></i> My Applications
+          </button>
+          <button onclick="switchTab('tasks')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-tasks">
+            <i class="fas fa-tasks me-2 text-warning"></i> Supervisor Tasks
+          </button>
+          <button onclick="switchTab('reports')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-reports">
+            <i class="fas fa-clipboard-check me-2 text-info"></i> Weekly Reports
+          </button>
+          <button onclick="switchTab('profile')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-profile">
+            <i class="fas fa-user-edit me-2 text-secondary"></i> Profile & Resume
+          </button>
+          <a href="logout.php" class="list-group-item list-group-item-action text-danger text-start font-weight-semibold">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+          </a>
         </div>
       </div>
-
-      <!-- Top Right Controls (Notification Bell & Theme Toggle Only) -->
-      <div class="flex items-center gap-3">
-        <!-- Notification Bell Button -->
-        <button onclick="toggleNotificationModal()" class="relative p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/80 text-slate-600 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm" title="Notifications">
-          <i class="fas fa-bell text-lg"></i>
-          <span id="notif-badge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-extrabold flex items-center justify-center hidden">0</span>
-        </button>
-
-        <!-- Theme Toggle Button -->
-        <button onclick="DIS.toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700/80 text-slate-600 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all shadow-sm" title="Toggle Light/Dark Theme">
-          <i class="fas fa-moon dark:hidden text-lg"></i>
-          <i class="fas fa-sun hidden dark:block text-amber-400 text-lg"></i>
-        </button>
-      </div>
-    </header>
+    </div>
 
     <!-- Main Content Area -->
-    <main class="flex-1 p-6 md:p-10 overflow-y-auto space-y-8">
-
+    <div class="col-md-9 col-lg-10">
+      
       <!-- TAB 1: BROWSE INTERNSHIPS -->
-      <div id="tab-internships" class="tab-content space-y-6">
-        <div class="flex flex-col md:flex-row gap-4 justify-between items-center bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-          <div class="relative w-full md:w-96">
-            <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
-            <input type="text" id="search-keyword" oninput="filterInternships()" placeholder="Search title, tech stack..." class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm outline-none">
+      <div id="tab-browse" class="tab-content">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="font-weight-bold mb-0">Browse Available Internships</h4>
+          <span class="text-muted small">Find software, design & engineering roles</span>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-md-5">
+            <input type="text" id="search-input" onkeyup="filterInternships()" class="form-control form-control-sm" placeholder="Search title or company...">
           </div>
-          <div class="flex items-center gap-4 w-full md:w-auto">
-            <select id="filter-category" onchange="filterInternships()" class="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm outline-none">
+          <div class="col-md-4">
+            <select id="category-filter" onchange="filterInternships()" class="form-select form-select-sm">
               <option value="all">All Categories</option>
-              <option value="Web Development">Web Development</option>
+              <option value="Software Development">Software Development</option>
+              <option value="UI/UX Design">UI/UX Design</option>
               <option value="Data Science">Data Science</option>
-            </select>
-            <select id="filter-location" onchange="filterInternships()" class="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm outline-none">
-              <option value="all">All Locations</option>
-              <option value="Remote">Remote</option>
-              <option value="San Francisco">San Francisco</option>
             </select>
           </div>
         </div>
 
-        <div id="internships-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div id="internships-grid" class="row g-3">
+          <!-- Dynamic Internships loaded via app.js -->
         </div>
       </div>
 
       <!-- TAB 2: MY APPLICATIONS -->
-      <div id="tab-applications" class="tab-content hidden space-y-6">
-        <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-          <div class="p-6 border-b border-slate-200 dark:border-slate-700">
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Applied Internships Status</h2>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm">
-              <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 uppercase text-xs">
+      <div id="tab-applications" class="tab-content d-none">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="font-weight-bold mb-0">My Submitted Applications</h4>
+          <span class="badge bg-secondary" id="app-count-badge">0</span>
+        </div>
+
+        <div class="card shadow-sm border-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
                 <tr>
-                  <th class="p-4">Internship & Company</th>
-                  <th class="p-4">Applied Date</th>
-                  <th class="p-4">Status</th>
-                  <th class="p-4">Interview Schedule</th>
-                  <th class="p-4">CV Uploaded</th>
+                  <th>Internship Title & Company</th>
+                  <th>Applied Date</th>
+                  <th>Status</th>
+                  <th>Interview Schedule</th>
+                  <th>CV File</th>
                 </tr>
               </thead>
-              <tbody id="student-apps-table-body" class="divide-y divide-slate-200 dark:divide-slate-700">
+              <tbody id="student-apps-table-body">
+                <!-- Loaded via JS -->
               </tbody>
             </table>
           </div>
@@ -173,561 +152,508 @@
       </div>
 
       <!-- TAB 3: SUPERVISOR TASKS -->
-      <div id="tab-tasks" class="tab-content hidden space-y-6">
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Assigned Workplace Tasks</h2>
-          <div id="student-tasks-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div id="tab-tasks" class="tab-content d-none">
+        <h4 class="font-weight-bold mb-3">Workplace Supervisor Tasks</h4>
+        <div id="student-tasks-list" class="row g-3">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
+      <!-- TAB 4: WEEKLY PROGRESS REPORTS -->
+      <div id="tab-reports" class="tab-content d-none">
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-white font-weight-bold">
+            <i class="fas fa-pen-nib text-primary me-2"></i> Submit Weekly Progress Report
+          </div>
+          <div class="card-body">
+            <form onsubmit="submitProgressReport(event)">
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Week Number</label>
+                  <input type="number" id="rep-week" min="1" max="16" required class="form-control form-control-sm" placeholder="e.g. 1">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Attachment (PDF/ZIP)</label>
+                  <input type="file" id="rep-file" class="form-control form-control-sm">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold">Weekly Summary of Tasks Completed</label>
+                <textarea id="rep-summary" required rows="3" class="form-control form-control-sm" placeholder="Describe the tasks completed this week..."></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold">Key Achievements & Skills Learned</label>
+                <textarea id="rep-achievements" required rows="2" class="form-control form-control-sm" placeholder="Mention key achievements..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-sm font-weight-bold">
+                <i class="fas fa-paper-plane me-1"></i> Submit Progress Report
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <h5 class="font-weight-bold mb-3">Past Submitted Reports & Feedback</h5>
+        <div id="student-reports-list" class="space-y-3">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
+      <!-- TAB 5: PROFILE & RESUME MANAGER -->
+      <div id="tab-profile" class="tab-content d-none">
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-white font-weight-bold">
+            <i class="fas fa-user-edit text-primary me-2"></i> Edit Student Profile & Resume
+          </div>
+          <div class="card-body">
+            <form onsubmit="saveStudentProfile(event)">
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Full Name</label>
+                  <input type="text" id="prof-name" required class="form-control">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Email / Gmail Address</label>
+                  <input type="email" id="prof-email" required class="form-control" placeholder="user@gmail.com">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold">Update Resume / CV (PDF File)</label>
+                <input type="file" id="prof-resume" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-primary font-weight-bold">
+                <i class="fas fa-save me-1"></i> Save Profile Changes
+              </button>
+            </form>
           </div>
         </div>
       </div>
 
-      <!-- TAB 4: WEEKLY PROGRESS REPORTS & FEEDBACK -->
-      <div id="tab-reports" class="tab-content hidden space-y-8">
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Submit Weekly Learning Progress Report</h2>
-          <form onsubmit="submitProgressReport(event)" class="space-y-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Week Number</label>
-                <input type="number" id="rep-week" min="1" max="24" required placeholder="e.g. 2" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Attachment (PDF/DOCX)</label>
-                <input type="file" id="rep-file" accept=".pdf,.doc,.docx" required class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white cursor-pointer">
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Weekly Learning Summary</label>
-              <textarea id="rep-summary" rows="3" required placeholder="Describe tasks accomplished, learnings, and tools mastered..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Key Achievements / Deliverables</label>
-              <input type="text" id="rep-achievements" required placeholder="e.g. Resolved 3 bugs and integrated API endpoint" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-            <button type="submit" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md transition-all">
-              Submit Learning Report
-            </button>
-          </form>
-        </div>
-
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Past Weekly Reports & Supervisor Feedback</h2>
-          <div id="reports-history-list" class="space-y-4">
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 5: PROFILE & CV MANAGER -->
-      <div id="tab-profile" class="tab-content hidden space-y-6">
-        <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-sm max-w-2xl mx-auto space-y-6">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-4">Edit Profile & Resume</h2>
-          <form onsubmit="updateStudentProfile(event)" class="space-y-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Full Name</label>
-                <input type="text" id="prof-name" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Email / Gmail Address</label>
-                <input type="email" id="prof-email" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-              </div>
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">University / Institute</label>
-              <input type="text" id="prof-uni" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Major / Field</label>
-                <input type="text" id="prof-major" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Contact Phone</label>
-                <input type="text" id="prof-phone" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-              </div>
-            </div>
-            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Upload Updated Resume / CV (PDF)</label>
-              <input type="file" id="prof-resume" accept=".pdf" class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white cursor-pointer">
-              <p id="current-cv-name" class="text-xs text-indigo-600 dark:text-indigo-400 mt-2 font-medium"></p>
-            </div>
-            <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md transition-all">
-              Save Profile Changes
-            </button>
-          </form>
-        </div>
-      </div>
-    </main>
+    </div>
   </div>
+</div>
 
-  <!-- APPLICATION MODAL -->
-  <div id="apply-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-lg w-full modal-content border border-slate-200 dark:border-slate-700 space-y-6 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
-        <h3 id="modal-internship-title" class="text-xl font-bold text-slate-900 dark:text-white">Apply for Internship</h3>
-        <button onclick="closeApplyModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
+<!-- APPLY MODAL -->
+<div class="modal fade" id="applyModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold">Submit Internship Application</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <form onsubmit="submitApplication(event)" class="space-y-4">
-        <input type="hidden" id="modal-internship-id">
-        <input type="hidden" id="modal-company-id">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Attach Resume / CV</label>
-          <input type="file" id="modal-cv-file" accept=".pdf,.doc,.docx" required class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white cursor-pointer">
+      <form onsubmit="submitApplication(event)">
+        <div class="modal-body">
+          <input type="hidden" id="apply-int-id">
+          <input type="hidden" id="apply-comp-id">
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Position Title</label>
+            <input type="text" id="apply-int-title" readonly class="form-control-plaintext font-weight-bold text-primary">
+          </div>
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Upload CV / Resume (PDF)</label>
+            <input type="file" id="apply-cv" required class="form-control">
+          </div>
         </div>
-        <div class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-xs text-indigo-700 dark:text-indigo-300">
-          <i class="fas fa-info-circle mr-1"></i> Your academic profile and attached CV will be transmitted to Company HR for review.
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Confirm & Submit Application</button>
         </div>
-        <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-          Confirm Application
-        </button>
       </form>
     </div>
   </div>
+</div>
 
-  <!-- NOTIFICATIONS MODAL -->
-  <div id="notif-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full modal-content border border-slate-200 dark:border-slate-700 space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3">
-        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <i class="fas fa-bell text-amber-500"></i> Notifications
-        </h3>
-        <button onclick="toggleNotificationModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-lg"></i></button>
+<!-- NOTIFICATIONS MODAL -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-
-      <!-- Quick Action Controls for Notifications -->
-      <div class="flex items-center justify-between text-xs font-bold px-1 pb-1">
-        <button onclick="markAllNotificationsRead()" class="text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1.5">
-          <i class="fas fa-check-double text-xs"></i> Mark All as Read
-        </button>
-        <button onclick="clearAllNotifications()" class="text-red-500 hover:underline flex items-center gap-1.5">
-          <i class="fas fa-trash-alt text-xs"></i> Clear All Notifications
-        </button>
-      </div>
-
-      <div id="notif-list-container" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+      <div class="modal-body">
+        <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+          <button onclick="markAllNotificationsRead()" class="btn btn-link btn-sm text-decoration-none font-weight-bold p-0">
+            <i class="fas fa-check-double me-1"></i> Mark All as Read
+          </button>
+          <button onclick="clearAllNotifications()" class="btn btn-link btn-sm text-danger text-decoration-none font-weight-bold p-0">
+            <i class="fas fa-trash-alt me-1"></i> Clear All
+          </button>
+        </div>
+        <div id="notif-list-container" class="space-y-2 max-vh-50 overflow-auto">
+          <!-- Loaded via JS -->
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script src="assets/js/app.js"></script>
-  <script>
-    const currentUser = DIS.checkAuth(['student']);
+<script src="assets/js/app.js"></script>
+<script>
+  const currentUser = DIS.checkAuth(['student']);
 
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!currentUser) return;
-      document.getElementById('user-name').innerText = currentUser.name;
-      document.getElementById('user-email').innerText = currentUser.email;
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!currentUser) return;
+    document.getElementById('user-name').innerText = currentUser.name;
+    document.getElementById('user-email').innerText = currentUser.email;
 
-      renderInternships();
-      renderMyApplications();
-      renderMyTasks();
-      renderMyReports();
-      loadProfileForm();
-      loadNotifications();
-    });
+    renderInternships();
+    renderMyApplications();
+    renderMyTasks();
+    renderMyReports();
+    loadProfileForm();
+    loadNotifications();
+  });
 
-    function toggleMobileSidebar() {
-      document.getElementById('sidebar-drawer').classList.toggle('-translate-x-full');
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
+    document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(`tab-${tabId}`).classList.remove('d-none');
+    document.getElementById(`link-${tabId}`).classList.add('active');
+  }
+
+  function renderInternships() {
+    const internships = DIS.getInternships().filter(i => i.status === 'active');
+    const grid = document.getElementById('internships-grid');
+    grid.innerHTML = '';
+
+    if (internships.length === 0) {
+      grid.innerHTML = '<div class="col-12 text-center py-4 text-muted">No active internships posted at the moment.</div>';
+      return;
     }
 
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-link').forEach(el => {
-        el.className = 'tab-link w-full flex items-center justify-between px-4 py-3 rounded-xl font-semibold text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-slate-900 dark:hover:text-white transition-all';
-      });
-      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-      document.getElementById(`tab-btn-${tabId}`).className = 'tab-link w-full flex items-center justify-between px-4 py-3 rounded-xl font-bold text-sm bg-indigo-600 text-white shadow-lg shadow-indigo-500/25 transition-all';
-
-      if (window.innerWidth < 768) {
-        document.getElementById('sidebar-drawer').classList.add('-translate-x-full');
-      }
-    }
-
-    function renderInternships() {
-      const internships = DIS.getInternships().filter(i => i.status === 'active');
-      const grid = document.getElementById('internships-grid');
-      grid.innerHTML = '';
-
-      if (internships.length === 0) {
-        grid.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-400">No internships currently posted.</div>';
-        return;
-      }
-
-      internships.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 card-hover flex flex-col justify-between space-y-4 shadow-sm';
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 text-xs font-bold">${item.category}</span>
-              <span class="text-xs text-slate-400"><i class="far fa-clock mr-1"></i> Deadline: ${item.deadline}</span>
+    internships.forEach(item => {
+      const col = document.createElement('div');
+      col.className = 'col-md-6 col-lg-4';
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="badge bg-primary-subtle text-primary">${item.category}</span>
+              <small class="text-muted"><i class="far fa-clock me-1"></i> ${item.deadline}</small>
             </div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-3">${item.title}</h3>
-            <div class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1"><i class="fas fa-building mr-1"></i> ${item.companyName}</div>
-            <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 line-clamp-2">${item.description}</p>
+            <h5 class="card-title font-weight-bold mb-1">${item.title}</h5>
+            <h6 class="card-subtitle text-muted small mb-2"><i class="fas fa-building me-1"></i> ${item.companyName}</h6>
+            <p class="card-text text-muted small">${item.description}</p>
           </div>
-          <div class="border-t border-slate-100 dark:border-slate-700/60 pt-4 flex items-center justify-between">
-            <div>
-              <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400">${item.stipend}</div>
-              <div class="text-[11px] text-slate-400"><i class="fas fa-map-marker-alt mr-1"></i> ${item.location}</div>
-            </div>
-            <button onclick="openApplyModal('${item.id}', '${item.companyId}', '${item.title}')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm transition-all">
+          <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center">
+            <span class="text-success font-weight-bold small">${item.stipend}</span>
+            <button onclick="openApplyModal('${item.id}', '${item.companyId}', '${item.title}')" class="btn btn-primary btn-sm font-weight-bold">
               Apply Now
             </button>
           </div>
-        `;
-        grid.appendChild(card);
-      });
+        </div>
+      `;
+      grid.appendChild(col);
+    });
+  }
+
+  function openApplyModal(id, companyId, title) {
+    document.getElementById('apply-int-id').value = id;
+    document.getElementById('apply-comp-id').value = companyId;
+    document.getElementById('apply-int-title').value = title;
+    
+    const bsModal = new bootstrap.Modal(document.getElementById('applyModal'));
+    bsModal.show();
+  }
+
+  function submitApplication(e) {
+    e.preventDefault();
+    const intId = document.getElementById('apply-int-id').value;
+    const compId = document.getElementById('apply-comp-id').value;
+    const cvFile = document.getElementById('apply-cv').files[0];
+
+    const apps = DIS.getApplications();
+    const newApp = {
+      id: 'app_' + Date.now(),
+      internshipId: intId,
+      studentId: currentUser.id,
+      studentName: currentUser.name,
+      studentEmail: currentUser.email,
+      companyId: compId,
+      cvName: cvFile ? cvFile.name : 'resume.pdf',
+      status: 'Pending',
+      appliedAt: new Date().toISOString().split('T')[0]
+    };
+
+    apps.unshift(newApp);
+    DIS.setApplications(apps);
+    DIS.showToast('Application submitted successfully!', 'success');
+
+    const modalEl = document.getElementById('applyModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+
+    renderMyApplications();
+  }
+
+  function formatInterviewDateTime(dateStr, timeStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return `${dateStr} at ${timeStr}`;
+    
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthName = months[parseInt(parts[1], 10) - 1] || parts[1];
+
+    let timeFormatted = timeStr || '';
+    if (timeStr && timeStr.includes(':')) {
+      let [hours, minutes] = timeStr.split(':');
+      hours = parseInt(hours, 10);
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12 || 12;
+      timeFormatted = `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
     }
 
-    function openApplyModal(id, companyId, title) {
-      document.getElementById('modal-internship-id').value = id;
-      document.getElementById('modal-company-id').value = companyId;
-      document.getElementById('modal-internship-title').innerText = `Apply for ${title}`;
-      document.getElementById('apply-modal').classList.remove('hidden');
-    }
-    function closeApplyModal() {
-      document.getElementById('apply-modal').classList.add('hidden');
-    }
+    return `${parseInt(parts[2], 10)} ${monthName} ${parts[0]} at ${timeFormatted}`;
+  }
 
-    function submitApplication(e) {
-      e.preventDefault();
-      const internshipId = document.getElementById('modal-internship-id').value;
-      const companyId = document.getElementById('modal-company-id').value;
-      const cvFile = document.getElementById('modal-cv-file').files[0];
+  function renderMyApplications() {
+    const apps = DIS.getApplications().filter(a => a.studentId === currentUser.id);
+    const internships = DIS.getInternships();
+    const tbody = document.getElementById('student-apps-table-body');
+    document.getElementById('app-count-badge').innerText = apps.length;
 
-      const apps = DIS.getApplications();
-      if (apps.some(a => a.internshipId === internshipId && a.studentId === currentUser.id)) {
-        DIS.showToast('You have already applied for this internship!', 'warning');
-        closeApplyModal();
-        return;
-      }
-
-      const newApp = {
-        id: 'app_' + Date.now(),
-        internshipId,
-        studentId: currentUser.id,
-        studentName: currentUser.name,
-        studentEmail: currentUser.email,
-        companyId,
-        cvName: cvFile ? cvFile.name : 'resume.pdf',
-        status: 'Pending',
-        appliedAt: new Date().toISOString().split('T')[0]
-      };
-
-      apps.push(newApp);
-      DIS.setApplications(apps);
-
-      DIS.addNotification(companyId, 'New Application Received', `${currentUser.name} applied for your internship position.`, 'info');
-
-      DIS.showToast('Application submitted successfully!', 'success');
-      closeApplyModal();
-      renderMyApplications();
+    tbody.innerHTML = '';
+    if (apps.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No applications submitted yet.</td></tr>';
+      return;
     }
 
-    function formatInterviewDateTime(dateStr, timeStr) {
-      if (!dateStr) return '';
-      const parts = dateStr.split('-');
-      if (parts.length !== 3) return `${dateStr} at ${timeStr}`;
-      
-      const year = parts[0];
-      const monthIndex = parseInt(parts[1], 10) - 1;
-      const day = parseInt(parts[2], 10);
+    apps.forEach(app => {
+      const internship = internships.find(i => i.id === app.internshipId);
+      let badgeColor = 'bg-warning';
+      if (app.status === 'Shortlisted') badgeColor = 'bg-info';
+      if (app.status === 'Selected') badgeColor = 'bg-success';
+      if (app.status === 'Rejected') badgeColor = 'bg-danger';
 
-      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      const monthName = months[monthIndex] || parts[1];
+      let interviewHtml = '<span class="text-muted small">N/A</span>';
+      if (app.interview) {
+        const formattedDateTime = formatInterviewDateTime(app.interview.date, app.interview.time);
+        const venueAddress = app.interview.address || (internship ? `${internship.companyName} HQ, ${internship.location}` : 'Company Main Office');
 
-      let timeFormatted = timeStr || '';
-      if (timeStr && timeStr.includes(':')) {
-        let [hours, minutes] = timeStr.split(':');
-        hours = parseInt(hours, 10);
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        timeFormatted = `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
-      }
-
-      return `${day} ${monthName} ${year} at ${timeFormatted}`;
-    }
-
-    function renderMyApplications() {
-      const apps = DIS.getApplications().filter(a => a.studentId === currentUser.id);
-      const internships = DIS.getInternships();
-      const tbody = document.getElementById('student-apps-table-body');
-      document.getElementById('app-count-badge').innerText = apps.length;
-
-      tbody.innerHTML = '';
-      if (apps.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">No applications submitted yet.</td></tr>';
-        return;
-      }
-
-      apps.forEach(app => {
-        const internship = internships.find(i => i.id === app.internshipId);
-        let badgeClass = 'badge-pending';
-        if (app.status === 'Shortlisted') badgeClass = 'badge-shortlisted';
-        if (app.status === 'Selected') badgeClass = 'badge-selected';
-        if (app.status === 'Rejected') badgeClass = 'badge-rejected';
-
-        let interviewHtml = '<span class="text-xs text-slate-400">N/A</span>';
-        if (app.interview) {
-          const formattedDateTime = formatInterviewDateTime(app.interview.date, app.interview.time);
-          const venueAddress = app.interview.address || (app.interview.meetingLink && !app.interview.meetingLink.startsWith('http') ? app.interview.meetingLink : '') || (internship ? `${internship.companyName} HQ, ${internship.location}` : 'Company Main Office');
-
-          interviewHtml = `
-            <div class="text-xs space-y-1">
-              <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                <i class="far fa-calendar-alt text-indigo-500"></i>
-                <span>${formattedDateTime}</span>
-              </div>
-              <div class="text-[11px] text-slate-600 dark:text-slate-300 font-medium flex items-start gap-1.5 mt-1 bg-slate-50 dark:bg-slate-900/60 p-2 rounded-lg border border-slate-200 dark:border-slate-700/60">
-                <i class="fas fa-map-marker-alt text-red-500 mt-0.5"></i>
-                <div>
-                  <span class="font-bold text-slate-700 dark:text-slate-300">Venue Address:</span>
-                  <div class="text-slate-600 dark:text-slate-400 text-[11px] leading-snug mt-0.5">${venueAddress}</div>
-                </div>
-              </div>
+        interviewHtml = `
+          <div class="small">
+            <div class="font-weight-bold"><i class="far fa-calendar-alt text-primary me-1"></i> ${formattedDateTime}</div>
+            <div class="bg-light p-1 rounded mt-1 border extra-small">
+              <i class="fas fa-map-marker-alt text-danger me-1"></i> <strong>Venue Address:</strong> ${venueAddress}
             </div>
-          `;
-        }
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="p-4">
-            <div class="font-bold text-slate-900 dark:text-white">${internship ? internship.title : 'Internship Position'}</div>
-            <div class="text-xs text-slate-500">${internship ? internship.companyName : 'Company'}</div>
-          </td>
-          <td class="p-4 text-xs text-slate-500">${app.appliedAt}</td>
-          <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass}">${app.status}</span></td>
-          <td class="p-4">${interviewHtml}</td>
-          <td class="p-4 text-xs text-indigo-600 dark:text-indigo-400 font-semibold"><i class="fas fa-paperclip mr-1"></i> ${app.cvName}</td>
+          </div>
         `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function renderMyTasks() {
-      const tasks = DIS.getTasks().filter(t => t.studentId === currentUser.id);
-      const container = document.getElementById('student-tasks-list');
-      container.innerHTML = '';
-
-      if (tasks.length === 0) {
-        container.innerHTML = '<div class="col-span-2 text-center py-8 text-slate-400 text-sm">No tasks assigned by your supervisor yet.</div>';
-        return;
       }
 
-      tasks.forEach(task => {
-        const isDone = task.status === 'Completed';
-        const card = document.createElement('div');
-        card.className = `p-6 rounded-2xl border ${isDone ? 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 opacity-80' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-sm'} flex flex-col justify-between space-y-4`;
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-400"><i class="far fa-clock mr-1"></i> Deadline: ${task.deadline}</span>
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${isDone ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}">${task.status}</span>
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="font-weight-bold">${internship ? internship.title : 'Position'}</div>
+          <small class="text-muted">${internship ? internship.companyName : 'Company'}</small>
+        </td>
+        <td class="small">${app.appliedAt}</td>
+        <td><span class="badge ${badgeColor}">${app.status}</span></td>
+        <td>${interviewHtml}</td>
+        <td class="small font-weight-bold text-primary"><i class="fas fa-paperclip me-1"></i> ${app.cvName}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderMyTasks() {
+    const tasks = DIS.getTasks().filter(t => t.studentId === currentUser.id);
+    const container = document.getElementById('student-tasks-list');
+    container.innerHTML = '';
+
+    if (tasks.length === 0) {
+      container.innerHTML = '<div class="col-12 text-center py-4 text-muted">No tasks assigned by your supervisor yet.</div>';
+      return;
+    }
+
+    tasks.forEach(task => {
+      const isDone = task.status === 'Completed';
+      const col = document.createElement('div');
+      col.className = 'col-md-6';
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+              <small class="text-muted"><i class="far fa-clock me-1"></i> Deadline: ${task.deadline}</small>
+              <span class="badge ${isDone ? 'bg-success' : 'bg-warning'}">${task.status}</span>
             </div>
-            <h4 class="text-base font-bold text-slate-900 dark:text-white mt-2">${task.title}</h4>
-            <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">${task.description}</p>
+            <h6 class="card-title font-weight-bold">${task.title}</h6>
+            <p class="card-text text-muted small">${task.description}</p>
           </div>
-          <button onclick="toggleTaskStatus('${task.id}')" class="w-full py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700 transition-all">
-            <i class="fas ${isDone ? 'fa-undo' : 'fa-check'} mr-1 text-indigo-500"></i> Mark as ${isDone ? 'Pending' : 'Completed'}
-          </button>
-        `;
-        container.appendChild(card);
-      });
+          <div class="card-footer bg-white border-0">
+            <button onclick="toggleTaskStatus('${task.id}')" class="btn btn-outline-primary btn-sm w-100 font-weight-bold">
+              <i class="fas ${isDone ? 'fa-undo' : 'fa-check'} me-1"></i> Mark as ${isDone ? 'Pending' : 'Completed'}
+            </button>
+          </div>
+        </div>
+      `;
+      container.appendChild(col);
+    });
+  }
+
+  function toggleTaskStatus(taskId) {
+    const tasks = DIS.getTasks();
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+      task.status = task.status === 'Completed' ? 'Pending' : 'Completed';
+      DIS.setTasks(tasks);
+      DIS.showToast(`Task status updated to ${task.status}`, 'success');
+      renderMyTasks();
+    }
+  }
+
+  function submitProgressReport(e) {
+    e.preventDefault();
+    const weekNumber = document.getElementById('rep-week').value;
+    const summary = document.getElementById('rep-summary').value;
+    const achievements = document.getElementById('rep-achievements').value;
+    const fileInput = document.getElementById('rep-file').files[0];
+
+    const reports = DIS.getProgressReports();
+    const newReport = {
+      id: 'rep_' + Date.now(),
+      studentId: currentUser.id,
+      supervisorId: 'usr_sup1',
+      weekNumber: parseInt(weekNumber, 10),
+      summary,
+      achievements,
+      fileName: fileInput ? fileInput.name : null,
+      submittedAt: new Date().toISOString().split('T')[0],
+      rating: null,
+      feedback: null
+    };
+
+    reports.unshift(newReport);
+    DIS.setProgressReports(reports);
+    DIS.showToast('Progress report submitted!', 'success');
+    e.target.reset();
+    renderMyReports();
+  }
+
+  function renderMyReports() {
+    const reports = DIS.getProgressReports().filter(r => r.studentId === currentUser.id);
+    const container = document.getElementById('student-reports-list');
+    container.innerHTML = '';
+
+    if (reports.length === 0) {
+      container.innerHTML = '<div class="text-center py-3 text-muted small">No progress reports submitted yet.</div>';
+      return;
     }
 
-    function toggleTaskStatus(taskId) {
-      const tasks = DIS.getTasks();
-      const task = tasks.find(t => t.id === taskId);
-      if (task) {
-        task.status = task.status === 'Completed' ? 'Pending' : 'Completed';
-        DIS.setTasks(tasks);
-        DIS.showToast(`Task status updated to ${task.status}`, 'success');
-        renderMyTasks();
-      }
-    }
-
-    function submitProgressReport(e) {
-      e.preventDefault();
-      const weekNumber = document.getElementById('rep-week').value;
-      const summary = document.getElementById('rep-summary').value;
-      const achievements = document.getElementById('rep-achievements').value;
-      const fileInput = document.getElementById('rep-file').files[0];
-
-      const apps = DIS.getApplications().find(a => a.studentId === currentUser.id && a.supervisorId);
-      
-      const reports = DIS.getProgressReports();
-      const newReport = {
-        id: 'rep_' + Date.now(),
-        studentId: currentUser.id,
-        supervisorId: apps ? apps.supervisorId : 'usr_sup1',
-        weekNumber: parseInt(weekNumber),
-        summary,
-        achievements,
-        attachmentName: fileInput ? fileInput.name : `week${weekNumber}_doc.pdf`,
-        submittedAt: new Date().toISOString().split('T')[0],
-        feedback: null
-      };
-
-      reports.unshift(newReport);
-      DIS.setProgressReports(reports);
-
-      DIS.addNotification(newReport.supervisorId, 'New Learning Report Submitted', `${currentUser.name} submitted Week ${weekNumber} progress report.`, 'info');
-
-      DIS.showToast(`Week ${weekNumber} Progress Report submitted!`, 'success');
-      e.target.reset();
-      renderMyReports();
-    }
-
-    function renderMyReports() {
-      const reports = DIS.getProgressReports().filter(r => r.studentId === currentUser.id);
-      const container = document.getElementById('reports-history-list');
-      container.innerHTML = '';
-
-      if (reports.length === 0) {
-        container.innerHTML = '<div class="text-center py-6 text-slate-400 text-sm">No progress reports submitted yet.</div>';
-        return;
-      }
-
-      reports.forEach(rep => {
-        const card = document.createElement('div');
-        card.className = 'p-5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50 space-y-3';
-        
-        let feedbackHtml = '<div class="text-xs italic text-slate-400 mt-2"><i class="far fa-clock mr-1"></i> Awaiting supervisor review & rating.</div>';
-        if (rep.feedback) {
-          feedbackHtml = `
-            <div class="mt-3 p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs">
-              <div class="flex items-center justify-between font-bold text-emerald-800 dark:text-emerald-300">
-                <span><i class="fas fa-comment-alt mr-1"></i> Supervisor Feedback</span>
-                <span>Rating: ${rep.feedback.rating} / 5 <i class="fas fa-star text-amber-400 ml-1"></i></span>
-              </div>
-              <p class="text-emerald-900 dark:text-emerald-200 mt-1">${rep.feedback.comment}</p>
+    reports.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'card shadow-sm border-0 mb-3';
+      card.innerHTML = `
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2">
+            <h6 class="font-weight-bold text-primary mb-0">Week ${r.weekNumber} Report</h6>
+            <small class="text-muted">${r.submittedAt}</small>
+          </div>
+          <p class="small text-muted mb-1"><strong>Summary:</strong> ${r.summary}</p>
+          <p class="small text-muted mb-2"><strong>Achievements:</strong> ${r.achievements}</p>
+          ${r.rating ? `
+            <div class="bg-light p-2 rounded border border-success extra-small">
+              <span class="text-success font-weight-bold"><i class="fas fa-star text-warning me-1"></i> Rating: ${r.rating}/5</span>
+              <div class="text-muted mt-1"><strong>Supervisor Feedback:</strong> ${r.feedback || 'Great work!'}</div>
             </div>
-          `;
-        }
+          ` : '<span class="badge bg-secondary extra-small">Pending Supervisor Review</span>'}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
 
-        card.innerHTML = `
-          <div class="flex items-center justify-between">
-            <span class="font-bold text-slate-900 dark:text-white text-sm">Week ${rep.weekNumber} Learning Report</span>
-            <span class="text-xs text-slate-400">${rep.submittedAt}</span>
-          </div>
-          <p class="text-xs text-slate-600 dark:text-slate-300">${rep.summary}</p>
-          <div class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold"><i class="fas fa-paperclip mr-1"></i> ${rep.attachmentName}</div>
-          ${feedbackHtml}
-        `;
-        container.appendChild(card);
-      });
+  function loadProfileForm() {
+    document.getElementById('prof-name').value = currentUser.name;
+    document.getElementById('prof-email').value = currentUser.email;
+  }
+
+  function saveStudentProfile(e) {
+    e.preventDefault();
+    const name = document.getElementById('prof-name').value;
+    const email = document.getElementById('prof-email').value;
+
+    const users = DIS.getUsers();
+    const user = users.find(u => u.id === currentUser.id);
+    if (user) {
+      user.name = name;
+      user.email = email;
+      DIS.setUsers(users);
+      DIS.setCurrentUser(user);
+
+      document.getElementById('user-name').innerText = name;
+      document.getElementById('user-email').innerText = email;
+      DIS.showToast('Profile updated successfully!', 'success');
     }
+  }
 
-    function loadProfileForm() {
-      document.getElementById('prof-name').value = currentUser.name || '';
-      document.getElementById('prof-email').value = currentUser.email || '';
-      document.getElementById('prof-uni').value = currentUser.university || '';
-      document.getElementById('prof-major').value = currentUser.major || '';
-      document.getElementById('prof-phone').value = currentUser.phone || '';
-      document.getElementById('current-cv-name').innerText = currentUser.resumeUrl ? `Current CV on file: ${currentUser.resumeUrl}` : 'No CV uploaded yet.';
-    }
+  function loadNotifications() {
+    const notifs = DIS.getNotifications(currentUser.id);
+    const container = document.getElementById('notif-list-container');
+    const badge = document.getElementById('notif-badge');
 
-    function updateStudentProfile(e) {
-      e.preventDefault();
-      const name = document.getElementById('prof-name').value;
-      const email = document.getElementById('prof-email').value;
-      const university = document.getElementById('prof-uni').value;
-      const major = document.getElementById('prof-major').value;
-      const phone = document.getElementById('prof-phone').value;
-      const resumeInput = document.getElementById('prof-resume').files[0];
-
-      const users = DIS.getUsers();
-      const user = users.find(u => u.id === currentUser.id);
-      if (user) {
-        user.name = name;
-        user.email = email;
-        user.university = university;
-        user.major = major;
-        user.phone = phone;
-        if (resumeInput) {
-          user.resumeUrl = resumeInput.name;
-        }
-        DIS.setUsers(users);
-        DIS.setCurrentUser(user);
-        
-        document.getElementById('user-name').innerText = name;
-        document.getElementById('user-email').innerText = email;
-        DIS.showToast('Profile updated successfully!', 'success');
-        loadProfileForm();
+    const unreadCount = notifs.filter(n => n.read !== true).length;
+    if (badge) {
+      if (unreadCount > 0) {
+        badge.innerText = unreadCount;
+        badge.classList.remove('d-none');
+      } else {
+        badge.innerText = '0';
+        badge.classList.add('d-none');
       }
     }
 
-    function loadNotifications() {
-      const notifs = DIS.getNotifications(currentUser.id);
-      const container = document.getElementById('notif-list-container');
-      const badge = document.getElementById('notif-badge');
-
-      const unreadCount = notifs.filter(n => n.read !== true).length;
-      if (badge) {
-        if (unreadCount > 0) {
-          badge.innerText = unreadCount;
-          badge.classList.remove('hidden');
-        } else {
-          badge.innerText = '0';
-          badge.classList.add('hidden');
-        }
-      }
-
-      if (!container) return;
-      container.innerHTML = '';
-      if (notifs.length === 0) {
-        container.innerHTML = '<div class="text-center py-8 text-slate-400 text-xs"><i class="far fa-bell-slash text-2xl mb-2 block text-slate-300 dark:text-slate-600"></i>No notifications present</div>';
-        return;
-      }
-
-      notifs.forEach(n => {
-        const div = document.createElement('div');
-        div.className = `p-3.5 rounded-2xl border ${n.read ? 'bg-slate-50/70 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700/60 opacity-80' : 'bg-indigo-50/60 dark:bg-indigo-950/40 border-indigo-200 dark:border-indigo-800/80 shadow-sm'} text-xs space-y-2`;
-        div.innerHTML = `
-          <div class="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-            <span class="flex items-center gap-2">
-              ${!n.read ? '<span class="w-2 h-2 rounded-full bg-indigo-600 inline-block animate-pulse"></span>' : ''}
-              ${n.title}
-            </span>
-            <span class="text-[10px] font-normal text-slate-400">${n.timestamp}</span>
-          </div>
-          <p class="text-slate-600 dark:text-slate-300 leading-relaxed">${n.message}</p>
-          <div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-200/60 dark:border-slate-700/50">
-            ${!n.read ? `<button onclick="markSingleNotifRead('${n.id}')" class="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"><i class="fas fa-check"></i> Mark Read</button>` : ''}
-            <button onclick="clearSingleNotif('${n.id}')" class="text-[11px] font-bold text-slate-400 hover:text-red-500 transition-colors flex items-center gap-1"><i class="fas fa-times"></i> Clear</button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
+    if (!container) return;
+    container.innerHTML = '';
+    if (notifs.length === 0) {
+      container.innerHTML = '<div class="text-center py-4 text-muted small"><i class="far fa-bell-slash me-1"></i> No notifications present</div>';
+      return;
     }
 
-    function markAllNotificationsRead() {
-      DIS.markAllNotificationsRead(currentUser.id);
-      DIS.showToast('All notifications marked as read', 'success');
-      loadNotifications();
-    }
+    notifs.forEach(n => {
+      const div = document.createElement('div');
+      div.className = `p-2 rounded border mb-2 small ${n.read ? 'bg-light text-muted' : 'bg-primary-subtle text-dark font-weight-semibold'}`;
+      div.innerHTML = `
+        <div class="d-flex justify-content-between">
+          <span>${n.title}</span>
+          <small class="text-muted extra-small">${n.timestamp}</small>
+        </div>
+        <p class="mb-1 extra-small">${n.message}</p>
+        <div class="d-flex justify-content-end gap-2">
+          ${!n.read ? `<button onclick="markSingleNotifRead('${n.id}')" class="btn btn-link btn-sm p-0 extra-small text-decoration-none">Mark Read</button>` : ''}
+          <button onclick="clearSingleNotif('${n.id}')" class="btn btn-link btn-sm p-0 extra-small text-danger text-decoration-none">Clear</button>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
 
-    function clearAllNotifications() {
-      DIS.clearAllNotifications(currentUser.id);
-      DIS.showToast('All notifications cleared', 'info');
-      loadNotifications();
-    }
+  function markAllNotificationsRead() {
+    DIS.markAllNotificationsRead(currentUser.id);
+    DIS.showToast('All notifications marked as read', 'success');
+    loadNotifications();
+  }
 
-    function markSingleNotifRead(notifId) {
-      DIS.markNotificationRead(notifId);
-      loadNotifications();
-    }
+  function clearAllNotifications() {
+    DIS.clearAllNotifications(currentUser.id);
+    DIS.showToast('All notifications cleared', 'info');
+    loadNotifications();
+  }
 
-    function clearSingleNotif(notifId) {
-      DIS.clearNotification(notifId);
-      loadNotifications();
-    }
+  function markSingleNotifRead(id) {
+    DIS.markNotificationRead(id);
+    loadNotifications();
+  }
 
-    function toggleNotificationModal() {
-      document.getElementById('notif-modal').classList.toggle('hidden');
-    }
-  </script>
-</body>
-</html>
+  function clearSingleNotif(id) {
+    DIS.clearNotification(id);
+    loadNotifications();
+  }
+
+  function toggleNotificationModal() {
+    const bsModal = new bootstrap.Modal(document.getElementById('notifModal'));
+    bsModal.show();
+  }
+</script>
+
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

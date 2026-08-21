@@ -1,285 +1,139 @@
 <?php
-$pageTitle = 'Digital Internship System | Modern Internship & Career Platform';
-require_once __DIR__ . '/includes/header.php';
+// index.php - Student Level Project Landing Page
+$pageTitle = "Digital Internship System - Home";
+require_once __DIR__ . '/config/db.php';
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?php echo $pageTitle; ?></title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
 
-  <!-- Navigation Bar -->
-  <header class="sticky top-0 z-50 glass border-b border-slate-200 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="index.php" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-          <i class="fas fa-graduation-cap text-xl"></i>
-        </div>
-        <span>Digital<span class="text-slate-900 dark:text-white">Internship</span></span>
-      </a>
+<?php require_once __DIR__ . '/includes/navbar.php'; ?>
 
-      <nav class="hidden md:flex items-center gap-8 font-medium text-slate-600 dark:text-slate-300">
-        <a href="#features" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Features</a>
-        <a href="#how-it-works" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">How It Works</a>
-        <a href="#roles" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Roles</a>
-        <a href="#testimonials" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Testimonials</a>
-        <a href="#contact" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Contact</a>
-      </nav>
-
-      <div class="flex items-center gap-4">
-        <button onclick="DIS.toggleTheme()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all" title="Toggle Light/Dark Theme">
-          <i class="fas fa-moon dark:hidden text-lg"></i>
-          <i class="fas fa-sun hidden dark:block text-amber-400 text-lg"></i>
-        </button>
-        <a href="signin.php" class="px-4 py-2.5 rounded-xl text-slate-700 dark:text-slate-200 font-semibold hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Sign In</a>
-        <a href="signup.php" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-lg shadow-indigo-500/25 transition-all transform hover:-translate-y-0.5">Get Started</a>
-      </div>
+<!-- Hero Section -->
+<section class="bg-primary text-white py-5">
+  <div class="container text-center py-4">
+    <h1 class="display-4 font-weight-bold mb-3">Digital Internship Management System</h1>
+    <p class="lead mb-4 max-w-2xl mx-auto">
+      An intermediate web application connecting Students, Companies, Workplace Supervisors, and System Administrators for streamlined internship workflows.
+    </p>
+    <div class="d-flex justify-content-center gap-3">
+      <a href="signup.php" class="btn btn-warning btn-lg font-weight-bold px-4"><i class="fas fa-user-plus me-2"></i> Get Started</a>
+      <a href="signin.php" class="btn btn-outline-light btn-lg font-weight-bold px-4"><i class="fas fa-sign-in-alt me-2"></i> Demo Login</a>
     </div>
-  </header>
+  </div>
+</section>
 
-  <!-- Hero Section -->
-  <section class="relative pt-20 pb-28 overflow-hidden">
-    <div class="absolute inset-0 -z-10 opacity-30 dark:opacity-20 pointer-events-none">
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-indigo-500 to-sky-400 blur-[120px]"></div>
+<!-- System Modules Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="h2 font-weight-bold text-dark">System Modules & User Roles</h2>
+      <p class="text-muted">Explore the four primary user roles supported in the system.</p>
     </div>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-indigo-700 dark:text-indigo-300 text-sm font-semibold mb-8 shadow-sm">
-        <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
-        Next-Generation Career & Internship Portal
-      </div>
-      
-      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-tight">
-        Bridge the Gap Between <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-sky-500 to-emerald-500">Education & Industry</span>
-      </h1>
-      
-      <p class="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-        Empowering students, verified company HRs, workplace supervisors, and administrators with automated workflows, real-time feedback, and progress verification.
-      </p>
 
-      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="signup.php" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg shadow-xl shadow-indigo-500/30 transition-all transform hover:-translate-y-0.5">
-          <i class="fas fa-rocket mr-2"></i> Register Now
-        </a>
-        <a href="signin.php" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 font-bold text-lg border border-slate-200 dark:border-slate-700 shadow-md transition-all">
-          <i class="fas fa-bolt text-amber-500 mr-2"></i> Instant Demo Dashboards
-        </a>
-      </div>
-
-      <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">2,500+</div>
-          <div class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Students Placed</div>
-        </div>
-        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="text-3xl font-extrabold text-sky-500">350+</div>
-          <div class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Verified Companies</div>
-        </div>
-        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="text-3xl font-extrabold text-emerald-500">98.5%</div>
-          <div class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Completion Rate</div>
-        </div>
-        <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-sm">
-          <div class="text-3xl font-extrabold text-amber-500">100%</div>
-          <div class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Verified Records</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section id="features" class="py-20 bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto">
-        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Built for Every Role in the Internship Journey</h2>
-        <p class="mt-4 text-slate-600 dark:text-slate-400">Integrated tools engineered for seamless collaboration between academia and modern enterprise.</p>
-      </div>
-
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 card-hover">
-          <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-2xl font-bold mb-6">
-            <i class="fas fa-user-graduate"></i>
-          </div>
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white">Students</h3>
-          <ul class="mt-4 space-y-3 text-slate-600 dark:text-slate-300 text-sm">
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Browse & Filter Internships</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> 1-Click CV Application</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Track Application Status</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Weekly Learning Logs</li>
-          </ul>
-        </div>
-
-        <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 card-hover">
-          <div class="w-14 h-14 rounded-2xl bg-sky-500/10 text-sky-500 flex items-center justify-center text-2xl font-bold mb-6">
-            <i class="fas fa-building"></i>
-          </div>
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white">Company HR</h3>
-          <ul class="mt-4 space-y-3 text-slate-600 dark:text-slate-300 text-sm">
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Post Internships w/ Validation</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> CV Review & Shortlisting</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Schedule Online/Onsite Interviews</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Assign Workplace Supervisors</li>
-          </ul>
-        </div>
-
-        <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 card-hover">
-          <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-2xl font-bold mb-6">
-            <i class="fas fa-user-tie"></i>
-          </div>
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white">Supervisors</h3>
-          <ul class="mt-4 space-y-3 text-slate-600 dark:text-slate-300 text-sm">
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Monitor Assigned Interns</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Issue Structured Tasks</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Review Weekly Reports</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Provide Structured Feedback</li>
-          </ul>
-        </div>
-
-        <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 card-hover">
-          <div class="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-2xl font-bold mb-6">
-            <i class="fas fa-shield-alt"></i>
-          </div>
-          <h3 class="text-xl font-bold text-slate-900 dark:text-white">Admin</h3>
-          <ul class="mt-4 space-y-3 text-slate-600 dark:text-slate-300 text-sm">
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Complete User Management</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Company Certificate Checks</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> Internship Verification</li>
-            <li><i class="fas fa-check text-emerald-500 mr-2"></i> CSV Reports Generator</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How It Works -->
-  <section id="how-it-works" class="py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto">
-        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">Simple & Transparent Workflow</h2>
-        <p class="mt-4 text-slate-600 dark:text-slate-400">From registration to final completion verification in 5 simple steps.</p>
-      </div>
-
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-5 gap-6 text-center">
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
-          <div class="w-10 h-10 mx-auto rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-lg mb-4">1</div>
-          <h4 class="font-bold text-slate-900 dark:text-white">Create Account</h4>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Sign up as Student or Company HR with document verification.</p>
-        </div>
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
-          <div class="w-10 h-10 mx-auto rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-lg mb-4">2</div>
-          <h4 class="font-bold text-slate-900 dark:text-white">Apply & Match</h4>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Students apply; HR shortlists & schedules interviews.</p>
-        </div>
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
-          <div class="w-10 h-10 mx-auto rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-lg mb-4">3</div>
-          <h4 class="font-bold text-slate-900 dark:text-white">Supervisor Assign</h4>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Selected students are paired with dedicated supervisors.</p>
-        </div>
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
-          <div class="w-10 h-10 mx-auto rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-lg mb-4">4</div>
-          <h4 class="font-bold text-slate-900 dark:text-white">Log & Evaluate</h4>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Students log weekly progress; supervisors review & rate.</p>
-        </div>
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
-          <div class="w-10 h-10 mx-auto rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center text-lg mb-4">5</div>
-          <h4 class="font-bold text-slate-900 dark:text-white">Admin Verify</h4>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Admin verifies completion record for official certification.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials Section -->
-  <section id="testimonials" class="py-20 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Loved by Students & Industry Leaders</h2>
-      </div>
-
-      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-          <div class="flex items-center gap-1 text-amber-400 mb-4">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="text-slate-600 dark:text-slate-300 text-sm italic">"DIS made applying for software engineering internships so easy! I tracked my application live and submitted my weekly reports right from my dashboard."</p>
-          <div class="mt-6 flex items-center gap-3">
-            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full object-cover" alt="Student">
-            <div>
-              <div class="font-bold text-slate-900 dark:text-white text-sm">Ahmed Hassan</div>
-              <div class="text-xs text-slate-500">Student @ NUST</div>
+    <div class="row g-4">
+      <!-- Student Module -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="bg-primary-subtle text-primary rounded-circle mx-auto d-flex align-items-center justify-center mb-3" style="width: 60px; height: 60px;">
+              <i class="fas fa-user-graduate fa-2x"></i>
             </div>
+            <h5 class="card-title font-weight-bold">Student Module</h5>
+            <p class="card-text text-muted small">Browse internships, submit CV applications, view onsite interview schedules, and log weekly reports.</p>
+          </div>
+          <div class="card-footer bg-white border-0 text-center pb-3">
+            <a href="signin.php" class="btn btn-outline-primary btn-sm w-100">Student Login</a>
           </div>
         </div>
+      </div>
 
-        <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-          <div class="flex items-center gap-1 text-amber-400 mb-4">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="text-slate-600 dark:text-slate-300 text-sm italic">"As an HR Manager, posting internships, scheduling online Google Meet interviews, and assigning supervisors took minutes instead of days."</p>
-          <div class="mt-6 flex items-center gap-3">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full object-cover" alt="HR">
-            <div>
-              <div class="font-bold text-slate-900 dark:text-white text-sm">Sarah Jenkins</div>
-              <div class="text-xs text-slate-500">HR Lead @ TechCorp</div>
+      <!-- Company HR Module -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="bg-info-subtle text-info rounded-circle mx-auto d-flex align-items-center justify-center mb-3" style="width: 60px; height: 60px;">
+              <i class="fas fa-building fa-2x"></i>
             </div>
+            <h5 class="card-title font-weight-bold">Company HR Module</h5>
+            <p class="card-text text-muted small">Post new internships, review candidate CVs, schedule physical onsite interviews, and assign supervisors.</p>
+          </div>
+          <div class="card-footer bg-white border-0 text-center pb-3">
+            <a href="signin.php" class="btn btn-outline-info btn-sm w-100">HR Login</a>
           </div>
         </div>
+      </div>
 
-        <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-          <div class="flex items-center gap-1 text-amber-400 mb-4">
-            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-          </div>
-          <p class="text-slate-600 dark:text-slate-300 text-sm italic">"Reviewing weekly learning logs and giving structured feedback to assigned interns kept our team aligned and productive throughout the term."</p>
-          <div class="mt-6 flex items-center gap-3">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" class="w-10 h-10 rounded-full object-cover" alt="Supervisor">
-            <div>
-              <div class="font-bold text-slate-900 dark:text-white text-sm">Dr. Robert Chen</div>
-              <div class="text-xs text-slate-500">Engineering Supervisor</div>
+      <!-- Supervisor Module -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="bg-success-subtle text-success rounded-circle mx-auto d-flex align-items-center justify-center mb-3" style="width: 60px; height: 60px;">
+              <i class="fas fa-user-tie fa-2x"></i>
             </div>
+            <h5 class="card-title font-weight-bold">Supervisor Module</h5>
+            <p class="card-text text-muted small">Monitor assigned interns, assign workplace tasks, review weekly learning logs, and submit ratings.</p>
+          </div>
+          <div class="card-footer bg-white border-0 text-center pb-3">
+            <a href="signin.php" class="btn btn-outline-success btn-sm w-100">Supervisor Login</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Module -->
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="bg-warning-subtle text-warning rounded-circle mx-auto d-flex align-items-center justify-center mb-3" style="width: 60px; height: 60px;">
+              <i class="fas fa-user-shield fa-2x"></i>
+            </div>
+            <h5 class="card-title font-weight-bold">Admin Module</h5>
+            <p class="card-text text-muted small">Manage user accounts, verify company certificates, review internship completions, and export CSV reports.</p>
+          </div>
+          <div class="card-footer bg-white border-0 text-center pb-3">
+            <a href="signin.php" class="btn btn-outline-warning btn-sm w-100">Admin Login</a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="p-8 sm:p-12 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xl">
-        <h2 class="text-3xl font-bold text-slate-900 dark:text-white text-center">Get in Touch</h2>
-        <p class="text-center text-slate-600 dark:text-slate-400 mt-2">Have questions about university partnerships or company onboarding?</p>
-        
-        <form onsubmit="event.preventDefault(); DIS.showToast('Thank you! Your message has been sent.', 'success'); this.reset();" class="mt-8 space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Your Name</label>
-              <input type="text" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
-            </div>
-            <div>
-              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
-              <input type="email" required placeholder="john@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
-            </div>
-          </div>
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Message</label>
-            <textarea rows="4" required placeholder="How can we help you?" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></textarea>
-          </div>
-          <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-lg shadow-indigo-500/25 transition-all">
-            Send Inquiry
-          </button>
-        </form>
+<!-- System Features Section -->
+<section class="bg-white py-5 border-top border-bottom">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h3 class="h3 font-weight-bold mb-3">Project Features & Architecture</h3>
+        <p class="text-muted">This intermediate student project implements standard web development practices with PHP and MySQL.</p>
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> Clean PHP session-based user authentication</li>
+          <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> Relational MySQL Database with PDO queries</li>
+          <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> Bootstrap 5 responsive layouts and components</li>
+          <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> Onsite physical interview scheduler with venue address</li>
+          <li class="list-group-item bg-transparent"><i class="fas fa-check-circle text-success me-2"></i> Student profile manager with Email/Gmail editing</li>
+        </ul>
       </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="py-12 bg-slate-900 text-slate-400 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-3 font-bold text-xl text-white">
-        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
-          <i class="fas fa-graduation-cap"></i>
+      <div class="col-lg-6">
+        <div class="card shadow-sm border-0 bg-primary text-white p-4">
+          <h4 class="card-title mb-3"><i class="fas fa-info-circle me-2"></i> Quick Demo Access</h4>
+          <p class="card-text">You can test all 4 role dashboards directly using the 1-Click Demo Login options on the Sign In page.</p>
+          <a href="signin.php" class="btn btn-light text-primary font-weight-bold"><i class="fas fa-arrow-right me-1"></i> Go to Sign In Page</a>
         </div>
-        <span>Digital Internship System</span>
-      </div>
-      <div class="text-sm">
-        &copy; 2026 Digital Internship System. All rights reserved. Clean Code Architecture.
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

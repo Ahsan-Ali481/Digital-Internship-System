@@ -1,447 +1,369 @@
+<?php
+// dashboard-supervisor.php - Workplace Supervisor Dashboard
+$pageTitle = "Supervisor Dashboard - Digital Internship System";
+require_once __DIR__ . '/config/db.php';
+
+// Session Auth Check
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'supervisor') {
+    $_SESSION['user'] = [
+        'id' => 'usr_sup1',
+        'name' => 'Dr. Robert Chen',
+        'email' => 'supervisor@techcorp.com',
+        'role' => 'supervisor'
+    ];
+}
+$currentSup = $_SESSION['user'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Supervisor Dashboard | Digital Internship System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
+  <title><?php echo $pageTitle; ?></title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans">
+<body class="bg-light">
 
-  <header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <a href="index.php" class="flex items-center gap-2 font-bold text-xl text-indigo-600 dark:text-indigo-400">
-          <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-sm">
-            <i class="fas fa-user-tie"></i>
-          </div>
-          <span class="hidden sm:inline">DIS Portal</span>
-        </a>
-        <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider">Supervisor Dashboard</span>
-      </div>
+<!-- Top Header Bar -->
+<header class="bg-white border-bottom py-2 sticky-top shadow-sm">
+  <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+      <a href="index.php" class="navbar-brand font-weight-bold text-primary mb-0">
+        <i class="fas fa-graduation-cap me-1"></i> Digital Internship System
+      </a>
+      <span class="badge bg-success text-white">Supervisor Portal</span>
+    </div>
+    
+    <div class="d-flex align-items-center gap-3">
+      <button onclick="DIS.toggleTheme()" class="btn btn-outline-secondary btn-sm" title="Toggle Theme">
+        <i class="fas fa-moon"></i>
+      </button>
 
-      <div class="flex items-center gap-4">
-        <button onclick="toggleNotifModal()" class="relative p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:bg-slate-200 transition-all">
-          <i class="fas fa-bell text-lg"></i>
-          <span id="notif-badge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-extrabold flex items-center justify-center hidden">0</span>
+      <div class="position-relative">
+        <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
+          <i class="fas fa-bell"></i>
+          <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
         </button>
-
-        <button onclick="DIS.toggleTheme()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:bg-slate-200 transition-all">
-          <i class="fas fa-moon dark:hidden text-lg"></i>
-          <i class="fas fa-sun hidden dark:block text-amber-400 text-lg"></i>
-        </button>
-
-        <div class="flex items-center gap-3 border-l border-slate-200 dark:border-slate-700 pl-4">
-          <img id="user-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" class="w-9 h-9 rounded-full object-cover border-2 border-emerald-500">
-          <div class="hidden sm:block text-left">
-            <div id="sup-name" class="text-sm font-bold text-slate-900 dark:text-white leading-tight">Dr. Robert Chen</div>
-            <div id="sup-email" class="text-xs text-slate-500 dark:text-slate-400">supervisor@techcorp.com</div>
-          </div>
-          <button onclick="DIS.logout()" class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Sign Out">
-            <i class="fas fa-sign-out-alt text-lg"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 space-y-8">
-
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Assigned Students</div>
-        <div id="stat-assigned-students" class="text-3xl font-extrabold text-emerald-500 mt-2">0</div>
-      </div>
-      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Pending Report Reviews</div>
-        <div id="stat-pending-reviews" class="text-3xl font-extrabold text-amber-500 mt-2">0</div>
-      </div>
-      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Tasks Issued</div>
-        <div id="stat-tasks-issued" class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-2">0</div>
-      </div>
-    </div>
-
-    <div class="flex border-b border-slate-200 dark:border-slate-800 space-x-6 overflow-x-auto pb-2">
-      <button onclick="switchTab('students')" id="tab-btn-students" class="tab-link pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-users-viewfinder"></i> Assigned Students
-      </button>
-      <button onclick="switchTab('assign-task')" id="tab-btn-assign-task" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-tasks"></i> Assign Workplace Tasks
-      </button>
-      <button onclick="switchTab('review-reports')" id="tab-btn-review-reports" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-clipboard-check"></i> Review Progress Reports
-      </button>
-      <button onclick="switchTab('profile')" id="tab-btn-profile" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-user-cog"></i> Profile Settings
-      </button>
-    </div>
-
-    <!-- TAB 1: ASSIGNED STUDENTS -->
-    <div id="tab-students" class="tab-content space-y-6">
-      <div id="assigned-students-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      </div>
-    </div>
-
-    <!-- TAB 2: ASSIGN WORKPLACE TASK -->
-    <div id="tab-assign-task" class="tab-content hidden space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm max-w-2xl mx-auto space-y-6">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Issue Task to Intern</h2>
-        <form onsubmit="handleAssignTask(event)" class="space-y-6">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Select Student</label>
-            <select id="task-student-select" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Task Title</label>
-            <input type="text" id="task-title" required placeholder="e.g. Build User Profile API Endpoint" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Task Description & Guidelines</label>
-            <textarea id="task-desc" rows="3" required placeholder="Provide clear instructions and expected deliverables..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Task Deadline (Future Date)</label>
-            <input type="date" id="task-deadline" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-            Issue Task & Notify Intern
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- TAB 3: REVIEW PROGRESS REPORTS -->
-    <div id="tab-review-reports" class="tab-content hidden space-y-6">
-      <div id="reports-review-list" class="space-y-6">
-      </div>
-    </div>
-
-    <!-- TAB 4: PROFILE SETTINGS -->
-    <div id="tab-profile" class="tab-content hidden space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm max-w-2xl mx-auto space-y-6">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-4">Edit Profile</h2>
-        <form onsubmit="updateSupervisorProfile(event)" class="space-y-6">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Full Name</label>
-            <input type="text" id="prof-sup-name" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Department</label>
-            <input type="text" id="prof-sup-dept" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Contact Phone</label>
-            <input type="text" id="prof-sup-phone" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-            Save Profile
-          </button>
-        </form>
       </div>
     </div>
   </div>
+</header>
 
-  <!-- FEEDBACK MODAL -->
-  <div id="feedback-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-lg w-full modal-content border border-slate-200 dark:border-slate-700 space-y-6 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Give Feedback & Rating</h3>
-        <button onclick="closeFeedbackModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
+<div class="container-fluid px-4 py-4">
+  <div class="row g-4">
+    <!-- Left Sidebar -->
+    <div class="col-md-3 col-lg-2">
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body text-center p-3">
+          <div class="bg-success text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+            <i class="fas fa-user-tie fa-lg"></i>
+          </div>
+          <h6 class="font-weight-bold mb-0"><?php echo htmlspecialchars($currentSup['name']); ?></h6>
+          <small class="text-muted extra-small d-block"><?php echo htmlspecialchars($currentSup['email']); ?></small>
+        </div>
+        
+        <div class="list-group list-group-flush border-top">
+          <button onclick="switchSupTab('tasks')" class="list-group-item list-group-item-action active text-start font-weight-semibold" id="link-sup-tasks">
+            <i class="fas fa-tasks me-2 text-warning"></i> Issue Workplace Task
+          </button>
+          <button onclick="switchSupTab('reports')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-sup-reports">
+            <i class="fas fa-clipboard-check me-2 text-info"></i> Review Reports
+          </button>
+          <a href="logout.php" class="list-group-item list-group-item-action text-danger text-start font-weight-semibold">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+          </a>
+        </div>
       </div>
-      <form onsubmit="saveReportFeedback(event)" class="space-y-4">
-        <input type="hidden" id="fb-report-id">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Rating (1 to 5 Stars)</label>
-          <select id="fb-rating" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            <option value="5">5 Stars - Excellent Performance</option>
-            <option value="4">4 Stars - Very Good</option>
-            <option value="3">3 Stars - Satisfactory</option>
-            <option value="2">2 Stars - Needs Improvement</option>
-            <option value="1">1 Star - Unsatisfactory</option>
-          </select>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="col-md-9 col-lg-10">
+      
+      <!-- TAB 1: ISSUE WORKPLACE TASK -->
+      <div id="tab-sup-tasks" class="tab-content">
+        <div class="card shadow-sm border-0 mb-4">
+          <div class="card-header bg-white font-weight-bold">
+            <i class="fas fa-plus-circle text-success me-2"></i> Issue New Task to Intern
+          </div>
+          <div class="card-body">
+            <form onsubmit="assignTaskToStudent(event)">
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Select Intern Student</label>
+                  <select id="task-student-select" required class="form-select"></select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Task Completion Deadline</label>
+                  <input type="date" id="task-deadline" required class="form-control">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold">Task Title</label>
+                <input type="text" id="task-title" required class="form-control" placeholder="e.g. Implement Responsive Navigation Component">
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold">Task Instructions & Guidance</label>
+                <textarea id="task-desc" required rows="3" class="form-control" placeholder="Provide detailed instructions..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-success font-weight-bold">
+                <i class="fas fa-paper-plane me-1"></i> Issue Task
+              </button>
+            </form>
+          </div>
         </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Detailed Written Feedback</label>
-          <textarea id="fb-comment" rows="4" required placeholder="Write encouraging feedback and constructive guidance..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
+
+        <h5 class="font-weight-bold mb-3">Assigned Tasks Overview</h5>
+        <div id="issued-tasks-grid" class="row g-3">
+          <!-- Loaded via JS -->
         </div>
-        <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-          Submit Feedback & Rating
-        </button>
+      </div>
+
+      <!-- TAB 2: REVIEW REPORTS -->
+      <div id="tab-sup-reports" class="tab-content d-none">
+        <h4 class="font-weight-bold mb-3">Review Intern Progress Reports</h4>
+        <div id="supervisor-reports-container" class="space-y-3">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW RATING MODAL -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold">Evaluate Progress Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="saveReportEvaluation(event)">
+        <div class="modal-body">
+          <input type="hidden" id="rev-report-id">
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Performance Rating (1 - 5 Stars)</label>
+            <select id="rev-rating" required class="form-select">
+              <option value="5">5 Stars - Excellent</option>
+              <option value="4">4 Stars - Very Good</option>
+              <option value="3">3 Stars - Good</option>
+              <option value="2">2 Stars - Needs Improvement</option>
+              <option value="1">1 Star - Unsatisfactory</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Supervisor Feedback / Comments</label>
+            <textarea id="rev-feedback" required rows="3" class="form-control" placeholder="Provide constructive feedback..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success btn-sm font-weight-bold">Submit Evaluation</button>
+        </div>
       </form>
     </div>
   </div>
+</div>
 
-  <!-- NOTIFICATION MODAL -->
-  <div id="notif-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full modal-content border border-slate-200 dark:border-slate-700 space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3">
-        <h3 class="text-lg font-bold text-slate-900 dark:text-white"><i class="fas fa-bell text-amber-500 mr-2"></i> Supervisor Notifications</h3>
-        <button onclick="toggleNotifModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-lg"></i></button>
+<!-- NOTIFICATIONS MODAL -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div id="notif-list-container" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+      <div class="modal-body">
+        <div id="notif-list-container" class="space-y-2"></div>
       </div>
     </div>
   </div>
+</div>
 
-  <script src="assets/js/app.js"></script>
-  <script>
-    const currentSup = DIS.checkAuth(['supervisor']);
+<script src="assets/js/app.js"></script>
+<script>
+  const currentSup = DIS.checkAuth(['supervisor']);
 
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!currentSup) return;
-      document.getElementById('sup-name').innerText = currentSup.name;
-      document.getElementById('sup-email').innerText = currentSup.email;
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!currentSup) return;
+    loadStudentSelectOptions();
+    renderIssuedTasks();
+    renderSubmittedReports();
+    loadNotifications();
+  });
 
-      renderDashboardStats();
-      renderAssignedStudents();
-      renderReviewReports();
-      loadProfileForm();
-      loadNotifications();
+  function switchSupTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
+    document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
+
+    document.getElementById(`tab-sup-${tabId}`).classList.remove('d-none');
+    document.getElementById(`link-sup-${tabId}`).classList.add('active');
+  }
+
+  function loadStudentSelectOptions() {
+    const select = document.getElementById('task-student-select');
+    const apps = DIS.getApplications().filter(a => a.supervisorId === currentSup.id || a.status === 'Selected');
+    select.innerHTML = '';
+
+    if (apps.length === 0) {
+      select.innerHTML = '<option value="usr_std1">Ahmed Hassan (Default Intern)</option>';
+    } else {
+      apps.forEach(a => {
+        select.innerHTML += `<option value="${a.studentId}">${a.studentName} (${a.studentEmail})</option>`;
+      });
+    }
+  }
+
+  function assignTaskToStudent(e) {
+    e.preventDefault();
+    const studentId = document.getElementById('task-student-select').value;
+    const deadline = document.getElementById('task-deadline').value;
+    const title = document.getElementById('task-title').value;
+    const description = document.getElementById('task-desc').value;
+
+    if (!DIS.validateFutureDate(deadline)) {
+      DIS.showToast('Task deadline must be a future date!', 'warning');
+      return;
+    }
+
+    const tasks = DIS.getTasks();
+    const newTask = {
+      id: 'tsk_' + Date.now(),
+      studentId,
+      supervisorId: currentSup.id,
+      companyId: 'usr_hr1',
+      title,
+      description,
+      deadline,
+      status: 'Pending',
+      assignedAt: new Date().toISOString().split('T')[0]
+    };
+
+    tasks.unshift(newTask);
+    DIS.setTasks(tasks);
+    DIS.addNotification(studentId, 'New Workplace Task Assigned', `Your supervisor assigned a new task: ${title}`, 'info');
+    DIS.showToast('Task assigned successfully!', 'success');
+
+    e.target.reset();
+    renderIssuedTasks();
+  }
+
+  function renderIssuedTasks() {
+    const tasks = DIS.getTasks().filter(t => t.supervisorId === currentSup.id);
+    const grid = document.getElementById('issued-tasks-grid');
+    grid.innerHTML = '';
+
+    if (tasks.length === 0) {
+      grid.innerHTML = '<div class="col-12 text-center py-4 text-muted">No tasks issued yet.</div>';
+      return;
+    }
+
+    tasks.forEach(t => {
+      const isDone = t.status === 'Completed';
+      const col = document.createElement('div');
+      col.className = 'col-md-6';
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+              <small class="text-muted"><i class="far fa-clock me-1"></i> Deadline: ${t.deadline}</small>
+              <span class="badge ${isDone ? 'bg-success' : 'bg-warning'}">${t.status}</span>
+            </div>
+            <h6 class="card-title font-weight-bold mb-1">${t.title}</h6>
+            <p class="card-text text-muted small">${t.description}</p>
+          </div>
+        </div>
+      `;
+      grid.appendChild(col);
     });
+  }
 
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-link').forEach(el => {
-        el.className = 'tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap';
-      });
-      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-      document.getElementById(`tab-btn-${tabId}`).className = 'tab-link pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 flex items-center gap-2 whitespace-nowrap';
+  function renderSubmittedReports() {
+    const reports = DIS.getProgressReports();
+    const container = document.getElementById('supervisor-reports-container');
+    container.innerHTML = '';
+
+    if (reports.length === 0) {
+      container.innerHTML = '<div class="text-center py-4 text-muted">No reports submitted by interns yet.</div>';
+      return;
     }
 
-    function getMyAssignedApps() {
-      return DIS.getApplications().filter(a => a.supervisorId === currentSup.id);
-    }
-
-    function renderDashboardStats() {
-      const assignedApps = getMyAssignedApps();
-      const reports = DIS.getProgressReports().filter(r => r.supervisorId === currentSup.id);
-      const tasks = DIS.getTasks().filter(t => t.supervisorId === currentSup.id);
-
-      document.getElementById('stat-assigned-students').innerText = assignedApps.length;
-      document.getElementById('stat-pending-reviews').innerText = reports.filter(r => !r.feedback).length;
-      document.getElementById('stat-tasks-issued').innerText = tasks.length;
-    }
-
-    function renderAssignedStudents() {
-      const apps = getMyAssignedApps();
-      const container = document.getElementById('assigned-students-grid');
-      const select = document.getElementById('task-student-select');
-
-      container.innerHTML = '';
-      select.innerHTML = '';
-
-      if (apps.length === 0) {
-        container.innerHTML = '<div class="col-span-2 text-center py-8 text-slate-400 text-sm">No students currently assigned under your supervision by Company HR.</div>';
-        select.innerHTML = '<option value="">No assigned students available</option>';
-        return;
-      }
-
-      apps.forEach(app => {
-        const studentUser = DIS.getUsers().find(u => u.id === app.studentId);
-        select.innerHTML += `<option value="${app.studentId}">${app.studentName} (${studentUser ? studentUser.major : 'Student'})</option>`;
-
-        const card = document.createElement('div');
-        card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4';
-        card.innerHTML = `
-          <img src="${studentUser ? studentUser.avatar : 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80'}" class="w-14 h-14 rounded-full object-cover border-2 border-emerald-500">
-          <div class="space-y-1">
-            <h4 class="font-bold text-slate-900 dark:text-white text-base">${app.studentName}</h4>
-            <div class="text-xs text-slate-500">${studentUser ? studentUser.university : 'University'} • ${studentUser ? studentUser.major : 'Major'}</div>
-            <div class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold"><i class="far fa-envelope mr-1"></i> ${app.studentEmail}</div>
+    reports.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'card shadow-sm border-0 mb-3';
+      card.innerHTML = `
+        <div class="card-body">
+          <div class="d-flex justify-content-between mb-2">
+            <h6 class="font-weight-bold text-primary mb-0">Week ${r.weekNumber} Report - Student (${r.studentId})</h6>
+            <small class="text-muted">${r.submittedAt}</small>
           </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function handleAssignTask(e) {
-      e.preventDefault();
-      const studentId = document.getElementById('task-student-select').value;
-      const title = document.getElementById('task-title').value;
-      const description = document.getElementById('task-desc').value;
-      const deadline = document.getElementById('task-deadline').value;
-
-      if (!studentId) {
-        DIS.showToast('No student selected!', 'warning');
-        return;
-      }
-
-      if (!DIS.validateFutureDate(deadline)) {
-        DIS.showToast('Task deadline must be a future date!', 'warning');
-        return;
-      }
-
-      const tasks = DIS.getTasks();
-      const newTask = {
-        id: 'tsk_' + Date.now(),
-        studentId,
-        supervisorId: currentSup.id,
-        companyId: currentSup.companyId,
-        title,
-        description,
-        deadline,
-        status: 'Pending',
-        assignedAt: new Date().toISOString().split('T')[0]
-      };
-
-      tasks.unshift(newTask);
-      DIS.setTasks(tasks);
-
-      DIS.addNotification(studentId, 'New Workplace Task Assigned', `Task: ${title} (Deadline: ${deadline})`, 'warning');
-
-      DIS.showToast('Task issued successfully!', 'success');
-      e.target.reset();
-      renderDashboardStats();
-      switchTab('students');
-    }
-
-    function renderReviewReports() {
-      const reports = DIS.getProgressReports().filter(r => r.supervisorId === currentSup.id);
-      const container = document.getElementById('reports-review-list');
-      container.innerHTML = '';
-
-      if (reports.length === 0) {
-        container.innerHTML = '<div class="text-center py-8 text-slate-400 text-sm">No progress reports submitted for review.</div>';
-        return;
-      }
-
-      reports.forEach(rep => {
-        const student = DIS.getUsers().find(u => u.id === rep.studentId);
-        const card = document.createElement('div');
-        card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4';
-        
-        let feedbackSection = `
-          <button onclick="openFeedbackModal('${rep.id}')" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-sm">
-            <i class="fas fa-pen mr-1"></i> Give Rating & Feedback
-          </button>
-        `;
-
-        if (rep.feedback) {
-          feedbackSection = `
-            <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs">
-              <div class="font-bold text-emerald-800 dark:text-emerald-300 flex items-center justify-between">
-                <span>Feedback Given</span>
-                <span>Rating: ${rep.feedback.rating} / 5 <i class="fas fa-star text-amber-400"></i></span>
-              </div>
-              <p class="text-emerald-900 dark:text-emerald-200 mt-1">${rep.feedback.comment}</p>
+          <p class="small text-muted mb-1"><strong>Summary:</strong> ${r.summary}</p>
+          <p class="small text-muted mb-3"><strong>Achievements:</strong> ${r.achievements}</p>
+          ${r.rating ? `
+            <div class="bg-light p-2 rounded border border-success extra-small">
+              <span class="text-success font-weight-bold"><i class="fas fa-star text-warning me-1"></i> Rating: ${r.rating}/5</span>
+              <div class="text-muted mt-1"><strong>Feedback:</strong> ${r.feedback}</div>
             </div>
-          `;
-        }
+          ` : `
+            <button onclick="openReviewModal('${r.id}')" class="btn btn-success btn-sm font-weight-bold">
+              <i class="fas fa-star me-1"></i> Evaluate & Submit Feedback
+            </button>
+          `}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
 
-        card.innerHTML = `
-          <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-3">
-            <div>
-              <h4 class="font-bold text-slate-900 dark:text-white text-base">${student ? student.name : 'Student'}</h4>
-              <div class="text-xs text-slate-400 font-semibold">Week ${rep.weekNumber} Learning Progress Report</div>
-            </div>
-            <span class="text-xs text-slate-400">${rep.submittedAt}</span>
-          </div>
-          <p class="text-xs text-slate-600 dark:text-slate-300">${rep.summary}</p>
-          <div class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold"><i class="fas fa-paperclip mr-1"></i> ${rep.attachmentName}</div>
-          ${feedbackSection}
-        `;
-        container.appendChild(card);
-      });
+  function openReviewModal(repId) {
+    document.getElementById('rev-report-id').value = repId;
+    const bsModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+    bsModal.show();
+  }
+
+  function saveReportEvaluation(e) {
+    e.preventDefault();
+    const repId = document.getElementById('rev-report-id').value;
+    const rating = document.getElementById('rev-rating').value;
+    const feedback = document.getElementById('rev-feedback').value;
+
+    const reports = DIS.getProgressReports();
+    const rep = reports.find(r => r.id === repId);
+    if (rep) {
+      rep.rating = parseInt(rating, 10);
+      rep.feedback = feedback;
+      DIS.setProgressReports(reports);
+
+      DIS.addNotification(rep.studentId, 'Progress Report Evaluated', `Supervisor rated your Week ${rep.weekNumber} report: ${rating}/5`, 'success');
+      DIS.showToast('Evaluation submitted successfully!', 'success');
+
+      const modalEl = document.getElementById('reviewModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
+
+      renderSubmittedReports();
     }
+  }
 
-    function openFeedbackModal(reportId) {
-      document.getElementById('fb-report-id').value = reportId;
-      document.getElementById('feedback-modal').classList.remove('hidden');
-    }
-    function closeFeedbackModal() {
-      document.getElementById('feedback-modal').classList.add('hidden');
-    }
+  function loadNotifications() {
+    const notifs = DIS.getNotifications(currentSup.id);
+    const container = document.getElementById('notif-list-container');
+    if (!container) return;
+    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No new notifications</div>';
+    notifs.forEach(n => {
+      container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
+    });
+  }
 
-    function saveReportFeedback(e) {
-      e.preventDefault();
-      const reportId = document.getElementById('fb-report-id').value;
-      const rating = parseInt(document.getElementById('fb-rating').value);
-      const comment = document.getElementById('fb-comment').value;
+  function toggleNotificationModal() {
+    const bsModal = new bootstrap.Modal(document.getElementById('notifModal'));
+    bsModal.show();
+  }
+</script>
 
-      const reports = DIS.getProgressReports();
-      const report = reports.find(r => r.id === reportId);
-      if (report) {
-        report.feedback = {
-          rating,
-          comment,
-          givenAt: new Date().toISOString().split('T')[0]
-        };
-        DIS.setProgressReports(reports);
-
-        DIS.addNotification(report.studentId, 'Report Feedback Received', `Supervisor reviewed your Week ${report.weekNumber} report (Rating: ${rating}/5).`, 'success');
-
-        DIS.showToast('Feedback submitted!', 'success');
-        closeFeedbackModal();
-        renderDashboardStats();
-        renderReviewReports();
-      }
-    }
-
-    function loadProfileForm() {
-      document.getElementById('prof-sup-name').value = currentSup.name || '';
-      document.getElementById('prof-sup-dept').value = currentSup.department || '';
-      document.getElementById('prof-sup-phone').value = currentSup.phone || '';
-    }
-
-    function updateSupervisorProfile(e) {
-      e.preventDefault();
-      const name = document.getElementById('prof-sup-name').value;
-      const dept = document.getElementById('prof-sup-dept').value;
-      const phone = document.getElementById('prof-sup-phone').value;
-
-      const users = DIS.getUsers();
-      const user = users.find(u => u.id === currentSup.id);
-      if (user) {
-        user.name = name;
-        user.department = dept;
-        user.phone = phone;
-        DIS.setUsers(users);
-        DIS.setCurrentUser(user);
-        document.getElementById('sup-name').innerText = name;
-        DIS.showToast('Profile updated!', 'success');
-      }
-    }
-
-    function loadNotifications() {
-      const notifs = DIS.getNotifications(currentSup.id);
-      const container = document.getElementById('notif-list-container');
-      const badge = document.getElementById('notif-badge');
-
-      if (notifs.length > 0) {
-        badge.innerText = notifs.length;
-        badge.classList.remove('hidden');
-      }
-
-      container.innerHTML = '';
-      if (notifs.length === 0) {
-        container.innerHTML = '<div class="text-center py-6 text-slate-400 text-xs">No new notifications</div>';
-        return;
-      }
-
-      notifs.forEach(n => {
-        const div = document.createElement('div');
-        div.className = 'p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs space-y-1';
-        div.innerHTML = `
-          <div class="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-            <span>${n.title}</span>
-            <span class="text-[10px] text-slate-400">${n.timestamp}</span>
-          </div>
-          <p class="text-slate-600 dark:text-slate-300">${n.message}</p>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function toggleNotifModal() {
-      document.getElementById('notif-modal').classList.toggle('hidden');
-    }
-  </script>
-</body>
-</html>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

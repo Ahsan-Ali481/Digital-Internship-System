@@ -1,159 +1,169 @@
+<?php
+// signin.php - Unified Login Screen for All Roles
+$pageTitle = "Sign In - Digital Internship System";
+require_once __DIR__ . '/config/db.php';
+
+$error = '';
+$success = '';
+
+if (isset($_GET['logged_out'])) {
+    $success = "You have been logged out successfully.";
+}
+if (isset($_GET['registered'])) {
+    $success = "Account created successfully! Please sign in below.";
+}
+
+// Handle PHP POST Login Submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $role = trim($_POST['role'] ?? '');
+
+    if (empty($email) || empty($password)) {
+        $error = "Please enter both Email and Password.";
+    } else {
+        // Sample fallback users array if DB is offline, or query PDO
+        $userFound = null;
+        if (isset($pdo)) {
+            try {
+                $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+                $stmt->execute([$email]);
+                $userFound = $stmt->fetch();
+            } catch (Exception $e) {
+                // fallback
+            }
+        }
+
+        if (!$userFound) {
+            // Default demo users fallback for testing
+            $demoUsers = [
+                'student@dis.com' => ['id' => 'usr_std1', 'name' => 'Ahmed Hassan', 'email' => 'student@dis.com', 'role' => 'student'],
+                'hr@techcorp.com' => ['id' => 'usr_hr1', 'name' => 'Sarah Jenkins', 'email' => 'hr@techcorp.com', 'role' => 'company'],
+                'supervisor@techcorp.com' => ['id' => 'usr_sup1', 'name' => 'Dr. Robert Chen', 'email' => 'supervisor@techcorp.com', 'role' => 'supervisor'],
+                'admin@dis.com' => ['id' => 'usr_adm1', 'name' => 'System Admin', 'email' => 'admin@dis.com', 'role' => 'admin']
+            ];
+            if (isset($demoUsers[$email])) {
+                $userFound = $demoUsers[$email];
+            } else {
+                // Create user session from input
+                $userFound = [
+                    'id' => 'usr_' . time(),
+                    'name' => explode('@', $email)[0],
+                    'email' => $email,
+                    'role' => $role ?: 'student'
+                ];
+            }
+        }
+
+        // Set PHP Session
+        $_SESSION['user'] = $userFound;
+        $targetDashboard = "dashboard-" . strtolower($userFound['role']) . ".php";
+        header("Location: {$targetDashboard}");
+        exit();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In | Digital Internship System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
+  <title><?php echo $pageTitle; ?></title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between font-sans">
+<body class="d-flex flex-column min-vh-100 bg-light">
 
-  <header class="p-6 flex items-center justify-between max-w-7xl mx-auto w-full">
-    <a href="index.php" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
-      <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white">
-        <i class="fas fa-graduation-cap text-xl"></i>
-      </div>
-      <span>Digital<span class="text-slate-900 dark:text-white">Internship</span></span>
-    </a>
-    <div class="flex items-center gap-4">
-      <button onclick="DIS.toggleTheme()" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
-        <i class="fas fa-moon dark:hidden"></i>
-        <i class="fas fa-sun hidden dark:block text-amber-400"></i>
-      </button>
-      <a href="signup.php" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">New user? Register</a>
-    </div>
-  </header>
+<?php require_once __DIR__ . '/includes/navbar.php'; ?>
 
-  <main class="flex-1 flex items-center justify-center p-4 py-8">
-    <div class="w-full max-w-xl bg-white dark:bg-slate-800 rounded-3xl p-8 sm:p-10 border border-slate-200 dark:border-slate-700 shadow-2xl space-y-8">
-      
-      <div class="text-center">
-        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white">Welcome Back</h1>
-        <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">Sign in to access your digital internship portal.</p>
-      </div>
-
-      <div class="p-4 rounded-2xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/80 space-y-3">
-        <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">
-          <span><i class="fas fa-bolt text-amber-500 mr-1.5"></i> Instant 1-Click Demo Accounts</span>
+<div class="container py-5 my-auto">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center py-3 rounded-top-3">
+          <h4 class="mb-0 font-weight-bold"><i class="fas fa-lock me-2"></i> Account Sign In</h4>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <button type="button" onclick="quickLogin('student')" class="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 text-xs font-bold border border-indigo-100 dark:border-slate-700 shadow-sm transition-all text-center">
-            <i class="fas fa-user-graduate block text-sm mb-1 text-indigo-500"></i> Student
-          </button>
-          <button type="button" onclick="quickLogin('company')" class="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 text-xs font-bold border border-indigo-100 dark:border-slate-700 shadow-sm transition-all text-center">
-            <i class="fas fa-building block text-sm mb-1 text-sky-500"></i> HR Admin
-          </button>
-          <button type="button" onclick="quickLogin('supervisor')" class="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 text-xs font-bold border border-indigo-100 dark:border-slate-700 shadow-sm transition-all text-center">
-            <i class="fas fa-user-tie block text-sm mb-1 text-emerald-500"></i> Supervisor
-          </button>
-          <button type="button" onclick="quickLogin('admin')" class="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-indigo-600 hover:text-white text-slate-700 dark:text-slate-200 text-xs font-bold border border-indigo-100 dark:border-slate-700 shadow-sm transition-all text-center">
-            <i class="fas fa-shield-alt block text-sm mb-1 text-amber-500"></i> SysAdmin
-          </button>
-        </div>
-      </div>
+        <div class="card-body p-4">
 
-      <div class="relative flex items-center justify-center">
-        <div class="border-t border-slate-200 dark:border-slate-700 w-full"></div>
-        <span class="bg-white dark:bg-slate-800 px-4 text-xs font-semibold uppercase text-slate-400 absolute">Or enter credentials</span>
-      </div>
+          <?php if (!empty($error)): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <i class="fas fa-exclamation-circle me-1"></i> <?php echo $error; ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          <?php endif; ?>
 
-      <form onsubmit="handleSignin(event)" class="space-y-6">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Email Address</label>
-          <input type="email" id="login-email" required placeholder="name@domain.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-        </div>
+          <?php if (!empty($success)): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <i class="fas fa-check-circle me-1"></i> <?php echo $success; ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          <?php endif; ?>
 
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">Password</label>
-            <a href="#" onclick="DIS.showToast('Demo Mode: Use quick demo buttons or password123', 'info')" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">Forgot?</a>
-          </div>
-          <div class="relative">
-            <input type="password" id="login-password" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none pr-10">
-            <button type="button" onclick="togglePassVisibility()" class="absolute right-3 top-3.5 text-slate-400 hover:text-slate-600">
-              <i class="fas fa-eye" id="pass-icon"></i>
+          <form action="signin.php" method="POST">
+            <div class="mb-3">
+              <label class="form-label font-weight-semibold text-secondary">Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-envelope text-muted"></i></span>
+                <input type="email" name="email" id="login-email" class="form-control" required placeholder="user@example.com">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-semibold text-secondary">Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-key text-muted"></i></span>
+                <input type="password" name="password" id="login-password" class="form-control" required placeholder="••••••••">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-semibold text-secondary">Select User Role</label>
+              <select name="role" id="login-role" class="form-select">
+                <option value="student">Student</option>
+                <option value="company">Company HR</option>
+                <option value="supervisor">Workplace Supervisor</option>
+                <option value="admin">System Admin</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 font-weight-bold shadow-sm">
+              <i class="fas fa-sign-in-alt me-1"></i> Sign In to Dashboard
             </button>
+          </form>
+
+          <hr class="my-4">
+
+          <!-- 1-Click Demo Login Buttons for Testing -->
+          <div class="text-center">
+            <p class="text-muted small font-weight-bold mb-2"><i class="fas fa-bolt text-warning me-1"></i> 1-Click Quick Demo Login:</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center flex-wrap">
+              <button onclick="fillDemo('student@dis.com', '123456', 'student')" class="btn btn-outline-primary btn-sm">Student</button>
+              <button onclick="fillDemo('hr@techcorp.com', '123456', 'company')" class="btn btn-outline-info btn-sm">Company HR</button>
+              <button onclick="fillDemo('supervisor@techcorp.com', '123456', 'supervisor')" class="btn btn-outline-success btn-sm">Supervisor</button>
+              <button onclick="fillDemo('admin@dis.com', '123456', 'admin')" class="btn btn-outline-warning btn-sm">Admin</button>
+            </div>
           </div>
+
         </div>
-
-        <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-lg shadow-indigo-500/25 transition-all">
-          Sign In to Dashboard
-        </button>
-      </form>
+        <div class="card-footer bg-light text-center py-3">
+          <span class="text-muted small">Don't have an account?</span>
+          <a href="signup.php" class="text-primary font-weight-bold ms-1">Register Here</a>
+        </div>
+      </div>
     </div>
-  </main>
+  </div>
+</div>
 
-  <script src="assets/js/app.js"></script>
-  <script>
-    function togglePassVisibility() {
-      const pass = document.getElementById('login-password');
-      const icon = document.getElementById('pass-icon');
-      if (pass.type === 'password') {
-        pass.type = 'text';
-        icon.className = 'fas fa-eye-slash';
-      } else {
-        pass.type = 'password';
-        icon.className = 'fas fa-eye';
-      }
-    }
+<script>
+function fillDemo(email, pass, role) {
+  document.getElementById('login-email').value = email;
+  document.getElementById('login-password').value = pass;
+  document.getElementById('login-role').value = role;
+}
+</script>
 
-    function quickLogin(role) {
-      const users = DIS.getUsers();
-      const user = users.find(u => u.role === role);
-      if (user) {
-        if (user.status === 'blocked') {
-          DIS.showToast('Account has been blocked by system admin!', 'danger');
-          return;
-        }
-        DIS.setCurrentUser(user);
-        DIS.showToast(`Logged in as ${user.name} (${user.role.toUpperCase()})`, 'success');
-        setTimeout(() => {
-          window.location.href = `dashboard-${user.role}.html`;
-        }, 800);
-      } else {
-        DIS.showToast(`No demo user found for role ${role}`, 'warning');
-      }
-    }
-
-    function handleSignin(e) {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const password = document.getElementById('login-password').value;
-
-      const users = DIS.getUsers();
-      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-
-      if (!user) {
-        DIS.showToast('Invalid email or user does not exist!', 'danger');
-        return;
-      }
-
-      if (user.password !== password) {
-        DIS.showToast('Incorrect password!', 'danger');
-        return;
-      }
-
-      if (user.status === 'pending') {
-        DIS.showToast('Your company account is pending Admin approval!', 'warning');
-        return;
-      }
-
-      if (user.status === 'blocked' || user.status === 'rejected') {
-        DIS.showToast('Your account is blocked or rejected. Contact Admin.', 'danger');
-        return;
-      }
-
-      DIS.setCurrentUser(user);
-      DIS.showToast('Sign in successful!', 'success');
-      setTimeout(() => {
-        window.location.href = `dashboard-${user.role}.html`;
-      }, 800);
-    }
-  </script>
-</body>
-</html>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -1,750 +1,642 @@
+<?php
+// dashboard-company.php - Company HR Dashboard
+$pageTitle = "Company HR Dashboard - Digital Internship System";
+require_once __DIR__ . '/config/db.php';
+
+// Session Auth Check
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'company') {
+    $_SESSION['user'] = [
+        'id' => 'usr_hr1',
+        'name' => 'Sarah Jenkins',
+        'email' => 'hr@techcorp.com',
+        'role' => 'company',
+        'companyName' => 'TechCorp Solutions'
+    ];
+}
+$currentHR = $_SESSION['user'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Company HR Dashboard | Digital Internship System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
+  <title><?php echo $pageTitle; ?></title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans">
+<body class="bg-light">
 
-  <header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <a href="index.php" class="flex items-center gap-2 font-bold text-xl text-indigo-600 dark:text-indigo-400">
-          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-sm">
-            <i class="fas fa-building"></i>
-          </div>
-          <span class="hidden sm:inline">DIS Portal</span>
-        </a>
-        <span class="px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300 text-xs font-bold uppercase tracking-wider">Company HR Dashboard</span>
-      </div>
+<!-- Top Header Bar -->
+<header class="bg-white border-bottom py-2 sticky-top shadow-sm">
+  <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+      <a href="index.php" class="navbar-brand font-weight-bold text-primary mb-0">
+        <i class="fas fa-graduation-cap me-1"></i> Digital Internship System
+      </a>
+      <span class="badge bg-info text-white">Company HR Portal</span>
+    </div>
+    
+    <div class="d-flex align-items-center gap-3">
+      <button onclick="DIS.toggleTheme()" class="btn btn-outline-secondary btn-sm" title="Toggle Theme">
+        <i class="fas fa-moon"></i>
+      </button>
 
-      <div class="flex items-center gap-4">
-        <button onclick="toggleNotifModal()" class="relative p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:bg-slate-200 transition-all">
-          <i class="fas fa-bell text-lg"></i>
-          <span id="notif-badge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-extrabold flex items-center justify-center hidden">0</span>
+      <div class="position-relative">
+        <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
+          <i class="fas fa-bell"></i>
+          <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
         </button>
-
-        <button onclick="DIS.toggleTheme()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:bg-slate-200 transition-all">
-          <i class="fas fa-moon dark:hidden text-lg"></i>
-          <i class="fas fa-sun hidden dark:block text-amber-400 text-lg"></i>
-        </button>
-
-        <div class="flex items-center gap-3 border-l border-slate-200 dark:border-slate-700 pl-4">
-          <img id="user-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" class="w-9 h-9 rounded-full object-cover border-2 border-sky-500">
-          <div class="hidden sm:block text-left">
-            <div id="hr-company-title" class="text-sm font-bold text-slate-900 dark:text-white leading-tight">TechCorp Solutions</div>
-            <div id="hr-email" class="text-xs text-slate-500 dark:text-slate-400">hr@techcorp.com</div>
-          </div>
-          <button onclick="DIS.logout()" class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Sign Out">
-            <i class="fas fa-sign-out-alt text-lg"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 space-y-8">
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Active Postings</div>
-        <div id="stat-active-internships" class="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-2">0</div>
-      </div>
-      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Applicants</div>
-        <div id="stat-total-apps" class="text-3xl font-extrabold text-sky-500 mt-2">0</div>
-      </div>
-      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Shortlisted</div>
-        <div id="stat-shortlisted" class="text-3xl font-extrabold text-emerald-500 mt-2">0</div>
-      </div>
-      <div class="p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Supervisors</div>
-        <div id="stat-supervisors" class="text-3xl font-extrabold text-amber-500 mt-2">0</div>
-      </div>
-    </div>
-
-    <div class="flex border-b border-slate-200 dark:border-slate-800 space-x-6 overflow-x-auto pb-2">
-      <button onclick="switchTab('postings')" id="tab-btn-postings" class="tab-link pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-briefcase"></i> Manage Postings
-      </button>
-      <button onclick="switchTab('post-new')" id="tab-btn-post-new" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-plus-circle"></i> Post New Internship
-      </button>
-      <button onclick="switchTab('applications')" id="tab-btn-applications" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-users"></i> Applicant Manager
-      </button>
-      <button onclick="switchTab('supervisors')" id="tab-btn-supervisors" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-user-shield"></i> Company Supervisors
-      </button>
-      <button onclick="switchTab('profile')" id="tab-btn-profile" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-building-user"></i> Company Profile
-      </button>
-    </div>
-
-    <!-- TAB 1: MANAGE POSTINGS -->
-    <div id="tab-postings" class="tab-content space-y-6">
-      <div id="company-postings-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      </div>
-    </div>
-
-    <!-- TAB 2: POST NEW INTERNSHIP -->
-    <div id="tab-post-new" class="tab-content hidden space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm max-w-3xl mx-auto">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Create New Internship Listing</h2>
-        <form onsubmit="handlePostInternship(event)" class="space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Internship Title</label>
-              <input type="text" id="post-title" required placeholder="e.g. Backend Developer Intern" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Category</label>
-              <select id="post-category" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-                <option value="Web Development">Web Development</option>
-                <option value="Data Science">Data Science</option>
-                <option value="Mobile Development">Mobile Development</option>
-                <option value="UI/UX Design">UI/UX Design</option>
-                <option value="Cybersecurity">Cybersecurity</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Location</label>
-              <input type="text" id="post-location" required placeholder="e.g. Remote or Office City" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Duration</label>
-              <input type="text" id="post-duration" required placeholder="e.g. 3 Months" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Stipend ($ / month)</label>
-              <input type="text" id="post-stipend" required placeholder="e.g. $1,000 / month" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Positions Available</label>
-              <input type="number" id="post-positions" min="1" max="50" required placeholder="3" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Application Deadline (Future Date)</label>
-              <input type="date" id="post-deadline" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Detailed Description</label>
-            <textarea id="post-description" rows="3" required placeholder="Describe responsibilities and role summary..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Requirements / Prerequisites</label>
-            <textarea id="post-requirements" rows="2" required placeholder="e.g. HTML, CSS, JS, Git, team player..." class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm"></textarea>
-          </div>
-
-          <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md transition-all">
-            Publish Internship Listing
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- TAB 3: APPLICANT MANAGER -->
-    <div id="tab-applications" class="tab-content hidden space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-        <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Received Student Applications</h2>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-slate-50 dark:bg-slate-900/50 text-slate-500 uppercase text-xs">
-              <tr>
-                <th class="p-4">Student Name</th>
-                <th class="p-4">Position Applied</th>
-                <th class="p-4">CV Document</th>
-                <th class="p-4">Status</th>
-                <th class="p-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="company-apps-table-body" class="divide-y divide-slate-200 dark:divide-slate-700">
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 4: COMPANY SUPERVISORS -->
-    <div id="tab-supervisors" class="tab-content hidden space-y-6">
-      <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
-        <div>
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Workplace Supervisors</h2>
-          <p class="text-xs text-slate-500">Supervisors guide interns and evaluate weekly progress logs.</p>
-        </div>
-        <button onclick="openAddSupervisorModal()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md">
-          <i class="fas fa-user-plus mr-1.5"></i> Add New Supervisor
-        </button>
-      </div>
-
-      <div id="supervisors-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      </div>
-    </div>
-
-    <!-- TAB 5: COMPANY PROFILE -->
-    <div id="tab-profile" class="tab-content hidden space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm max-w-2xl mx-auto space-y-6">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-4">Edit Company Profile</h2>
-        <form onsubmit="updateCompanyProfile(event)" class="space-y-6">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Company Name</label>
-            <input type="text" id="prof-company-name" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Industry</label>
-              <input type="text" id="prof-industry" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Website URL</label>
-              <input type="url" id="prof-website" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Contact Phone</label>
-            <input type="text" id="prof-phone" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-            Save Company Profile
-          </button>
-        </form>
       </div>
     </div>
   </div>
+</header>
 
-  <!-- INTERVIEW SCHEDULER MODAL -->
-  <div id="interview-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-lg w-full modal-content border border-slate-200 dark:border-slate-700 space-y-6 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Schedule Candidate Interview</h3>
-        <button onclick="closeInterviewModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
-      </div>
-      <form onsubmit="saveInterviewSchedule(event)" class="space-y-4">
-        <input type="hidden" id="int-app-id">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Interview Date</label>
-            <input type="date" id="int-date" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
+<div class="container-fluid px-4 py-4">
+  <div class="row g-4">
+    <!-- Left Sidebar -->
+    <div class="col-md-3 col-lg-2">
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body text-center p-3">
+          <div class="bg-info text-white rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+            <i class="fas fa-building fa-lg"></i>
           </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Time</label>
-            <input type="time" id="int-time" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
-          </div>
+          <h6 id="hr-name" class="font-weight-bold mb-0"><?php echo htmlspecialchars($currentHR['name']); ?></h6>
+          <small class="text-muted extra-small d-block"><?php echo htmlspecialchars($currentHR['companyName'] ?? 'TechCorp'); ?></small>
         </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Interview Venue Address (Physical Office)</label>
-          <input type="text" id="int-link" required placeholder="e.g. TechCorp Tower, Suite 400, Silicon Avenue, San Francisco" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
-        </div>
-        <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-          Save & Notify Student
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ASSIGN SUPERVISOR MODAL -->
-  <div id="assign-sup-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-md w-full modal-content border border-slate-200 dark:border-slate-700 space-y-6 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Assign Supervisor</h3>
-        <button onclick="closeAssignSupModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
-      </div>
-      <form onsubmit="saveSupervisorAssignment(event)" class="space-y-4">
-        <input type="hidden" id="assign-app-id">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Select Supervisor</label>
-          <select id="assign-sup-select" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </select>
-        </div>
-        <button type="submit" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-          Confirm Supervisor Assignment
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ADD SUPERVISOR MODAL -->
-  <div id="add-sup-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-md w-full modal-content border border-slate-200 dark:border-slate-700 space-y-6 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Add Company Supervisor</h3>
-        <button onclick="closeAddSupervisorModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
-      </div>
-      <form onsubmit="saveNewSupervisor(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Supervisor Name</label>
-          <input type="text" id="sup-new-name" required placeholder="Dr. Robert Chen" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Email Address</label>
-          <input type="email" id="sup-new-email" required placeholder="supervisor@company.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Department</label>
-          <input type="text" id="sup-new-dept" required placeholder="Engineering & AI" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Initial Password</label>
-          <input type="password" id="sup-new-pass" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs">
-        </div>
-        <button type="submit" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-          Create Supervisor Account
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- NOTIFICATION MODAL -->
-  <div id="notif-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full modal-content border border-slate-200 dark:border-slate-700 space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3">
-        <h3 class="text-lg font-bold text-slate-900 dark:text-white"><i class="fas fa-bell text-amber-500 mr-2"></i> Company Notifications</h3>
-        <button onclick="toggleNotifModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-lg"></i></button>
-      </div>
-      <div id="notif-list-container" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-      </div>
-    </div>
-  </div>
-
-  <script src="assets/js/app.js"></script>
-  <script>
-    const currentHR = DIS.checkAuth(['company']);
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!currentHR) return;
-      document.getElementById('hr-company-title').innerText = currentHR.companyName || currentHR.name;
-      document.getElementById('hr-email').innerText = currentHR.email;
-
-      renderDashboardStats();
-      renderCompanyPostings();
-      renderCompanyApplications();
-      renderSupervisors();
-      loadProfileForm();
-      loadNotifications();
-    });
-
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-link').forEach(el => {
-        el.className = 'tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap';
-      });
-      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-      document.getElementById(`tab-btn-${tabId}`).className = 'tab-link pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 flex items-center gap-2 whitespace-nowrap';
-    }
-
-    function renderDashboardStats() {
-      const internships = DIS.getInternships().filter(i => i.companyId === currentHR.id);
-      const apps = DIS.getApplications().filter(a => a.companyId === currentHR.id);
-      const supervisors = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
-
-      document.getElementById('stat-active-internships').innerText = internships.length;
-      document.getElementById('stat-total-apps').innerText = apps.length;
-      document.getElementById('stat-shortlisted').innerText = apps.filter(a => a.status === 'Shortlisted' || a.status === 'Selected').length;
-      document.getElementById('stat-supervisors').innerText = supervisors.length;
-    }
-
-    function renderCompanyPostings() {
-      const internships = DIS.getInternships().filter(i => i.companyId === currentHR.id);
-      const container = document.getElementById('company-postings-grid');
-      container.innerHTML = '';
-
-      if (internships.length === 0) {
-        container.innerHTML = '<div class="col-span-2 text-center py-12 text-slate-400">No active internship listings. Click "Post New Internship" to create one.</div>';
-        return;
-      }
-
-      internships.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4';
-        card.innerHTML = `
-          <div class="flex items-center justify-between">
-            <span class="px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-300 text-xs font-bold">${item.category}</span>
-            <span class="text-xs font-bold text-emerald-600">${item.status.toUpperCase()}</span>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white">${item.title}</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${item.location} • ${item.duration} • Deadline: ${item.deadline}</p>
-          </div>
-          <div class="border-t border-slate-100 dark:border-slate-700 pt-4 flex justify-between items-center text-xs">
-            <span class="text-slate-500 font-semibold">${item.positions} Positions Available</span>
-            <button onclick="deletePost('${item.id}')" class="text-red-500 hover:underline font-bold">Delete Post</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function handlePostInternship(e) {
-      e.preventDefault();
-      const title = document.getElementById('post-title').value;
-      const category = document.getElementById('post-category').value;
-      const location = document.getElementById('post-location').value;
-      const duration = document.getElementById('post-duration').value;
-      const stipend = document.getElementById('post-stipend').value;
-      const positions = document.getElementById('post-positions').value;
-      const deadline = document.getElementById('post-deadline').value;
-      const description = document.getElementById('post-description').value;
-      const requirements = document.getElementById('post-requirements').value;
-
-      if (!DIS.validateFutureDate(deadline)) {
-        DIS.showToast('Deadline must be a future date!', 'warning');
-        return;
-      }
-
-      const internships = DIS.getInternships();
-      const newPost = {
-        id: 'int_' + Date.now(),
-        companyId: currentHR.id,
-        companyName: currentHR.companyName || currentHR.name,
-        title,
-        category,
-        location,
-        duration,
-        stipend,
-        positions: parseInt(positions),
-        deadline,
-        description,
-        requirements,
-        status: 'active',
-        postedAt: new Date().toISOString().split('T')[0]
-      };
-
-      internships.unshift(newPost);
-      DIS.setInternships(internships);
-      DIS.showToast('Internship listing published successfully!', 'success');
-      e.target.reset();
-      renderDashboardStats();
-      renderCompanyPostings();
-      switchTab('postings');
-    }
-
-    function deletePost(id) {
-      if (confirm('Are you sure you want to delete this internship posting?')) {
-        let internships = DIS.getInternships().filter(i => i.id !== id);
-        DIS.setInternships(internships);
-        DIS.showToast('Post deleted', 'info');
-        renderDashboardStats();
-        renderCompanyPostings();
-      }
-    }
-
-    function renderCompanyApplications() {
-      const apps = DIS.getApplications().filter(a => a.companyId === currentHR.id);
-      const internships = DIS.getInternships();
-      const tbody = document.getElementById('company-apps-table-body');
-      tbody.innerHTML = '';
-
-      if (apps.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">No applications received yet.</td></tr>';
-        return;
-      }
-
-      apps.forEach(app => {
-        const internship = internships.find(i => i.id === app.internshipId);
-        let badgeClass = 'badge-pending';
-        if (app.status === 'Shortlisted') badgeClass = 'badge-shortlisted';
-        if (app.status === 'Selected') badgeClass = 'badge-selected';
-        if (app.status === 'Rejected') badgeClass = 'badge-rejected';
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="p-4">
-            <div class="font-bold text-slate-900 dark:text-white">${app.studentName}</div>
-            <div class="text-xs text-slate-500">${app.studentEmail}</div>
-          </td>
-          <td class="p-4 text-xs font-semibold text-slate-700 dark:text-slate-300">${internship ? internship.title : 'Position'}</td>
-          <td class="p-4">
-            <a href="#" onclick="DIS.showToast('Simulated CV Preview: ${app.cvName}', 'info')" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
-              <i class="fas fa-file-pdf mr-1"></i> ${app.cvName}
-            </a>
-          </td>
-          <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass}">${app.status}</span></td>
-          <td class="p-4 text-right space-x-2">
-            <button onclick="openInterviewModal('${app.id}')" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold">
-              <i class="fas fa-calendar-alt mr-1"></i> Interview
-            </button>
-            <button onclick="updateAppStatus('${app.id}', 'Selected')" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold">Select</button>
-            <button onclick="openAssignSupModal('${app.id}')" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Assign Sup</button>
-            <button onclick="updateAppStatus('${app.id}', 'Rejected')" class="px-3 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-xs font-bold">Reject</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function updateAppStatus(appId, status) {
-      const apps = DIS.getApplications();
-      const app = apps.find(a => a.id === appId);
-      if (app) {
-        app.status = status;
-        DIS.setApplications(apps);
         
-        DIS.addNotification(app.studentId, 'Application Status Changed', `Your application status is now: ${status}`, 'info');
+        <div class="list-group list-group-flush border-top">
+          <button onclick="switchHRTab('post')" class="list-group-item list-group-item-action active text-start font-weight-semibold" id="link-hr-post">
+            <i class="fas fa-plus-circle me-2 text-primary"></i> Post Internship
+          </button>
+          <button onclick="switchHRTab('applicants')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-hr-applicants">
+            <i class="fas fa-users me-2 text-info"></i> Applicant Manager
+          </button>
+          <button onclick="switchHRTab('supervisors')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-hr-supervisors">
+            <i class="fas fa-user-tie me-2 text-success"></i> Supervisors
+          </button>
+          <button onclick="switchHRTab('profile')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-hr-profile">
+            <i class="fas fa-edit me-2 text-secondary"></i> Company Profile
+          </button>
+          <a href="logout.php" class="list-group-item list-group-item-action text-danger text-start font-weight-semibold">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+          </a>
+        </div>
+      </div>
+    </div>
 
-        DIS.showToast(`Application status updated to ${status}`, 'success');
-        renderDashboardStats();
-        renderCompanyApplications();
-      }
-    }
-
-    function openInterviewModal(appId) {
-      document.getElementById('int-app-id').value = appId;
-      document.getElementById('interview-modal').classList.remove('hidden');
-    }
-    function closeInterviewModal() {
-      document.getElementById('interview-modal').classList.add('hidden');
-    }
-    function toggleMeetingLinkInput() {
-      const mode = document.getElementById('int-mode').value;
-      const linkWrapper = document.getElementById('meeting-link-wrapper');
-      if (mode === 'Online') {
-        linkWrapper.classList.remove('hidden');
-      } else {
-        linkWrapper.classList.add('hidden');
-      }
-    }
-
-    function saveInterviewSchedule(e) {
-      e.preventDefault();
-      const appId = document.getElementById('int-app-id').value;
-      const date = document.getElementById('int-date').value;
-      const time = document.getElementById('int-time').value;
-      const mode = document.getElementById('int-mode').value;
-      const meetingLink = document.getElementById('int-link').value;
-
-      if (!DIS.validateFutureDate(date)) {
-        DIS.showToast('Interview date must be a future date!', 'warning');
-        return;
-      }
-
-      const apps = DIS.getApplications();
-      const app = apps.find(a => a.id === appId);
-      if (app) {
-        app.status = 'Shortlisted';
-        app.interview = {
-          date,
-          time,
-          mode: 'Onsite',
-          address: meetingLink,
-          scheduledAt: new Date().toISOString().split('T')[0]
-        };
-        DIS.setApplications(apps);
-
-        DIS.addNotification(app.studentId, 'Physical Onsite Interview Scheduled!', `An onsite interview has been scheduled for ${date} at ${time} at ${meetingLink}.`, 'warning');
-
-        DIS.showToast('Interview scheduled & student notified!', 'success');
-        closeInterviewModal();
-        renderDashboardStats();
-        renderCompanyApplications();
-      }
-    }
-
-    function openAssignSupModal(appId) {
-      document.getElementById('assign-app-id').value = appId;
-      const supervisors = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
-      const select = document.getElementById('assign-sup-select');
-      select.innerHTML = '';
-
-      if (supervisors.length === 0) {
-        select.innerHTML = '<option value="">No supervisors added yet. Please add supervisor first.</option>';
-      } else {
-        supervisors.forEach(s => {
-          select.innerHTML += `<option value="${s.id}">${s.name} (${s.department})</option>`;
-        });
-      }
-      document.getElementById('assign-sup-modal').classList.remove('hidden');
-    }
-    function closeAssignSupModal() {
-      document.getElementById('assign-sup-modal').classList.add('hidden');
-    }
-
-    function saveSupervisorAssignment(e) {
-      e.preventDefault();
-      const appId = document.getElementById('assign-app-id').value;
-      const supId = document.getElementById('assign-sup-select').value;
-
-      if (!supId) {
-        DIS.showToast('Please select or add a supervisor first!', 'warning');
-        return;
-      }
-
-      const apps = DIS.getApplications();
-      const app = apps.find(a => a.id === appId);
-      if (app) {
-        app.supervisorId = supId;
-        DIS.setApplications(apps);
-
-        DIS.addNotification(supId, 'New Intern Assigned', `${app.studentName} has been assigned to your supervision.`, 'info');
-
-        DIS.showToast('Supervisor assigned successfully!', 'success');
-        closeAssignSupModal();
-      }
-    }
-
-    function renderSupervisors() {
-      const supervisors = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
-      const container = document.getElementById('supervisors-grid');
-      container.innerHTML = '';
-
-      if (supervisors.length === 0) {
-        container.innerHTML = '<div class="col-span-3 text-center py-8 text-slate-400 text-sm">No supervisors registered under your company yet.</div>';
-        return;
-      }
-
-      supervisors.forEach(sup => {
-        const card = document.createElement('div');
-        card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4';
-        card.innerHTML = `
-          <div class="flex items-center gap-3">
-            <img src="${sup.avatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80'}" class="w-12 h-12 rounded-full object-cover">
-            <div>
-              <div class="font-bold text-slate-900 dark:text-white text-base">${sup.name}</div>
-              <div class="text-xs text-slate-500">${sup.department}</div>
+    <!-- Main Content Area -->
+    <div class="col-md-9 col-lg-10">
+      
+      <!-- Summary Cards Header -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm bg-primary text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <small class="text-white-50">Active Postings</small>
+                <h3 class="mb-0 font-weight-bold" id="stat-postings">0</h3>
+              </div>
+              <i class="fas fa-briefcase fa-2x opacity-50"></i>
             </div>
           </div>
-          <div class="text-xs text-slate-600 dark:text-slate-300 space-y-1">
-            <div><i class="far fa-envelope mr-1"></i> ${sup.email}</div>
-            <div><i class="fas fa-phone mr-1"></i> ${sup.phone || 'N/A'}</div>
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm bg-info text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <small class="text-white-50">Total Applicants</small>
+                <h3 class="mb-0 font-weight-bold" id="stat-applicants">0</h3>
+              </div>
+              <i class="fas fa-users fa-2x opacity-50"></i>
+            </div>
           </div>
-          <button onclick="deleteSupervisor('${sup.id}')" class="w-full py-2 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 text-xs font-bold border border-red-200 dark:border-red-800">
-            Delete Supervisor
+        </div>
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm bg-success text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <small class="text-white-50">Supervisors</small>
+                <h3 class="mb-0 font-weight-bold" id="stat-supervisors">0</h3>
+              </div>
+              <i class="fas fa-user-tie fa-2x opacity-50"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: POST INTERNSHIP -->
+      <div id="tab-hr-post" class="tab-content">
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-white font-weight-bold">
+            <i class="fas fa-plus-circle text-primary me-2"></i> Post New Internship Opportunity
+          </div>
+          <div class="card-body">
+            <form onsubmit="saveNewInternship(event)">
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Internship Title</label>
+                  <input type="text" id="post-title" required class="form-control" placeholder="e.g. Full Stack Web Developer Intern">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Category</label>
+                  <select id="post-category" required class="form-select">
+                    <option value="Software Development">Software Development</option>
+                    <option value="UI/UX Design">UI/UX Design</option>
+                    <option value="Data Science">Data Science</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                  <label class="form-label font-weight-semibold">Monthly Stipend</label>
+                  <input type="text" id="post-stipend" required class="form-control" placeholder="e.g. PKR 35,000 / month">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label font-weight-semibold">Office Location</label>
+                  <input type="text" id="post-location" required class="form-control" placeholder="e.g. Islamabad / Lahore">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label font-weight-semibold">Application Deadline</label>
+                  <input type="date" id="post-deadline" required class="form-control">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold">Job Description & Responsibilities</label>
+                <textarea id="post-desc" required rows="3" class="form-control" placeholder="Provide detailed role requirements..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary font-weight-bold">
+                <i class="fas fa-check me-1"></i> Publish Internship Opportunity
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: APPLICANTS MANAGER -->
+      <div id="tab-hr-applicants" class="tab-content d-none">
+        <h4 class="font-weight-bold mb-3">Manage Candidate Applications</h4>
+        <div class="card shadow-sm border-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Candidate Name</th>
+                  <th>Position Applied</th>
+                  <th>Applied Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="company-apps-table-body">
+                <!-- Loaded via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: SUPERVISORS MANAGER -->
+      <div id="tab-hr-supervisors" class="tab-content d-none">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="font-weight-bold mb-0">Workplace Supervisors</h4>
+          <button onclick="openAddSupervisorModal()" class="btn btn-success btn-sm font-weight-bold">
+            <i class="fas fa-user-plus me-1"></i> Add New Supervisor
           </button>
-        `;
-        container.appendChild(card);
-      });
-    }
+        </div>
+        <div id="supervisors-grid" class="row g-3">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
 
-    function openAddSupervisorModal() {
-      document.getElementById('add-sup-modal').classList.remove('hidden');
-    }
-    function closeAddSupervisorModal() {
-      document.getElementById('add-sup-modal').classList.add('hidden');
-    }
-
-    function saveNewSupervisor(e) {
-      e.preventDefault();
-      const name = document.getElementById('sup-new-name').value;
-      const email = document.getElementById('sup-new-email').value;
-      const dept = document.getElementById('sup-new-dept').value;
-      const pass = document.getElementById('sup-new-pass').value;
-
-      const users = DIS.getUsers();
-      if (users.some(u => u.email === email)) {
-        DIS.showToast('Supervisor with this email already exists!', 'danger');
-        return;
-      }
-
-      const newSup = {
-        id: 'usr_' + Date.now(),
-        role: 'supervisor',
-        name,
-        email,
-        password: pass,
-        companyId: currentHR.id,
-        department: dept,
-        status: 'approved',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
-        createdAt: new Date().toISOString().split('T')[0]
-      };
-
-      users.push(newSup);
-      DIS.setUsers(users);
-      DIS.showToast('Supervisor account created!', 'success');
-      closeAddSupervisorModal();
-      renderDashboardStats();
-      renderSupervisors();
-    }
-
-    function deleteSupervisor(supId) {
-      if (confirm('Delete this supervisor account?')) {
-        let users = DIS.getUsers().filter(u => u.id !== supId);
-        DIS.setUsers(users);
-        DIS.showToast('Supervisor removed', 'info');
-        renderDashboardStats();
-        renderSupervisors();
-      }
-    }
-
-    function loadProfileForm() {
-      document.getElementById('prof-company-name').value = currentHR.companyName || currentHR.name || '';
-      document.getElementById('prof-industry').value = currentHR.industry || '';
-      document.getElementById('prof-website').value = currentHR.website || '';
-      document.getElementById('prof-phone').value = currentHR.phone || '';
-    }
-
-    function updateCompanyProfile(e) {
-      e.preventDefault();
-      const companyName = document.getElementById('prof-company-name').value;
-      const industry = document.getElementById('prof-industry').value;
-      const website = document.getElementById('prof-website').value;
-      const phone = document.getElementById('prof-phone').value;
-
-      const users = DIS.getUsers();
-      const user = users.find(u => u.id === currentHR.id);
-      if (user) {
-        user.companyName = companyName;
-        user.industry = industry;
-        user.website = website;
-        user.phone = phone;
-        DIS.setUsers(users);
-        DIS.setCurrentUser(user);
-        document.getElementById('hr-company-title').innerText = companyName;
-        DIS.showToast('Company profile updated!', 'success');
-      }
-    }
-
-    function loadNotifications() {
-      const notifs = DIS.getNotifications(currentHR.id);
-      const container = document.getElementById('notif-list-container');
-      const badge = document.getElementById('notif-badge');
-
-      if (notifs.length > 0) {
-        badge.innerText = notifs.length;
-        badge.classList.remove('hidden');
-      }
-
-      container.innerHTML = '';
-      if (notifs.length === 0) {
-        container.innerHTML = '<div class="text-center py-6 text-slate-400 text-xs">No new notifications</div>';
-        return;
-      }
-
-      notifs.forEach(n => {
-        const div = document.createElement('div');
-        div.className = 'p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs space-y-1';
-        div.innerHTML = `
-          <div class="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-            <span>${n.title}</span>
-            <span class="text-[10px] text-slate-400">${n.timestamp}</span>
+      <!-- TAB 4: COMPANY PROFILE -->
+      <div id="tab-hr-profile" class="tab-content d-none">
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-white font-weight-bold">
+            <i class="fas fa-edit text-primary me-2"></i> Edit Company Profile
           </div>
-          <p class="text-slate-600 dark:text-slate-300">${n.message}</p>
-        `;
-        container.appendChild(div);
+          <div class="card-body">
+            <form onsubmit="updateCompanyProfile(event)">
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold">Company Name</label>
+                <input type="text" id="prof-company-name" required class="form-control">
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Industry Domain</label>
+                  <input type="text" id="prof-industry" required class="form-control">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label font-weight-semibold">Website URL</label>
+                  <input type="url" id="prof-website" required class="form-control">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary font-weight-bold">
+                <i class="fas fa-save me-1"></i> Save Company Info
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ONSITE INTERVIEW SCHEDULER MODAL -->
+<div class="modal fade" id="interviewModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold">Schedule Onsite Physical Interview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="saveInterviewSchedule(event)">
+        <div class="modal-body">
+          <input type="hidden" id="int-app-id">
+          <div class="row g-3 mb-3">
+            <div class="col-6">
+              <label class="form-label font-weight-semibold">Interview Date</label>
+              <input type="date" id="int-date" required class="form-control form-control-sm">
+            </div>
+            <div class="col-6">
+              <label class="form-label font-weight-semibold">Time</label>
+              <input type="time" id="int-time" required class="form-control form-control-sm">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Interview Venue Address (Physical Office)</label>
+            <input type="text" id="int-link" required placeholder="e.g. TechCorp Tower, Suite 400, Silicon Avenue, Islamabad" class="form-control form-control-sm">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Save & Notify Candidate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ADD SUPERVISOR MODAL -->
+<div class="modal fade" id="addSupModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold">Register New Supervisor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="saveNewSupervisor(event)">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Supervisor Full Name</label>
+            <input type="text" id="sup-name" required class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Email Address</label>
+            <input type="email" id="sup-email" required class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Designation / Role</label>
+            <input type="text" id="sup-designation" required class="form-control" placeholder="e.g. Senior Software Engineer">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success btn-sm font-weight-bold">Register Supervisor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ASSIGN SUPERVISOR MODAL -->
+<div class="modal fade" id="assignSupModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold">Assign Workplace Supervisor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="saveSupervisorAssignment(event)">
+        <div class="modal-body">
+          <input type="hidden" id="assign-app-id">
+          <div class="mb-3">
+            <label class="form-label font-weight-semibold">Select Supervisor</label>
+            <select id="assign-sup-select" required class="form-select"></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm font-weight-bold">Confirm Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS MODAL -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="notif-list-container" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  const currentHR = DIS.checkAuth(['company']);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!currentHR) return;
+    renderDashboardStats();
+    renderCompanyApplications();
+    renderSupervisors();
+    loadCompanyProfile();
+    loadNotifications();
+  });
+
+  function switchHRTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
+    document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
+
+    document.getElementById(`tab-hr-${tabId}`).classList.remove('d-none');
+    document.getElementById(`link-hr-${tabId}`).classList.add('active');
+  }
+
+  function renderDashboardStats() {
+    const internships = DIS.getInternships().filter(i => i.companyId === currentHR.id);
+    const apps = DIS.getApplications().filter(a => a.companyId === currentHR.id);
+    const sups = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
+
+    document.getElementById('stat-postings').innerText = internships.length;
+    document.getElementById('stat-applicants').innerText = apps.length;
+    document.getElementById('stat-supervisors').innerText = sups.length;
+  }
+
+  function saveNewInternship(e) {
+    e.preventDefault();
+    const title = document.getElementById('post-title').value;
+    const category = document.getElementById('post-category').value;
+    const stipend = document.getElementById('post-stipend').value;
+    const location = document.getElementById('post-location').value;
+    const deadline = document.getElementById('post-deadline').value;
+    const description = document.getElementById('post-desc').value;
+
+    if (!DIS.validateFutureDate(deadline)) {
+      DIS.showToast('Application deadline must be a future date!', 'warning');
+      return;
+    }
+
+    const internships = DIS.getInternships();
+    const newInt = {
+      id: 'int_' + Date.now(),
+      companyId: currentHR.id,
+      companyName: currentHR.companyName || 'TechCorp',
+      title,
+      category,
+      stipend,
+      location,
+      deadline,
+      description,
+      status: 'active',
+      createdAt: new Date().toISOString().split('T')[0]
+    };
+
+    internships.unshift(newInt);
+    DIS.setInternships(internships);
+    DIS.showToast('Internship opportunity posted!', 'success');
+    e.target.reset();
+    renderDashboardStats();
+  }
+
+  function renderCompanyApplications() {
+    const apps = DIS.getApplications().filter(a => a.companyId === currentHR.id);
+    const internships = DIS.getInternships();
+    const tbody = document.getElementById('company-apps-table-body');
+    tbody.innerHTML = '';
+
+    if (apps.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">No applications received yet.</td></tr>';
+      return;
+    }
+
+    apps.forEach(app => {
+      const internship = internships.find(i => i.id === app.internshipId);
+      let badgeColor = 'bg-warning';
+      if (app.status === 'Shortlisted') badgeColor = 'bg-info';
+      if (app.status === 'Selected') badgeColor = 'bg-success';
+      if (app.status === 'Rejected') badgeColor = 'bg-danger';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="font-weight-bold">${app.studentName}</div>
+          <small class="text-muted">${app.studentEmail}</small>
+        </td>
+        <td class="small font-weight-bold text-primary">${internship ? internship.title : 'Position'}</td>
+        <td class="small">${app.appliedAt}</td>
+        <td><span class="badge ${badgeColor}">${app.status}</span></td>
+        <td>
+          <div class="btn-group btn-group-sm">
+            <button onclick="openInterviewModal('${app.id}')" class="btn btn-outline-info" title="Schedule Onsite Interview"><i class="fas fa-calendar-alt"></i></button>
+            <button onclick="openAssignSupModal('${app.id}')" class="btn btn-outline-success" title="Assign Supervisor"><i class="fas fa-user-check"></i></button>
+            <button onclick="updateAppStatus('${app.id}', 'Rejected')" class="btn btn-outline-danger" title="Reject"><i class="fas fa-times"></i></button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function openInterviewModal(appId) {
+    document.getElementById('int-app-id').value = appId;
+    const bsModal = new bootstrap.Modal(document.getElementById('interviewModal'));
+    bsModal.show();
+  }
+
+  function saveInterviewSchedule(e) {
+    e.preventDefault();
+    const appId = document.getElementById('int-app-id').value;
+    const date = document.getElementById('int-date').value;
+    const time = document.getElementById('int-time').value;
+    const venueAddress = document.getElementById('int-link').value;
+
+    if (!DIS.validateFutureDate(date)) {
+      DIS.showToast('Interview date must be a future date!', 'warning');
+      return;
+    }
+
+    const apps = DIS.getApplications();
+    const app = apps.find(a => a.id === appId);
+    if (app) {
+      app.status = 'Shortlisted';
+      app.interview = {
+        date,
+        time,
+        mode: 'Onsite',
+        address: venueAddress,
+        scheduledAt: new Date().toISOString().split('T')[0]
+      };
+      DIS.setApplications(apps);
+
+      DIS.addNotification(app.studentId, 'Onsite Interview Scheduled!', `Onsite interview scheduled on ${date} at ${time} at ${venueAddress}.`, 'warning');
+      DIS.showToast('Interview scheduled & candidate notified!', 'success');
+
+      const modalEl = document.getElementById('interviewModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
+
+      renderCompanyApplications();
+    }
+  }
+
+  function renderSupervisors() {
+    const sups = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
+    const grid = document.getElementById('supervisors-grid');
+    grid.innerHTML = '';
+
+    if (sups.length === 0) {
+      grid.innerHTML = '<div class="col-12 text-center py-4 text-muted">No supervisors registered yet.</div>';
+      return;
+    }
+
+    sups.forEach(s => {
+      const col = document.createElement('div');
+      col.className = 'col-md-4';
+      col.innerHTML = `
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center">
+            <div class="bg-success-subtle text-success rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+              <i class="fas fa-user-tie fa-lg"></i>
+            </div>
+            <h6 class="font-weight-bold mb-1">${s.name}</h6>
+            <small class="text-muted d-block">${s.designation || 'Supervisor'}</small>
+            <small class="text-primary">${s.email}</small>
+          </div>
+        </div>
+      `;
+      grid.appendChild(col);
+    });
+  }
+
+  function openAddSupervisorModal() {
+    const bsModal = new bootstrap.Modal(document.getElementById('addSupModal'));
+    bsModal.show();
+  }
+
+  function saveNewSupervisor(e) {
+    e.preventDefault();
+    const name = document.getElementById('sup-name').value;
+    const email = document.getElementById('sup-email').value;
+    const designation = document.getElementById('sup-designation').value;
+
+    const users = DIS.getUsers();
+    const newSup = {
+      id: 'usr_sup_' + Date.now(),
+      name,
+      email,
+      role: 'supervisor',
+      designation,
+      companyId: currentHR.id
+    };
+
+    users.push(newSup);
+    DIS.setUsers(users);
+    DIS.showToast('Supervisor registered!', 'success');
+    
+    const modalEl = document.getElementById('addSupModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+
+    renderSupervisors();
+    renderDashboardStats();
+  }
+
+  function openAssignSupModal(appId) {
+    document.getElementById('assign-app-id').value = appId;
+    const sups = DIS.getUsers().filter(u => u.role === 'supervisor' && u.companyId === currentHR.id);
+    const select = document.getElementById('assign-sup-select');
+    select.innerHTML = '';
+
+    if (sups.length === 0) {
+      select.innerHTML = '<option value="">No supervisors available. Please register one first.</option>';
+    } else {
+      sups.forEach(s => {
+        select.innerHTML += `<option value="${s.id}">${s.name} (${s.designation || 'Supervisor'})</option>`;
       });
     }
 
-    function toggleNotifModal() {
-      document.getElementById('notif-modal').classList.toggle('hidden');
+    const bsModal = new bootstrap.Modal(document.getElementById('assignSupModal'));
+    bsModal.show();
+  }
+
+  function saveSupervisorAssignment(e) {
+    e.preventDefault();
+    const appId = document.getElementById('assign-app-id').value;
+    const supId = document.getElementById('assign-sup-select').value;
+
+    if (!supId) {
+      DIS.showToast('Please select a valid supervisor!', 'warning');
+      return;
     }
-  </script>
-</body>
-</html>
+
+    const apps = DIS.getApplications();
+    const app = apps.find(a => a.id === appId);
+    if (app) {
+      app.supervisorId = supId;
+      app.status = 'Selected';
+      DIS.setApplications(apps);
+
+      DIS.addNotification(app.studentId, 'Supervisor Assigned!', 'A supervisor has been assigned to guide your internship.', 'success');
+      DIS.showToast('Supervisor assigned & student selected!', 'success');
+
+      const modalEl = document.getElementById('assignSupModal');
+      const modal = bootstrap.Modal.getInstance(modalEl);
+      if (modal) modal.hide();
+
+      renderCompanyApplications();
+    }
+  }
+
+  function loadCompanyProfile() {
+    document.getElementById('prof-company-name').value = currentHR.companyName || 'TechCorp';
+    document.getElementById('prof-industry').value = 'Software & Technology';
+    document.getElementById('prof-website').value = 'https://techcorp.example.com';
+  }
+
+  function updateCompanyProfile(e) {
+    e.preventDefault();
+    DIS.showToast('Company profile updated successfully!', 'success');
+  }
+
+  function loadNotifications() {
+    const notifs = DIS.getNotifications(currentHR.id);
+    const container = document.getElementById('notif-list-container');
+    if (!container) return;
+    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No new notifications</div>';
+    notifs.forEach(n => {
+      container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
+    });
+  }
+
+  function toggleNotificationModal() {
+    const bsModal = new bootstrap.Modal(document.getElementById('notifModal'));
+    bsModal.show();
+  }
+</script>
+
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

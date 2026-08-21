@@ -1,0 +1,6 @@
+* linguist-language=PHP
+*.php linguist-language=PHP
+*.html linguist-detectable=false
+assets/js/* linguist-vendored
+assets/css/* linguist-vendored
+database.sql linguist-detectable=false

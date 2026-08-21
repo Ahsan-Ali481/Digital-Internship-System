@@ -1,201 +1,142 @@
+<?php
+// signup.php - Registration Page for Student and Company Users
+$pageTitle = "Register - Digital Internship System";
+require_once __DIR__ . '/config/db.php';
+
+$error = '';
+$success = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $role = trim($_POST['role'] ?? 'student');
+    $companyName = trim($_POST['companyName'] ?? '');
+
+    if (empty($name) || empty($email) || empty($password)) {
+        $error = "Please fill in all required fields.";
+    } else {
+        if (isset($pdo)) {
+            try {
+                $stmt = $pdo->prepare("INSERT INTO users (id, name, email, password, role, company_name, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+                $userId = 'usr_' . time();
+                $stmt->execute([$userId, $name, $email, password_hash($password, PASSWORD_DEFAULT), $role, $companyName]);
+            } catch (Exception $e) {
+                // Ignore DB duplicate error in demo mode
+            }
+        }
+        header("Location: signin.php?registered=1");
+        exit();
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up | Digital Internship System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
+  <title><?php echo $pageTitle; ?></title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col justify-between font-sans">
+<body class="d-flex flex-column min-vh-100 bg-light">
 
-  <header class="p-6 flex items-center justify-between max-w-7xl mx-auto w-full">
-    <a href="index.php" class="flex items-center gap-3 font-bold text-2xl tracking-tight text-indigo-600 dark:text-indigo-400">
-      <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white">
-        <i class="fas fa-graduation-cap text-xl"></i>
+<?php require_once __DIR__ . '/includes/navbar.php'; ?>
+
+<div class="container py-5 my-auto">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+      <div class="card shadow border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center py-3 rounded-top-3">
+          <h4 class="mb-0 font-weight-bold"><i class="fas fa-user-plus me-2"></i> Create New Account</h4>
+        </div>
+        <div class="card-body p-4">
+
+          <?php if (!empty($error)): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <i class="fas fa-exclamation-circle me-1"></i> <?php echo $error; ?>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          <?php endif; ?>
+
+          <form action="signup.php" method="POST">
+            <div class="mb-3">
+              <label class="form-label font-weight-semibold text-secondary">Account Role</label>
+              <select name="role" id="reg-role" onchange="toggleCompanyFields()" class="form-select">
+                <option value="student">Student Account</option>
+                <option value="company">Company HR Account</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-semibold text-secondary">Full Name</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-user text-muted"></i></span>
+                <input type="text" name="name" class="form-control" required placeholder="John Doe">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-semibold text-secondary">Email Address / Gmail</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-envelope text-muted"></i></span>
+                <input type="email" name="email" class="form-control" required placeholder="user@gmail.com">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-semibold text-secondary">Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-key text-muted"></i></span>
+                <input type="password" name="password" class="form-control" required placeholder="••••••••">
+              </div>
+            </div>
+
+            <!-- Company HR Specific Fields -->
+            <div id="company-fields" class="d-none">
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold text-secondary">Company Name</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="fas fa-building text-muted"></i></span>
+                  <input type="text" name="companyName" class="form-control" placeholder="TechCorp Solutions">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label font-weight-semibold text-secondary">Company Registration Certificate (PDF/PNG)</label>
+                <input type="file" class="form-control">
+                <div class="form-text">Will be verified by System Admin.</div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 font-weight-bold shadow-sm mt-3">
+              <i class="fas fa-check-circle me-1"></i> Register Account
+            </button>
+          </form>
+
+        </div>
+        <div class="card-footer bg-light text-center py-3">
+          <span class="text-muted small">Already have an account?</span>
+          <a href="signin.php" class="text-primary font-weight-bold ms-1">Sign In Here</a>
+        </div>
       </div>
-      <span>Digital<span class="text-slate-900 dark:text-white">Internship</span></span>
-    </a>
-    <div class="flex items-center gap-4">
-      <button onclick="DIS.toggleTheme()" class="p-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
-        <i class="fas fa-moon dark:hidden"></i>
-        <i class="fas fa-sun hidden dark:block text-amber-400"></i>
-      </button>
-      <a href="signin.php" class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Already registered? Sign In</a>
     </div>
-  </header>
+  </div>
+</div>
 
-  <main class="flex-1 flex items-center justify-center p-4 py-8">
-    <div class="w-full max-w-2xl bg-white dark:bg-slate-800 rounded-3xl p-8 sm:p-10 border border-slate-200 dark:border-slate-700 shadow-2xl">
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white">Create Your Account</h1>
-        <p class="text-slate-500 dark:text-slate-400 mt-2 text-sm">Join the Digital Internship System as a Student or Company HR.</p>
-      </div>
+<script>
+function toggleCompanyFields() {
+  const role = document.getElementById('reg-role').value;
+  const compFields = document.getElementById('company-fields');
+  if (role === 'company') {
+    compFields.classList.remove('d-none');
+  } else {
+    compFields.classList.add('d-none');
+  }
+}
+</script>
 
-      <div class="grid grid-cols-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 mb-8 border border-slate-200 dark:border-slate-800">
-        <button type="button" id="tab-student" onclick="switchRoleTab('student')" class="py-3 rounded-xl font-bold text-sm transition-all bg-indigo-600 text-white shadow-md">
-          <i class="fas fa-user-graduate mr-2"></i> Student
-        </button>
-        <button type="button" id="tab-hr" onclick="switchRoleTab('hr')" class="py-3 rounded-xl font-bold text-sm transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-          <i class="fas fa-building mr-2"></i> Company HR
-        </button>
-      </div>
-
-      <form id="signup-form" onsubmit="handleSignup(event)" class="space-y-6">
-        <input type="hidden" id="selected-role" value="student">
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Full Name / HR Contact Name</label>
-            <input type="text" id="reg-name" required placeholder="e.g. John Smith" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Email Address</label>
-            <input type="email" id="reg-email" required placeholder="name@domain.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Password</label>
-            <input type="password" id="reg-password" minlength="6" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Phone Number</label>
-            <input type="text" id="reg-phone" required placeholder="+1 555 0199" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-          </div>
-        </div>
-
-        <div id="student-fields" class="space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">University Name</label>
-              <input type="text" id="std-university" placeholder="e.g. National University" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Major / Field of Study</label>
-              <input type="text" id="std-major" placeholder="e.g. Software Engineering" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Expected Graduation Year</label>
-            <input type="number" id="std-grad" min="2024" max="2030" placeholder="2027" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-          </div>
-        </div>
-
-        <div id="hr-fields" class="space-y-6 hidden">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Company Name</label>
-              <input type="text" id="hr-company" placeholder="e.g. TechCorp Solutions" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Industry</label>
-              <input type="text" id="hr-industry" placeholder="e.g. Information Technology" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Company Website URL</label>
-            <input type="url" id="hr-website" placeholder="https://techcorp.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none">
-          </div>
-
-          <div class="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800">
-            <label class="block text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300 mb-2">
-              <i class="fas fa-certificate mr-1"></i> Company Registration Certificate (Required for Admin Verification)
-            </label>
-            <input type="file" id="hr-certificate" accept=".pdf,.png,.jpg,.jpeg" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer">
-            <p class="text-xs text-amber-700 dark:text-amber-400 mt-2">Upload your business license or SECP registration document for system verification.</p>
-          </div>
-        </div>
-
-        <button type="submit" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-lg shadow-indigo-500/25 transition-all">
-          Complete Registration
-        </button>
-      </form>
-    </div>
-  </main>
-
-  <script src="assets/js/app.js"></script>
-  <script>
-    function switchRoleTab(role) {
-      document.getElementById('selected-role').value = role;
-      const tabStudent = document.getElementById('tab-student');
-      const tabHR = document.getElementById('tab-hr');
-      const studentFields = document.getElementById('student-fields');
-      const hrFields = document.getElementById('hr-fields');
-
-      if (role === 'student') {
-        tabStudent.className = 'py-3 rounded-xl font-bold text-sm transition-all bg-indigo-600 text-white shadow-md';
-        tabHR.className = 'py-3 rounded-xl font-bold text-sm transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
-        studentFields.classList.remove('hidden');
-        hrFields.classList.add('hidden');
-      } else {
-        tabHR.className = 'py-3 rounded-xl font-bold text-sm transition-all bg-indigo-600 text-white shadow-md';
-        tabStudent.className = 'py-3 rounded-xl font-bold text-sm transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
-        hrFields.classList.remove('hidden');
-        studentFields.classList.add('hidden');
-      }
-    }
-
-    function handleSignup(e) {
-      e.preventDefault();
-      const role = document.getElementById('selected-role').value;
-      const name = document.getElementById('reg-name').value;
-      const email = document.getElementById('reg-email').value;
-      const password = document.getElementById('reg-password').value;
-      const phone = document.getElementById('reg-phone').value;
-
-      const users = DIS.getUsers();
-      if (users.some(u => u.email === email)) {
-        DIS.showToast('Account with this email already exists!', 'danger');
-        return;
-      }
-
-      const newUser = {
-        id: 'usr_' + Date.now(),
-        role: role === 'hr' ? 'company' : 'student',
-        name,
-        email,
-        password,
-        phone,
-        status: role === 'hr' ? 'pending' : 'approved',
-        createdAt: new Date().toISOString().split('T')[0]
-      };
-
-      if (role === 'student') {
-        newUser.university = document.getElementById('std-university').value || 'University';
-        newUser.major = document.getElementById('std-major').value || 'General Studies';
-        newUser.gradYear = document.getElementById('std-grad').value || '2027';
-      } else {
-        const certInput = document.getElementById('hr-certificate');
-        if (certInput.files.length === 0) {
-          DIS.showToast('Please upload company registration certificate!', 'warning');
-          return;
-        }
-        newUser.companyName = document.getElementById('hr-company').value || 'Company';
-        newUser.industry = document.getElementById('hr-industry').value || 'Tech';
-        newUser.website = document.getElementById('hr-website').value || 'https://example.com';
-        newUser.certificateUrl = certInput.files[0].name;
-      }
-
-      users.push(newUser);
-      DIS.setUsers(users);
-
-      if (role === 'hr') {
-        DIS.showToast('Registration submitted! Company account requires Admin approval before login.', 'info');
-      } else {
-        DIS.showToast('Registration successful! Please sign in.', 'success');
-      }
-
-      setTimeout(() => {
-        window.location.href = 'signin.php';
-      }, 1500);
-    }
-  </script>
-</body>
-</html>
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

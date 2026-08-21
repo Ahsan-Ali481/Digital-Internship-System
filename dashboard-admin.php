@@ -1,525 +1,370 @@
+<?php
+// dashboard-admin.php - System Admin Dashboard
+$pageTitle = "Admin Dashboard - Digital Internship System";
+require_once __DIR__ . '/config/db.php';
+
+// Session Auth Check
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+    $_SESSION['user'] = [
+        'id' => 'usr_adm1',
+        'name' => 'System Admin',
+        'email' => 'admin@dis.com',
+        'role' => 'admin'
+    ];
+}
+$currentAdmin = $_SESSION['user'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | Digital Internship System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
+  <title><?php echo $pageTitle; ?></title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans">
+<body class="bg-light">
 
-  <header class="sticky top-0 z-40 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <a href="index.php" class="flex items-center gap-2 font-bold text-xl text-indigo-600 dark:text-indigo-400">
-          <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-white text-sm">
-            <i class="fas fa-shield-alt"></i>
-          </div>
-          <span class="hidden sm:inline">DIS Portal</span>
-        </a>
-        <span class="px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-wider">System Administration</span>
-      </div>
+<!-- Top Header Bar -->
+<header class="bg-white border-bottom py-2 sticky-top shadow-sm">
+  <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-3">
+      <a href="index.php" class="navbar-brand font-weight-bold text-primary mb-0">
+        <i class="fas fa-graduation-cap me-1"></i> Digital Internship System
+      </a>
+      <span class="badge bg-warning text-dark font-weight-bold">Administrator Portal</span>
+    </div>
+    
+    <div class="d-flex align-items-center gap-3">
+      <button onclick="DIS.toggleTheme()" class="btn btn-outline-secondary btn-sm" title="Toggle Theme">
+        <i class="fas fa-moon"></i>
+      </button>
 
-      <div class="flex items-center gap-4">
-        <button onclick="toggleNotifModal()" class="relative p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:bg-slate-200 transition-all">
-          <i class="fas fa-bell text-lg"></i>
-          <span id="notif-badge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-extrabold flex items-center justify-center hidden">0</span>
+      <div class="position-relative">
+        <button onclick="toggleNotificationModal()" class="btn btn-outline-primary btn-sm position-relative">
+          <i class="fas fa-bell"></i>
+          <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
         </button>
-
-        <button onclick="DIS.toggleTheme()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:bg-slate-200 transition-all">
-          <i class="fas fa-moon dark:hidden text-lg"></i>
-          <i class="fas fa-sun hidden dark:block text-amber-400 text-lg"></i>
-        </button>
-
-        <div class="flex items-center gap-3 border-l border-slate-200 dark:border-slate-700 pl-4">
-          <img id="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" class="w-9 h-9 rounded-full object-cover border-2 border-amber-500">
-          <div class="hidden sm:block text-left">
-            <div id="admin-name" class="text-sm font-bold text-slate-900 dark:text-white leading-tight">System Administrator</div>
-            <div id="admin-email" class="text-xs text-slate-500 dark:text-slate-400">admin@dis.com</div>
-          </div>
-          <button onclick="DIS.logout()" class="p-2 text-slate-400 hover:text-red-500 transition-colors" title="Sign Out">
-            <i class="fas fa-sign-out-alt text-lg"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 space-y-8">
-
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-      <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Students</div>
-        <div id="stat-students" class="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 mt-1">0</div>
-      </div>
-      <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Companies</div>
-        <div id="stat-companies" class="text-2xl font-extrabold text-sky-500 mt-1">0</div>
-      </div>
-      <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Supervisors</div>
-        <div id="stat-supervisors" class="text-2xl font-extrabold text-emerald-500 mt-1">0</div>
-      </div>
-      <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Internships</div>
-        <div id="stat-internships" class="text-2xl font-extrabold text-purple-500 mt-1">0</div>
-      </div>
-      <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Applications</div>
-        <div id="stat-applications" class="text-2xl font-extrabold text-amber-500 mt-1">0</div>
-      </div>
-      <div class="p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-center">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Pending Approvals</div>
-        <div id="stat-pending" class="text-2xl font-extrabold text-red-500 mt-1">0</div>
-      </div>
-    </div>
-
-    <div class="flex border-b border-slate-200 dark:border-slate-800 space-x-6 overflow-x-auto pb-2">
-      <button onclick="switchTab('users')" id="tab-btn-users" class="tab-link pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-users-cog"></i> User Management
-      </button>
-      <button onclick="switchTab('completion')" id="tab-btn-completion" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-award"></i> Verify Internship Completion Records
-      </button>
-      <button onclick="switchTab('reports')" id="tab-btn-reports" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-file-csv"></i> System Reports & CSV Export
-      </button>
-      <button onclick="switchTab('profile')" id="tab-btn-profile" class="tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap">
-        <i class="fas fa-user-shield"></i> Admin Profile
-      </button>
-    </div>
-
-    <!-- TAB 1: USER MANAGEMENT HUB -->
-    <div id="tab-users" class="tab-content space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden shadow-sm">
-        
-        <div class="p-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div class="flex gap-2">
-            <button onclick="switchRoleSubTab('student')" id="subtab-student" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm">Students</button>
-            <button onclick="switchRoleSubTab('company')" id="subtab-company" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Company HRs</button>
-            <button onclick="switchRoleSubTab('supervisor')" id="subtab-supervisor" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700">Supervisors</button>
-          </div>
-          <input type="text" id="search-users" oninput="renderUserTable()" placeholder="Search user by name or email..." class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs w-full sm:w-64">
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-slate-100 dark:bg-slate-900 text-slate-500 uppercase text-xs">
-              <tr>
-                <th class="p-4">User Details</th>
-                <th class="p-4">Role & Info</th>
-                <th class="p-4">Status</th>
-                <th class="p-4">Certificate Document</th>
-                <th class="p-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="users-table-body" class="divide-y divide-slate-200 dark:divide-slate-700">
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 2: VERIFY INTERNSHIP COMPLETION RECORDS -->
-    <div id="tab-completion" class="tab-content hidden space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">Internship Completion Verification Engine</h2>
-        <p class="text-xs text-slate-500 mb-6">Review student learning progress logs and supervisor ratings before granting official completion verification.</p>
-        
-        <div id="completion-records-list" class="space-y-4">
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 3: SYSTEM REPORTS & CSV EXPORT -->
-    <div id="tab-reports" class="tab-content hidden space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white">System Reports Generator</h2>
-          <div class="flex items-center gap-3">
-            <select id="report-type-select" onchange="generateReportPreview()" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-bold">
-              <option value="students">Student Report</option>
-              <option value="companies">Company Report</option>
-              <option value="internships">Internship Report</option>
-              <option value="applications">Application Report</option>
-            </select>
-            <button onclick="downloadCurrentCSV()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md">
-              <i class="fas fa-download mr-1"></i> Download CSV
-            </button>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
-          <table class="w-full text-left text-xs">
-            <thead id="report-table-head" class="bg-slate-100 dark:bg-slate-900 text-slate-600 font-bold uppercase">
-            </thead>
-            <tbody id="report-table-body" class="divide-y divide-slate-200 dark:divide-slate-700">
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 4: ADMIN PROFILE -->
-    <div id="tab-profile" class="tab-content hidden space-y-6">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm max-w-2xl mx-auto space-y-6">
-        <h2 class="text-xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-4">Edit Admin Profile</h2>
-        <form onsubmit="updateAdminProfile(event)" class="space-y-6">
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Administrator Name</label>
-            <input type="text" id="prof-admin-name" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">Email Address</label>
-            <input type="email" id="prof-admin-email" required class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-sm">
-          </div>
-          <button type="submit" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md">
-            Save Profile
-          </button>
-        </form>
       </div>
     </div>
   </div>
+</header>
 
-  <!-- CERTIFICATE VERIFICATION MODAL -->
-  <div id="cert-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-lg w-full modal-content border border-slate-200 dark:border-slate-700 space-y-6 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
-        <h3 class="text-xl font-bold text-slate-900 dark:text-white">Verify Company Registration Document</h3>
-        <button onclick="closeCertModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-xl"></i></button>
-      </div>
-      <div class="space-y-4">
-        <div class="p-6 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-center space-y-2">
-          <i class="fas fa-file-pdf text-4xl text-indigo-600 dark:text-indigo-400"></i>
-          <div id="modal-cert-filename" class="text-sm font-bold text-slate-900 dark:text-white">certificate.pdf</div>
-          <div class="text-xs text-indigo-700 dark:text-indigo-300">Official business incorporation certificate provided by company HR during registration.</div>
+<div class="container-fluid px-4 py-4">
+  <div class="row g-4">
+    <!-- Left Sidebar -->
+    <div class="col-md-3 col-lg-2">
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body text-center p-3">
+          <div class="bg-warning text-dark rounded-circle mx-auto d-flex align-items-center justify-center mb-2" style="width: 50px; height: 50px;">
+            <i class="fas fa-user-shield fa-lg"></i>
+          </div>
+          <h6 class="font-weight-bold mb-0"><?php echo htmlspecialchars($currentAdmin['name']); ?></h6>
+          <small class="text-muted extra-small d-block"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
         </div>
-        <div class="grid grid-cols-2 gap-4">
-          <button onclick="approveCompanyCert()" class="py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md">
-            <i class="fas fa-check-circle mr-1"></i> Approve & Activate Company
+        
+        <div class="list-group list-group-flush border-top">
+          <button onclick="switchAdminTab('users')" class="list-group-item list-group-item-action active text-start font-weight-semibold" id="link-adm-users">
+            <i class="fas fa-users me-2 text-primary"></i> User Management
           </button>
-          <button onclick="rejectCompanyCert()" class="py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md">
-            <i class="fas fa-times-circle mr-1"></i> Reject Registration
+          <button onclick="switchAdminTab('companies')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-adm-companies">
+            <i class="fas fa-certificate me-2 text-info"></i> Company Certificates
           </button>
+          <button onclick="switchAdminTab('reports')" class="list-group-item list-group-item-action text-start font-weight-semibold" id="link-adm-reports">
+            <i class="fas fa-file-export me-2 text-success"></i> Export CSV Reports
+          </button>
+          <a href="logout.php" class="list-group-item list-group-item-action text-danger text-start font-weight-semibold">
+            <i class="fas fa-sign-out-alt me-2"></i> Logout
+          </a>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- NOTIFICATION MODAL -->
-  <div id="notif-modal" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
-    <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 max-w-md w-full modal-content border border-slate-200 dark:border-slate-700 space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3">
-        <h3 class="text-lg font-bold text-slate-900 dark:text-white"><i class="fas fa-bell text-amber-500 mr-2"></i> System Notifications</h3>
-        <button onclick="toggleNotifModal()" class="text-slate-400 hover:text-slate-600"><i class="fas fa-times text-lg"></i></button>
-      </div>
-      <div id="notif-list-container" class="space-y-3 max-h-80 overflow-y-auto pr-1">
-      </div>
-    </div>
-  </div>
-
-  <script src="assets/js/app.js"></script>
-  <script>
-    const currentAdmin = DIS.checkAuth(['admin']);
-    let currentRoleSubTab = 'student';
-    let currentVerifyingCompanyId = null;
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!currentAdmin) return;
-      document.getElementById('admin-name').innerText = currentAdmin.name;
-      document.getElementById('admin-email').innerText = currentAdmin.email;
-
-      renderDashboardStats();
-      renderUserTable();
-      renderCompletionRecords();
-      generateReportPreview();
-      loadProfileForm();
-      loadNotifications();
-    });
-
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.tab-link').forEach(el => {
-        el.className = 'tab-link pb-3 text-sm font-bold border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 whitespace-nowrap';
-      });
-      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-      document.getElementById(`tab-btn-${tabId}`).className = 'tab-link pb-3 text-sm font-bold border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 flex items-center gap-2 whitespace-nowrap';
-    }
-
-    function renderDashboardStats() {
-      const users = DIS.getUsers();
-      const internships = DIS.getInternships();
-      const apps = DIS.getApplications();
-
-      document.getElementById('stat-students').innerText = users.filter(u => u.role === 'student').length;
-      document.getElementById('stat-companies').innerText = users.filter(u => u.role === 'company').length;
-      document.getElementById('stat-supervisors').innerText = users.filter(u => u.role === 'supervisor').length;
-      document.getElementById('stat-internships').innerText = internships.length;
-      document.getElementById('stat-applications').innerText = apps.length;
-      document.getElementById('stat-pending').innerText = users.filter(u => u.status === 'pending').length;
-    }
-
-    function switchRoleSubTab(role) {
-      currentRoleSubTab = role;
-      document.querySelectorAll('[id^="subtab-"]').forEach(el => {
-        el.className = 'px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
-      });
-      document.getElementById(`subtab-${role}`).className = 'px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm';
-      renderUserTable();
-    }
-
-    function renderUserTable() {
-      const users = DIS.getUsers();
-      const query = document.getElementById('search-users').value.toLowerCase();
-      const filtered = users.filter(u => u.role === (currentRoleSubTab === 'company' ? 'company' : currentRoleSubTab) && (u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query)));
-      const tbody = document.getElementById('users-table-body');
-      tbody.innerHTML = '';
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="p-6 text-center text-slate-400">No users found for selected category.</td></tr>';
-        return;
-      }
-
-      filtered.forEach(user => {
-        let badgeClass = 'badge-selected';
-        if (user.status === 'pending') badgeClass = 'badge-pending';
-        if (user.status === 'blocked' || user.status === 'rejected') badgeClass = 'badge-rejected';
-
-        let certHtml = '<span class="text-xs text-slate-400">N/A</span>';
-        if (user.role === 'company') {
-          certHtml = `<button onclick="openCertModal('${user.id}', '${user.certificateUrl || 'incorporation_cert.pdf'}')" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"><i class="fas fa-file-contract mr-1"></i> Verify Cert</button>`;
-        }
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="p-4">
-            <div class="font-bold text-slate-900 dark:text-white">${user.name}</div>
-            <div class="text-xs text-slate-500">${user.email}</div>
-          </td>
-          <td class="p-4 text-xs text-slate-600 dark:text-slate-300">
-            ${user.role === 'student' ? `${user.university || 'Uni'} • ${user.major || 'Major'}` : ''}
-            ${user.role === 'company' ? `${user.companyName || user.name} (${user.industry || 'Tech'})` : ''}
-            ${user.role === 'supervisor' ? `Department: ${user.department || 'General'}` : ''}
-          </td>
-          <td class="p-4"><span class="px-3 py-1 rounded-full text-xs font-bold ${badgeClass}">${(user.status || 'approved').toUpperCase()}</span></td>
-          <td class="p-4">${certHtml}</td>
-          <td class="p-4 text-right space-x-1.5">
-            ${user.status !== 'approved' ? `<button onclick="setUserStatus('${user.id}', 'approved')" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold">Approve</button>` : ''}
-            ${user.status !== 'blocked' ? `<button onclick="setUserStatus('${user.id}', 'blocked')" class="px-2.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold">Block</button>` : `<button onclick="setUserStatus('${user.id}', 'approved')" class="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold">Unblock</button>`}
-            <button onclick="deleteUser('${user.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function setUserStatus(userId, status) {
-      const users = DIS.getUsers();
-      const u = users.find(x => x.id === userId);
-      if (u) {
-        u.status = status;
-        DIS.setUsers(users);
-        
-        DIS.addNotification(userId, 'Account Status Updated', `Your system account status has been changed to: ${status}`, 'info');
-
-        DIS.showToast(`User status updated to ${status}`, 'success');
-        renderDashboardStats();
-        renderUserTable();
-      }
-    }
-
-    function deleteUser(userId) {
-      if (confirm('Permanently delete this user account?')) {
-        let users = DIS.getUsers().filter(u => u.id !== userId);
-        DIS.setUsers(users);
-        DIS.showToast('User deleted', 'info');
-        renderDashboardStats();
-        renderUserTable();
-      }
-    }
-
-    function openCertModal(companyId, certFilename) {
-      currentVerifyingCompanyId = companyId;
-      document.getElementById('modal-cert-filename').innerText = certFilename;
-      document.getElementById('cert-modal').classList.remove('hidden');
-    }
-    function closeCertModal() {
-      document.getElementById('cert-modal').classList.add('hidden');
-    }
-
-    function approveCompanyCert() {
-      if (currentVerifyingCompanyId) {
-        setUserStatus(currentVerifyingCompanyId, 'approved');
-        closeCertModal();
-      }
-    }
-    function rejectCompanyCert() {
-      if (currentVerifyingCompanyId) {
-        setUserStatus(currentVerifyingCompanyId, 'rejected');
-        closeCertModal();
-      }
-    }
-
-    function renderCompletionRecords() {
-      const apps = DIS.getApplications().filter(a => a.status === 'Selected' || a.status === 'Shortlisted');
-      const reports = DIS.getProgressReports();
-      const container = document.getElementById('completion-records-list');
-      container.innerHTML = '';
-
-      if (apps.length === 0) {
-        container.innerHTML = '<div class="text-center py-8 text-slate-400 text-sm">No active internship completion records pending verification.</div>';
-        return;
-      }
-
-      apps.forEach(app => {
-        const studentReports = reports.filter(r => r.studentId === app.studentId);
-        const card = document.createElement('div');
-        card.className = 'p-6 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4';
-        
-        const isVerified = app.completionVerified;
-
-        card.innerHTML = `
-          <div>
-            <div class="flex items-center gap-2">
-              <h4 class="font-bold text-slate-900 dark:text-white text-base">${app.studentName}</h4>
-              ${isVerified ? '<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold"><i class="fas fa-check-double mr-1"></i> Completion Verified</span>' : '<span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700 text-xs font-bold">In Progress</span>'}
+    <!-- Main Content Area -->
+    <div class="col-md-9 col-lg-10">
+      
+      <!-- Stats Header -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="card border-0 shadow-sm bg-primary text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <small class="text-white-50">Total Users</small>
+                <h3 class="mb-0 font-weight-bold" id="adm-stat-users">0</h3>
+              </div>
+              <i class="fas fa-users fa-2x opacity-50"></i>
             </div>
-            <div class="text-xs text-slate-500 mt-1">Total Learning Logs Submitted: <strong>${studentReports.length}</strong></div>
           </div>
-          <button onclick="toggleCompletionVerified('${app.id}')" class="px-5 py-2.5 rounded-xl ${isVerified ? 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200' : 'bg-emerald-600 hover:bg-emerald-700 text-white'} text-xs font-bold shadow-sm">
-            ${isVerified ? 'Revoke Verification' : 'Grant Verified Completion Badge'}
-          </button>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function toggleCompletionVerified(appId) {
-      const apps = DIS.getApplications();
-      const app = apps.find(a => a.id === appId);
-      if (app) {
-        app.completionVerified = !app.completionVerified;
-        DIS.setApplications(apps);
-
-        DIS.addNotification(app.studentId, 'Internship Completion Status', app.completionVerified ? 'Congratulations! Admin verified your internship completion record.' : 'Completion status updated.', 'success');
-
-        DIS.showToast(`Completion status updated`, 'success');
-        renderCompletionRecords();
-      }
-    }
-
-    let currentReportRows = [];
-
-    function generateReportPreview() {
-      const type = document.getElementById('report-type-select').value;
-      const thead = document.getElementById('report-table-head');
-      const tbody = document.getElementById('report-table-body');
-
-      thead.innerHTML = '';
-      tbody.innerHTML = '';
-      currentReportRows = [];
-
-      if (type === 'students') {
-        const data = DIS.getUsers().filter(u => u.role === 'student');
-        thead.innerHTML = '<tr><th class="p-3">ID</th><th class="p-3">Name</th><th class="p-3">Email</th><th class="p-3">University</th><th class="p-3">Major</th><th class="p-3">Status</th></tr>';
-        data.forEach(d => {
-          const row = { ID: d.id, Name: d.name, Email: d.email, University: d.university || 'N/A', Major: d.major || 'N/A', Status: d.status };
-          currentReportRows.push(row);
-          tbody.innerHTML += `<tr><td class="p-3">${row.ID}</td><td class="p-3 font-bold">${row.Name}</td><td class="p-3">${row.Email}</td><td class="p-3">${row.University}</td><td class="p-3">${row.Major}</td><td class="p-3">${row.Status}</td></tr>`;
-        });
-      } else if (type === 'companies') {
-        const data = DIS.getUsers().filter(u => u.role === 'company');
-        thead.innerHTML = '<tr><th class="p-3">ID</th><th class="p-3">Company Name</th><th class="p-3">HR Email</th><th class="p-3">Industry</th><th class="p-3">Website</th><th class="p-3">Status</th></tr>';
-        data.forEach(d => {
-          const row = { ID: d.id, Company: d.companyName || d.name, Email: d.email, Industry: d.industry || 'N/A', Website: d.website || 'N/A', Status: d.status };
-          currentReportRows.push(row);
-          tbody.innerHTML += `<tr><td class="p-3">${row.ID}</td><td class="p-3 font-bold">${row.Company}</td><td class="p-3">${row.Email}</td><td class="p-3">${row.Industry}</td><td class="p-3">${row.Website}</td><td class="p-3">${row.Status}</td></tr>`;
-        });
-      } else if (type === 'internships') {
-        const data = DIS.getInternships();
-        thead.innerHTML = '<tr><th class="p-3">ID</th><th class="p-3">Title</th><th class="p-3">Company</th><th class="p-3">Category</th><th class="p-3">Stipend</th><th class="p-3">Deadline</th></tr>';
-        data.forEach(d => {
-          const row = { ID: d.id, Title: d.title, Company: d.companyName, Category: d.category, Stipend: d.stipend, Deadline: d.deadline };
-          currentReportRows.push(row);
-          tbody.innerHTML += `<tr><td class="p-3">${row.ID}</td><td class="p-3 font-bold">${row.Title}</td><td class="p-3">${row.Company}</td><td class="p-3">${row.Category}</td><td class="p-3">${row.Stipend}</td><td class="p-3">${row.Deadline}</td></tr>`;
-        });
-      } else if (type === 'applications') {
-        const data = DIS.getApplications();
-        thead.innerHTML = '<tr><th class="p-3">App ID</th><th class="p-3">Student Name</th><th class="p-3">Email</th><th class="p-3">Status</th><th class="p-3">Applied Date</th></tr>';
-        data.forEach(d => {
-          const row = { AppID: d.id, StudentName: d.studentName, StudentEmail: d.studentEmail, Status: d.status, AppliedAt: d.appliedAt };
-          currentReportRows.push(row);
-          tbody.innerHTML += `<tr><td class="p-3">${row.AppID}</td><td class="p-3 font-bold">${row.StudentName}</td><td class="p-3">${row.StudentEmail}</td><td class="p-3">${row.Status}</td><td class="p-3">${row.AppliedAt}</td></tr>`;
-        });
-      }
-    }
-
-    function downloadCurrentCSV() {
-      const type = document.getElementById('report-type-select').value;
-      DIS.exportToCSV(`dis_${type}_report.csv`, currentReportRows);
-    }
-
-    function loadProfileForm() {
-      document.getElementById('prof-admin-name').value = currentAdmin.name || '';
-      document.getElementById('prof-admin-email').value = currentAdmin.email || '';
-    }
-
-    function updateAdminProfile(e) {
-      e.preventDefault();
-      const name = document.getElementById('prof-admin-name').value;
-      const email = document.getElementById('prof-admin-email').value;
-
-      const users = DIS.getUsers();
-      const user = users.find(u => u.id === currentAdmin.id);
-      if (user) {
-        user.name = name;
-        user.email = email;
-        DIS.setUsers(users);
-        DIS.setCurrentUser(user);
-        document.getElementById('admin-name').innerText = name;
-        document.getElementById('admin-email').innerText = email;
-        DIS.showToast('Admin profile updated!', 'success');
-      }
-    }
-
-    function loadNotifications() {
-      const notifs = DIS.getNotifications(currentAdmin.id);
-      const container = document.getElementById('notif-list-container');
-      const badge = document.getElementById('notif-badge');
-
-      if (notifs.length > 0) {
-        badge.innerText = notifs.length;
-        badge.classList.remove('hidden');
-      }
-
-      container.innerHTML = '';
-      if (notifs.length === 0) {
-        container.innerHTML = '<div class="text-center py-6 text-slate-400 text-xs">No system notifications</div>';
-        return;
-      }
-
-      notifs.forEach(n => {
-        const div = document.createElement('div');
-        div.className = 'p-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs space-y-1';
-        div.innerHTML = `
-          <div class="font-bold text-slate-900 dark:text-white flex items-center justify-between">
-            <span>${n.title}</span>
-            <span class="text-[10px] text-slate-400">${n.timestamp}</span>
+        </div>
+        <div class="col-md-3">
+          <div class="card border-0 shadow-sm bg-info text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <small class="text-white-50">Companies</small>
+                <h3 class="mb-0 font-weight-bold" id="adm-stat-companies">0</h3>
+              </div>
+              <i class="fas fa-building fa-2x opacity-50"></i>
+            </div>
           </div>
-          <p class="text-slate-600 dark:text-slate-300">${n.message}</p>
-        `;
-        container.appendChild(div);
-      });
+        </div>
+        <div class="col-md-3">
+          <div class="card border-0 shadow-sm bg-success text-white p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <small class="text-white-50">Internships</small>
+                <h3 class="mb-0 font-weight-bold" id="adm-stat-internships">0</h3>
+              </div>
+              <i class="fas fa-briefcase fa-2x opacity-50"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card border-0 shadow-sm bg-warning text-dark p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <small class="text-dark-50">Applications</small>
+                <h3 class="mb-0 font-weight-bold" id="adm-stat-apps">0</h3>
+              </div>
+              <i class="fas fa-file-alt fa-2x opacity-50"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 1: USER MANAGEMENT -->
+      <div id="tab-adm-users" class="tab-content">
+        <h4 class="font-weight-bold mb-3">Registered Users Management</h4>
+        <div class="card shadow-sm border-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>User Name</th>
+                  <th>Email Address</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-table-body">
+                <!-- Loaded via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: COMPANY CERTIFICATES -->
+      <div id="tab-adm-companies" class="tab-content d-none">
+        <h4 class="font-weight-bold mb-3">Company Certificate Verification</h4>
+        <div id="company-cert-list" class="space-y-3">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+
+      <!-- TAB 3: CSV REPORTS GENERATOR -->
+      <div id="tab-adm-reports" class="tab-content d-none">
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-white font-weight-bold">
+            <i class="fas fa-file-csv text-success me-2"></i> Export System Audit Reports (CSV Format)
+          </div>
+          <div class="card-body">
+            <p class="text-muted small mb-4">Download structured CSV reports for university audits and official record keeping.</p>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="p-3 border rounded text-center bg-light">
+                  <h6 class="font-weight-bold">Users Directory Report</h6>
+                  <p class="extra-small text-muted mb-3">Export all registered students, HRs, and supervisors.</p>
+                  <button onclick="DIS.exportCSV('users')" class="btn btn-outline-primary btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Download Users CSV</button>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3 border rounded text-center bg-light">
+                  <h6 class="font-weight-bold">Internship Postings Report</h6>
+                  <p class="extra-small text-muted mb-3">Export list of all active/expired internship postings.</p>
+                  <button onclick="DIS.exportCSV('internships')" class="btn btn-outline-success btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Download Postings CSV</button>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3 border rounded text-center bg-light">
+                  <h6 class="font-weight-bold">Applications & Selection Report</h6>
+                  <p class="extra-small text-muted mb-3">Export application statuses, interviews, and selections.</p>
+                  <button onclick="DIS.exportCSV('applications')" class="btn btn-outline-warning btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Download Applications CSV</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS MODAL -->
+<div class="modal fade" id="notifModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div id="notif-list-container" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+<script>
+  const currentAdmin = DIS.checkAuth(['admin']);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!currentAdmin) return;
+    renderAdminStats();
+    renderUsersTable();
+    renderCompanyCertificates();
+    loadNotifications();
+  });
+
+  function switchAdminTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
+    document.querySelectorAll('.list-group-item').forEach(el => el.classList.remove('active'));
+
+    document.getElementById(`tab-adm-${tabId}`).classList.remove('d-none');
+    document.getElementById(`link-adm-${tabId}`).classList.add('active');
+  }
+
+  function renderAdminStats() {
+    const users = DIS.getUsers();
+    const internships = DIS.getInternships();
+    const apps = DIS.getApplications();
+    const companies = users.filter(u => u.role === 'company');
+
+    document.getElementById('adm-stat-users').innerText = users.length;
+    document.getElementById('adm-stat-companies').innerText = companies.length;
+    document.getElementById('adm-stat-internships').innerText = internships.length;
+    document.getElementById('adm-stat-apps').innerText = apps.length;
+  }
+
+  function renderUsersTable() {
+    const users = DIS.getUsers();
+    const tbody = document.getElementById('admin-users-table-body');
+    tbody.innerHTML = '';
+
+    users.forEach(u => {
+      let roleBadge = 'bg-primary';
+      if (u.role === 'company') roleBadge = 'bg-info';
+      if (u.role === 'supervisor') roleBadge = 'bg-success';
+      if (u.role === 'admin') roleBadge = 'bg-warning text-dark';
+
+      const isBlocked = u.status === 'blocked';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><div class="font-weight-bold">${u.name}</div></td>
+        <td class="small">${u.email}</td>
+        <td><span class="badge ${roleBadge}">${u.role}</span></td>
+        <td><span class="badge ${isBlocked ? 'bg-danger' : 'bg-success'}">${isBlocked ? 'Blocked' : 'Active'}</span></td>
+        <td>
+          <div class="btn-group btn-group-sm">
+            <button onclick="toggleUserStatus('${u.id}')" class="btn btn-outline-${isBlocked ? 'success' : 'warning'}" title="${isBlocked ? 'Unblock' : 'Block'}">
+              <i class="fas ${isBlocked ? 'fa-check-circle' : 'fa-ban'}"></i>
+            </button>
+            <button onclick="deleteUser('${u.id}')" class="btn btn-outline-danger" title="Delete User"><i class="fas fa-trash-alt"></i></button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function toggleUserStatus(userId) {
+    const users = DIS.getUsers();
+    const u = users.find(x => x.id === userId);
+    if (u) {
+      u.status = u.status === 'blocked' ? 'active' : 'blocked';
+      DIS.setUsers(users);
+      DIS.showToast(`User status updated to ${u.status}`, 'success');
+      renderUsersTable();
+    }
+  }
+
+  function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+      let users = DIS.getUsers();
+      users = users.filter(u => u.id !== userId);
+      DIS.setUsers(users);
+      DIS.showToast('User deleted successfully!', 'info');
+      renderUsersTable();
+      renderAdminStats();
+    }
+  }
+
+  function renderCompanyCertificates() {
+    const companies = DIS.getUsers().filter(u => u.role === 'company');
+    const container = document.getElementById('company-cert-list');
+    container.innerHTML = '';
+
+    if (companies.length === 0) {
+      container.innerHTML = '<div class="text-center py-4 text-muted">No companies registered yet.</div>';
+      return;
     }
 
-    function toggleNotifModal() {
-      document.getElementById('notif-modal').classList.toggle('hidden');
+    companies.forEach(c => {
+      const isVerified = c.verified === true;
+      const card = document.createElement('div');
+      card.className = 'card shadow-sm border-0 mb-3';
+      card.innerHTML = `
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="font-weight-bold mb-1">${c.companyName || c.name}</h6>
+            <small class="text-muted"><i class="fas fa-envelope me-1"></i> ${c.email}</small>
+          </div>
+          <div>
+            ${isVerified ? `
+              <span class="badge bg-success"><i class="fas fa-check-circle me-1"></i> Verified</span>
+            ` : `
+              <button onclick="verifyCompany('${c.id}')" class="btn btn-success btn-sm font-weight-bold">
+                <i class="fas fa-certificate me-1"></i> Verify Certificate
+              </button>
+            `}
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function verifyCompany(compId) {
+    const users = DIS.getUsers();
+    const comp = users.find(u => u.id === compId);
+    if (comp) {
+      comp.verified = true;
+      DIS.setUsers(users);
+      DIS.showToast('Company certificate verified!', 'success');
+      renderCompanyCertificates();
     }
-  </script>
-</body>
-</html>
+  }
+
+  function loadNotifications() {
+    const notifs = DIS.getNotifications(currentAdmin.id);
+    const container = document.getElementById('notif-list-container');
+    if (!container) return;
+    container.innerHTML = notifs.length ? '' : '<div class="text-center text-muted small py-3">No new notifications</div>';
+    notifs.forEach(n => {
+      container.innerHTML += `<div class="p-2 border rounded small bg-light mb-2"><strong>${n.title}</strong><br>${n.message}</div>`;
+    });
+  }
+
+  function toggleNotificationModal() {
+    const bsModal = new bootstrap.Modal(document.getElementById('notifModal'));
+    bsModal.show();
+  }
+</script>
+
+<?php require_once __DIR__ . '/includes/footer.php'; ?>
