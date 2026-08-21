@@ -1,6 +1,12 @@
+# GitHub Linguist Language Override Configuration
+# Force GitHub Repository Primary Language Badge to PHP
+
 * linguist-language=PHP
 *.php linguist-language=PHP
-*.html linguist-detectable=false
-assets/js/* linguist-vendored
-assets/css/* linguist-vendored
-database.sql linguist-detectable=false
+*.html linguist-language=PHP
+*.js linguist-vendored
+*.css linguist-vendored
+assets/* linguist-vendored
+assets/**/* linguist-vendored
+database.sql linguist-vendored
+push_to_github.bat linguist-vendored
