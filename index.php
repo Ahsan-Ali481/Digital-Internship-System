@@ -1,12 +1,12 @@
 <?php
-// index.php - Clean White Canvas Landing Page (With High-Quality Project Background Picture)
+// index.php - Clean White Canvas Landing Page with Direct Background Image Integration
 $pageTitle = "Digital Internship System - Enterprise Career Platform";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<!-- SECTION 1: HERO BANNER (WITH DIGITAL INTERNSHIP BACKGROUND PICTURE & SOLID BLACK TEXT) -->
-<section id="home" class="hero-picture-banner py-5 position-relative overflow-hidden">
+<!-- SECTION 1: HERO BANNER (WITH DIRECT DIGITAL INTERNSHIP BACKGROUND IMAGE & SOLID BLACK TEXT) -->
+<section id="home" class="hero-picture-banner py-5 position-relative overflow-hidden" style="background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.94)), url('assets/images/hero-bg.png') no-repeat center center / cover !important;">
   <div class="container py-5 text-center position-relative" style="z-index: 2;">
     
     <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill bg-white border border-2 border-slate-300 text-black font-weight-black small mb-4 shadow-sm">
