@@ -1,5 +1,5 @@
 <?php
-// includes/navbar.php - Top Navigation Bar (Solid Black Text)
+// includes/navbar.php - Landing Page Top Navigation Bar (No Supervisor or Dashboard Links)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -19,6 +19,7 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
     </button>
     
     <div class="collapse navbar-collapse" id="navbarMain">
+      <!-- Clean Top Navbar Navigation Links (Only Home, Browse Internships, About Us, Contact Us) -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-black fs-6 ms-lg-4">
         <li class="nav-item">
           <a class="nav-link text-black px-3" href="index.php#home">Home</a>
@@ -34,14 +35,12 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
         </li>
       </ul>
       
+      <!-- Clean Action Buttons (Only Sign In & Get Started) -->
       <div class="d-flex align-items-center gap-2">
         <?php if ($user): ?>
-          <span class="navbar-text text-black me-3 font-weight-black">
-            <i class="fas fa-user-circle me-1 text-primary"></i> <?php echo htmlspecialchars($user['name']); ?> (<?php echo ucfirst($user['role']); ?>)
+          <span class="navbar-text text-black me-2 font-weight-black">
+            <i class="fas fa-user-circle me-1 text-primary"></i> <?php echo htmlspecialchars($user['name']); ?>
           </span>
-          <a href="dashboard-<?php echo strtolower($user['role']); ?>.php" class="btn btn-black-primary btn-sm px-4">
-            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
-          </a>
           <a href="logout.php" class="btn btn-black-secondary btn-sm px-3">
             <i class="fas fa-sign-out-alt me-1"></i> Logout
           </a>
