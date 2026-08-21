@@ -1,5 +1,5 @@
 <?php
-// includes/navbar.php - Classic Professional Top Navigation Bar
+// includes/navbar.php - Classic Professional Navbar (100% Equal Distance)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -19,24 +19,24 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
     </button>
     
     <div class="collapse navbar-collapse" id="navbarMain">
-      <!-- Classic Professional Navigation Links with Comfortable Spacing -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold ms-lg-4 d-flex gap-2 gap-lg-3">
+      <!-- 100% Equal Distance Navigation Links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-bold ms-lg-5 d-flex align-items-center justify-content-start gap-4 gap-lg-5">
         <li class="nav-item">
-          <a class="nav-link nav-link-classic text-black" href="index.php#home">Home</a>
+          <a class="nav-link nav-link-equal text-black" href="index.php#home">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-link-classic text-black" href="index.php#browse-internships">Browse Internships</a>
+          <a class="nav-link nav-link-equal text-black" href="index.php#browse-internships">Browse Internships</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-link-classic text-black" href="index.php#about">About Us</a>
+          <a class="nav-link nav-link-equal text-black" href="index.php#about">About Us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link nav-link-classic text-black" href="index.php#contact">Contact Us</a>
+          <a class="nav-link nav-link-equal text-black" href="index.php#contact">Contact Us</a>
         </li>
       </ul>
       
       <!-- Clean Action Buttons -->
-      <div class="d-flex align-items-center gap-2 ms-lg-3">
+      <div class="d-flex align-items-center gap-3 ms-lg-3">
         <?php if ($user): ?>
           <a href="logout.php" class="btn btn-black-secondary btn-sm px-4 font-weight-bold">
             <i class="fas fa-sign-out-alt me-1"></i> Logout

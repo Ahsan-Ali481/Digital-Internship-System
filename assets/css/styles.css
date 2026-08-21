@@ -45,15 +45,17 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
-.nav-link-classic {
+/* 100% Equal Distance Navigation Links */
+.nav-link-equal {
   font-weight: 700 !important;
   font-size: 1rem !important;
   color: #000000 !important;
-  padding: 8px 18px !important;
+  padding: 8px 0 !important; /* Zero horizontal padding for exact gap calculation */
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
-.nav-link-classic:hover {
+.nav-link-equal:hover {
   color: #4f46e5 !important;
 }
 
