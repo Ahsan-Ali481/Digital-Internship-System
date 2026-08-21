@@ -1,5 +1,5 @@
 <?php
-// includes/navbar.php - Masterpiece Top Navigation Bar
+// includes/navbar.php - Pinnacle Top Navigation Bar
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -8,8 +8,8 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 <nav class="navbar navbar-expand-lg bg-white sticky-top border-bottom py-3 shadow-sm">
   <div class="container">
     <a class="navbar-brand fw-extrabold d-flex align-items-center gap-2" href="index.php">
-      <div class="bg-gradient-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;">
-        <i class="fas fa-graduation-cap"></i>
+      <div class="bg-gradient-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px;">
+        <i class="fas fa-graduation-cap fa-lg"></i>
       </div>
       <span class="fs-4 text-dark fw-black">Digital <span class="gradient-text-mask">Internship</span></span>
     </a>
@@ -39,17 +39,17 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
           <span class="navbar-text text-dark me-3 font-weight-bold">
             <i class="fas fa-user-circle me-1 text-primary"></i> <?php echo htmlspecialchars($user['name']); ?> (<?php echo ucfirst($user['role']); ?>)
           </span>
-          <a href="dashboard-<?php echo strtolower($user['role']); ?>.php" class="btn btn-master-primary btn-sm px-4">
+          <a href="dashboard-<?php echo strtolower($user['role']); ?>.php" class="btn btn-pinnacle-primary btn-sm px-4">
             <i class="fas fa-tachometer-alt me-1"></i> Dashboard
           </a>
-          <a href="logout.php" class="btn btn-master-secondary btn-sm px-3">
+          <a href="logout.php" class="btn btn-pinnacle-secondary btn-sm px-3">
             <i class="fas fa-sign-out-alt me-1"></i> Logout
           </a>
         <?php else: ?>
-          <a href="signin.php" class="btn btn-master-secondary btn-sm px-4 me-1">
+          <a href="signin.php" class="btn btn-pinnacle-secondary btn-sm px-4 me-1">
             <i class="fas fa-sign-in-alt me-1"></i> Sign In
           </a>
-          <a href="signup.php" class="btn btn-master-primary btn-sm px-4">
+          <a href="signup.php" class="btn btn-pinnacle-primary btn-sm px-4">
             <i class="fas fa-user-plus me-1"></i> Get Started
           </a>
         <?php endif; ?>

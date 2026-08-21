@@ -1,28 +1,28 @@
 <?php
-// index.php - Masterpiece Enterprise Landing Page
+// index.php - Pinnacle Enterprise Landing Page
 $pageTitle = "Digital Internship System - Enterprise Career Platform";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<!-- SECTION 1: HERO BANNER (MIDNIGHT INDIGO MESH) -->
-<section id="home" class="bg-midnight-mesh text-white py-5 position-relative overflow-hidden shadow-lg">
+<!-- SECTION 1: HERO BANNER (RADIAL MESH CANVAS) -->
+<section id="home" class="bg-hero-mesh text-white py-5 position-relative overflow-hidden shadow-lg">
   <div class="container py-5 text-center position-relative" style="z-index: 2;">
     
     <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill bg-white bg-opacity-10 text-white font-weight-extrabold small mb-4 border border-white border-opacity-20 shadow-sm">
       <span class="spinner-grow spinner-grow-sm text-success" role="status"></span>
-      Enterprise Internship Allocation Engine
+      Next-Generation Enterprise Internship Allocation Engine
     </div>
 
     <h1 class="display-3 font-weight-extrabold mb-3 text-white tracking-tight">
-      Bridging Students, Supervisors & <span class="gradient-text-mask">Industry Partners</span>
+      Connecting Education, Talent & <span class="gradient-text-mask">Industry</span>
     </h1>
     <p class="lead mb-4 max-w-3xl mx-auto text-white opacity-90 fs-4 fw-semibold">
-      A unified platform for managing student internship allocations, physical onsite interview schedules, workplace task tracking, and performance evaluations.
+      Streamlining university internship allocations, physical onsite interview schedules, workplace task tracking, and institutional evaluations.
     </p>
 
     <div class="d-flex justify-content-center gap-3 mb-5">
-      <a href="signup.php" class="btn btn-master-primary btn-lg shadow-lg">
+      <a href="signup.php" class="btn btn-pinnacle-primary btn-lg shadow-lg">
         <i class="fas fa-rocket me-2"></i> Register Account
       </a>
       <a href="#browse-internships" class="btn btn-outline-light btn-lg font-weight-bold px-4 rounded-3">
@@ -33,25 +33,25 @@ require_once __DIR__ . '/includes/navbar.php';
     <!-- Floating Metrics Grid -->
     <div class="row g-4 max-w-4xl mx-auto pt-3">
       <div class="col-6 col-md-3">
-        <div class="p-4 rounded-4 bg-white text-dark shadow-sm master-card border-0">
+        <div class="p-4 rounded-4 bg-white text-dark shadow-sm pinnacle-card border-0">
           <h3 class="font-weight-extrabold mb-1 text-primary fs-1">2,500+</h3>
           <p class="text-dark font-weight-extrabold mb-0 small">Students Placed</p>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="p-4 rounded-4 bg-white text-dark shadow-sm master-card border-0">
+        <div class="p-4 rounded-4 bg-white text-dark shadow-sm pinnacle-card border-0">
           <h3 class="font-weight-extrabold mb-1 text-info fs-1">350+</h3>
           <p class="text-dark font-weight-extrabold mb-0 small">Verified Companies</p>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="p-4 rounded-4 bg-white text-dark shadow-sm master-card border-0">
+        <div class="p-4 rounded-4 bg-white text-dark shadow-sm pinnacle-card border-0">
           <h3 class="font-weight-extrabold mb-1 text-success fs-1">98.5%</h3>
           <p class="text-dark font-weight-extrabold mb-0 small">Completion Rate</p>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="p-4 rounded-4 bg-white text-dark shadow-sm master-card border-0">
+        <div class="p-4 rounded-4 bg-white text-dark shadow-sm pinnacle-card border-0">
           <h3 class="font-weight-extrabold mb-1 text-warning fs-1">100%</h3>
           <p class="text-dark font-weight-extrabold mb-0 small">Verified Records</p>
         </div>
@@ -69,27 +69,27 @@ require_once __DIR__ . '/includes/navbar.php';
         <h2 class="h2 font-weight-extrabold text-dark mb-1">Featured Internship Opportunities</h2>
         <p class="text-dark fw-semibold mb-0 fs-6">High-value software engineering, product design, and AI positions.</p>
       </div>
-      <a href="signin.php" class="btn btn-master-secondary font-weight-bold mt-2 mt-md-0">
+      <a href="signin.php" class="btn btn-pinnacle-secondary font-weight-bold mt-2 mt-md-0">
         View All Roles <i class="fas fa-arrow-right ms-1"></i>
       </a>
     </div>
 
     <!-- Category Pills -->
     <div class="d-flex flex-wrap gap-2 mb-4">
-      <button onclick="filterLandingCategory('all')" class="btn btn-master-primary btn-sm active" id="btn-cat-all">All Positions</button>
-      <button onclick="filterLandingCategory('Software Development')" class="btn btn-master-secondary btn-sm" id="btn-cat-software">Software Development</button>
-      <button onclick="filterLandingCategory('UI/UX Design')" class="btn btn-master-secondary btn-sm" id="btn-cat-uiux">UI/UX Design</button>
-      <button onclick="filterLandingCategory('Data Science')" class="btn btn-master-secondary btn-sm" id="btn-cat-data">Data Science</button>
+      <button onclick="filterLandingCategory('all')" class="btn btn-pinnacle-primary btn-sm active" id="btn-cat-all">All Positions</button>
+      <button onclick="filterLandingCategory('Software Development')" class="btn btn-pinnacle-secondary btn-sm" id="btn-cat-software">Software Development</button>
+      <button onclick="filterLandingCategory('UI/UX Design')" class="btn btn-pinnacle-secondary btn-sm" id="btn-cat-uiux">UI/UX Design</button>
+      <button onclick="filterLandingCategory('Data Science')" class="btn btn-pinnacle-secondary btn-sm" id="btn-cat-data">Data Science</button>
     </div>
 
     <!-- Internship Cards Grid -->
     <div class="row g-4" id="landing-internships-grid">
       <!-- Card 1 -->
       <div class="col-md-6 col-lg-4 internship-card-item" data-cat="Software Development">
-        <div class="master-card p-4 h-100 d-flex flex-column justify-content-between">
+        <div class="pinnacle-card p-4 h-100 d-flex flex-column justify-content-between">
           <div>
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <span class="badge badge-master badge-indigo"><i class="fas fa-code me-1"></i> Software Dev</span>
+              <span class="badge badge-pinnacle badge-indigo"><i class="fas fa-code me-1"></i> Software Dev</span>
               <small class="text-dark font-weight-extrabold"><i class="far fa-clock me-1 text-primary"></i> Sep 30, 2026</small>
             </div>
             <h4 class="font-weight-extrabold text-dark mb-2">Full Stack Web Developer Intern</h4>
@@ -98,17 +98,17 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
           <div class="pt-3 border-top d-flex justify-content-between align-items-center">
             <span class="text-success font-weight-extrabold fs-6"><i class="fas fa-money-bill-wave me-1"></i> PKR 35,000 / mo</span>
-            <a href="signin.php" class="btn btn-master-primary btn-sm">Apply Role</a>
+            <a href="signin.php" class="btn btn-pinnacle-primary btn-sm">Apply Role</a>
           </div>
         </div>
       </div>
 
       <!-- Card 2 -->
       <div class="col-md-6 col-lg-4 internship-card-item" data-cat="UI/UX Design">
-        <div class="master-card p-4 h-100 d-flex flex-column justify-content-between">
+        <div class="pinnacle-card p-4 h-100 d-flex flex-column justify-content-between">
           <div>
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <span class="badge badge-master badge-emerald"><i class="fas fa-palette me-1"></i> UI/UX Design</span>
+              <span class="badge badge-pinnacle badge-emerald"><i class="fas fa-palette me-1"></i> UI/UX Design</span>
               <small class="text-dark font-weight-extrabold"><i class="far fa-clock me-1 text-success"></i> Oct 15, 2026</small>
             </div>
             <h4 class="font-weight-extrabold text-dark mb-2">UI/UX Product Design Intern</h4>
@@ -117,17 +117,17 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
           <div class="pt-3 border-top d-flex justify-content-between align-items-center">
             <span class="text-success font-weight-extrabold fs-6"><i class="fas fa-money-bill-wave me-1"></i> PKR 30,000 / mo</span>
-            <a href="signin.php" class="btn btn-master-primary btn-sm">Apply Role</a>
+            <a href="signin.php" class="btn btn-pinnacle-primary btn-sm">Apply Role</a>
           </div>
         </div>
       </div>
 
       <!-- Card 3 -->
       <div class="col-md-6 col-lg-4 internship-card-item" data-cat="Data Science">
-        <div class="master-card p-4 h-100 d-flex flex-column justify-content-between">
+        <div class="pinnacle-card p-4 h-100 d-flex flex-column justify-content-between">
           <div>
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <span class="badge badge-master badge-amber"><i class="fas fa-chart-bar me-1"></i> Data Science</span>
+              <span class="badge badge-pinnacle badge-amber"><i class="fas fa-chart-bar me-1"></i> Data Science</span>
               <small class="text-dark font-weight-extrabold"><i class="far fa-clock me-1 text-warning"></i> Nov 05, 2026</small>
             </div>
             <h4 class="font-weight-extrabold text-dark mb-2">Data Analyst Intern</h4>
@@ -136,7 +136,7 @@ require_once __DIR__ . '/includes/navbar.php';
           </div>
           <div class="pt-3 border-top d-flex justify-content-between align-items-center">
             <span class="text-success font-weight-extrabold fs-6"><i class="fas fa-money-bill-wave me-1"></i> PKR 40,000 / mo</span>
-            <a href="signin.php" class="btn btn-master-primary btn-sm">Apply Role</a>
+            <a href="signin.php" class="btn btn-pinnacle-primary btn-sm">Apply Role</a>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@ require_once __DIR__ . '/includes/navbar.php';
 
     <div class="row g-4">
       <div class="col-md-6 col-lg-3">
-        <div class="master-card p-4 text-center h-100" style="border-top: 4px solid #4f46e5;">
+        <div class="pinnacle-card p-4 text-center h-100" style="border-top: 4px solid #4f46e5;">
           <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3" style="width: 60px; height: 60px; background-color: #e0e7ff;">
             <i class="fas fa-user-graduate fa-xl text-primary"></i>
           </div>
@@ -164,7 +164,7 @@ require_once __DIR__ . '/includes/navbar.php';
       </div>
 
       <div class="col-md-6 col-lg-3">
-        <div class="master-card p-4 text-center h-100" style="border-top: 4px solid #0284c7;">
+        <div class="pinnacle-card p-4 text-center h-100" style="border-top: 4px solid #0284c7;">
           <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3" style="width: 60px; height: 60px; background-color: #e0f2fe;">
             <i class="fas fa-building fa-xl text-info"></i>
           </div>
@@ -174,7 +174,7 @@ require_once __DIR__ . '/includes/navbar.php';
       </div>
 
       <div class="col-md-6 col-lg-3">
-        <div class="master-card p-4 text-center h-100" style="border-top: 4px solid #059669;">
+        <div class="pinnacle-card p-4 text-center h-100" style="border-top: 4px solid #059669;">
           <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3" style="width: 60px; height: 60px; background-color: #d1fae5;">
             <i class="fas fa-user-tie fa-xl text-success"></i>
           </div>
@@ -184,7 +184,7 @@ require_once __DIR__ . '/includes/navbar.php';
       </div>
 
       <div class="col-md-6 col-lg-3">
-        <div class="master-card p-4 text-center h-100" style="border-top: 4px solid #d97706;">
+        <div class="pinnacle-card p-4 text-center h-100" style="border-top: 4px solid #d97706;">
           <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3" style="width: 60px; height: 60px; background-color: #fef3c7;">
             <i class="fas fa-user-shield fa-xl text-warning"></i>
           </div>
@@ -201,7 +201,7 @@ require_once __DIR__ . '/includes/navbar.php';
   <div class="container py-4">
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-7">
-        <div class="master-card p-0 overflow-hidden">
+        <div class="pinnacle-card p-0 overflow-hidden">
           <div class="bg-gradient-primary text-white text-center py-4 px-3">
             <h3 class="mb-1 font-weight-extrabold text-white"><i class="fas fa-paper-plane me-2"></i> Get In Touch With Us</h3>
             <p class="mb-0 text-white opacity-90 small font-weight-semibold">Have inquiries regarding university partnerships or company onboarding?</p>
@@ -229,7 +229,7 @@ require_once __DIR__ . '/includes/navbar.php';
                 <textarea id="c-message" required rows="4" placeholder="Write your message here..." class="form-control py-2"></textarea>
               </div>
 
-              <button type="submit" class="btn btn-master-primary w-100 py-3 font-weight-bold">
+              <button type="submit" class="btn btn-pinnacle-primary w-100 py-3 font-weight-bold">
                 <i class="fas fa-paper-plane me-2"></i> Submit Inquiry Message
               </button>
             </form>
