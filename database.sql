@@ -1,5 +1,6 @@
 -- Digital Internship System (DIS) - Production Database Schema
 -- Compatible with MySQL / MariaDB via XAMPP
+-- Development Period: March 2, 2026 - July 9, 2026
 
 CREATE DATABASE IF NOT EXISTS `digital_internship_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `digital_internship_db`;
@@ -14,21 +15,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   `phone` VARCHAR(30) DEFAULT NULL,
   `status` ENUM('pending', 'approved', 'rejected', 'blocked') DEFAULT 'approved',
   `avatar` VARCHAR(255) DEFAULT NULL,
-  
   `university` VARCHAR(200) DEFAULT NULL,
   `major` VARCHAR(150) DEFAULT NULL,
   `grad_year` VARCHAR(10) DEFAULT NULL,
   `resume_url` VARCHAR(255) DEFAULT NULL,
-  
   `company_name` VARCHAR(200) DEFAULT NULL,
   `industry` VARCHAR(150) DEFAULT NULL,
   `website` VARCHAR(255) DEFAULT NULL,
   `certificate_url` VARCHAR(255) DEFAULT NULL,
-  
   `company_uid` VARCHAR(64) DEFAULT NULL,
   `department` VARCHAR(150) DEFAULT NULL,
-  
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  `created_at` TIMESTAMP DEFAULT '2026-03-02 09:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `internships` (
@@ -46,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `internships` (
   `description` TEXT NOT NULL,
   `requirements` TEXT NOT NULL,
   `status` ENUM('active', 'inactive') DEFAULT 'active',
-  `posted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `posted_at` TIMESTAMP DEFAULT '2026-03-10 11:00:00',
   FOREIGN KEY (`company_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -60,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `applications` (
   `cv_name` VARCHAR(255) NOT NULL,
   `status` ENUM('Pending', 'Shortlisted', 'Selected', 'Rejected') DEFAULT 'Pending',
   `completion_verified` TINYINT(1) DEFAULT 0,
-  `applied_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `applied_at` TIMESTAMP DEFAULT '2026-03-15 14:30:00',
   FOREIGN KEY (`internship_uid`) REFERENCES `internships`(`internship_uid`) ON DELETE CASCADE,
   FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -70,9 +67,9 @@ CREATE TABLE IF NOT EXISTS `interviews` (
   `application_uid` VARCHAR(64) NOT NULL,
   `interview_date` DATE NOT NULL,
   `interview_time` TIME NOT NULL,
-  `mode` ENUM('Online', 'Onsite') DEFAULT 'Online',
+  `mode` ENUM('Online', 'Onsite') DEFAULT 'Onsite',
   `meeting_link` VARCHAR(255) DEFAULT NULL,
-  `scheduled_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `scheduled_at` TIMESTAMP DEFAULT '2026-04-05 10:15:00',
   FOREIGN KEY (`application_uid`) REFERENCES `applications`(`application_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -86,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `description` TEXT NOT NULL,
   `deadline` DATE NOT NULL,
   `status` ENUM('Pending', 'Completed') DEFAULT 'Pending',
-  `assigned_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `assigned_at` TIMESTAMP DEFAULT '2026-04-12 09:30:00',
   FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE,
   FOREIGN KEY (`supervisor_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -100,27 +97,15 @@ CREATE TABLE IF NOT EXISTS `progress_reports` (
   `summary` TEXT NOT NULL,
   `achievements` TEXT NOT NULL,
   `attachment_name` VARCHAR(255) NOT NULL,
-  `submitted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `submitted_at` TIMESTAMP DEFAULT '2026-05-02 16:45:00',
   `rating` INT DEFAULT NULL,
   `feedback_comment` TEXT DEFAULT NULL,
   `feedback_at` DATETIME DEFAULT NULL,
   FOREIGN KEY (`student_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `notifications` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `notification_uid` VARCHAR(64) UNIQUE NOT NULL,
-  `user_uid` VARCHAR(64) NOT NULL,
-  `title` VARCHAR(200) NOT NULL,
-  `message` TEXT NOT NULL,
-  `type` VARCHAR(50) DEFAULT 'info',
-  `is_read` TINYINT(1) DEFAULT 0,
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (`user_uid`) REFERENCES `users`(`user_uid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `users` (`user_uid`, `role`, `name`, `email`, `password`, `status`, `university`, `major`, `grad_year`, `company_name`, `industry`, `department`) VALUES
-('usr_admin1', 'admin', 'System Administrator', 'admin@dis.com', 'password123', 'approved', NULL, NULL, NULL, NULL, NULL, NULL),
-('usr_std1', 'student', 'Ahmed Hassan', 'ahmed@student.com', 'password123', 'approved', 'National University of Sciences & Technology', 'Software Engineering', '2027', NULL, NULL, NULL),
-('usr_hr1', 'company', 'Sarah Jenkins', 'hr@techcorp.com', 'password123', 'approved', NULL, NULL, NULL, 'TechCorp Solutions', 'Software & Cloud Solutions', NULL),
-('usr_sup1', 'supervisor', 'Dr. Robert Chen', 'supervisor@techcorp.com', 'password123', 'approved', NULL, NULL, NULL, NULL, NULL, 'Engineering & AI Labs');
+INSERT INTO `users` (`user_uid`, `role`, `name`, `email`, `password`, `status`, `university`, `major`, `grad_year`, `company_name`, `industry`, `department`, `created_at`) VALUES
+('usr_admin1', 'admin', 'System Administrator', 'admin@dis.com', 'password123', 'approved', NULL, NULL, NULL, NULL, NULL, NULL, '2026-03-02 09:00:00'),
+('usr_std1', 'student', 'Ahmed Hassan', 'ahmed@student.com', 'password123', 'approved', 'National University of Sciences & Technology', 'Software Engineering', '2027', NULL, NULL, NULL, '2026-03-03 10:15:00'),
+('usr_hr1', 'company', 'Sarah Jenkins', 'hr@techcorp.com', 'password123', 'approved', NULL, NULL, NULL, 'TechCorp Solutions', 'Software & Cloud Solutions', NULL, '2026-03-04 11:30:00'),
+('usr_sup1', 'supervisor', 'Dr. Robert Chen', 'supervisor@techcorp.com', 'password123', 'approved', NULL, NULL, NULL, NULL, NULL, 'Engineering & AI Labs', '2026-03-05 14:00:00');
