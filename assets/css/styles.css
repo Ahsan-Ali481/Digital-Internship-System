@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Digital Internship System (DIS) - Classic Professional Design System
+   Digital Internship System (DIS) - Hero Background Picture Integration
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -59,9 +59,9 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
   color: #4f46e5 !important;
 }
 
-/* Clean White Hero Canvas */
-.hero-white-canvas {
-  background: #ffffff !important;
+/* Hero Banner with Digital Internship Background Picture */
+.hero-picture-banner {
+  background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.94)), url('../images/hero-bg.png') no-repeat center center / cover !important;
   border-bottom: 2px solid #e2e8f0;
 }
 

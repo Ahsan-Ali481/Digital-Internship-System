@@ -1,15 +1,15 @@
 <?php
-// index.php - Clean White Canvas Landing Page (100% Solid Black Text)
+// index.php - Clean White Canvas Landing Page (With High-Quality Project Background Picture)
 $pageTitle = "Digital Internship System - Enterprise Career Platform";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<!-- SECTION 1: HERO BANNER (CLEAN WHITE CANVAS WITH SOLID BLACK TEXT) -->
-<section id="home" class="hero-white-canvas py-5 position-relative overflow-hidden">
+<!-- SECTION 1: HERO BANNER (WITH DIGITAL INTERNSHIP BACKGROUND PICTURE & SOLID BLACK TEXT) -->
+<section id="home" class="hero-picture-banner py-5 position-relative overflow-hidden">
   <div class="container py-5 text-center position-relative" style="z-index: 2;">
     
-    <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill bg-light border border-2 border-slate-300 text-black font-weight-black small mb-4 shadow-sm">
+    <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill bg-white border border-2 border-slate-300 text-black font-weight-black small mb-4 shadow-sm">
       <span class="spinner-grow spinner-grow-sm text-primary" role="status"></span>
       Enterprise Internship Management Engine
     </div>
