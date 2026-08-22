@@ -5,7 +5,7 @@ require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<!-- SECTION 1: HERO BANNER (WITH HIGH VISIBILITY 4K BACKGROUND PICTURE & SOLID BLACK TEXT) -->
+<!-- SECTION 1: HERO BANNER -->
 <section id="home" class="hero-picture-banner py-5 position-relative overflow-hidden" style="background: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.55)), url('assets/images/hero-bg.png') no-repeat center center / cover !important;">
   <div class="container py-5 text-center position-relative" style="z-index: 2;">
     
@@ -30,30 +30,30 @@ require_once __DIR__ . '/includes/navbar.php';
       </a>
     </div>
 
-    <!-- Solid Black Text Metrics Grid -->
+    <!-- Live Statistics Counter Grid -->
     <div class="row g-4 max-w-4xl mx-auto pt-3">
       <div class="col-6 col-md-3">
         <div class="master-card-black p-4 text-center">
-          <h3 class="font-weight-black mb-1 text-primary fs-1">2,500+</h3>
+          <h3 class="font-weight-black mb-1 text-primary fs-1">500+</h3>
+          <p class="text-black font-weight-black mb-0 small">Active Internships</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="master-card-black p-4 text-center">
+          <h3 class="font-weight-black mb-1 text-info fs-1">2,000+</h3>
           <p class="text-black font-weight-black mb-0 small">Students Placed</p>
         </div>
       </div>
       <div class="col-6 col-md-3">
         <div class="master-card-black p-4 text-center">
-          <h3 class="font-weight-black mb-1 text-info fs-1">350+</h3>
-          <p class="text-black font-weight-black mb-0 small">Verified Companies</p>
+          <h3 class="font-weight-black mb-1 text-success fs-1">300+</h3>
+          <p class="text-black font-weight-black mb-0 small">Partner Companies</p>
         </div>
       </div>
       <div class="col-6 col-md-3">
         <div class="master-card-black p-4 text-center">
-          <h3 class="font-weight-black mb-1 text-success fs-1">98.5%</h3>
-          <p class="text-black font-weight-black mb-0 small">Completion Rate</p>
-        </div>
-      </div>
-      <div class="col-6 col-md-3">
-        <div class="master-card-black p-4 text-center">
-          <h3 class="font-weight-black mb-1 text-warning fs-1">100%</h3>
-          <p class="text-black font-weight-black mb-0 small">Verified Records</p>
+          <h3 class="font-weight-black mb-1 text-warning fs-1">98%</h3>
+          <p class="text-black font-weight-black mb-0 small">Success Rate</p>
         </div>
       </div>
     </div>
@@ -144,8 +144,60 @@ require_once __DIR__ . '/includes/navbar.php';
   </div>
 </section>
 
-<!-- SECTION 3: ABOUT US -->
-<section id="about" class="bg-white py-5 border-top border-bottom">
+<!-- SECTION 3: HOW IT WORKS (4-STEP PROCESS) -->
+<section id="how-it-works" class="py-5 bg-white border-top border-bottom">
+  <div class="container py-4">
+    <div class="text-center max-w-3xl mx-auto mb-5">
+      <h2 class="h2 font-weight-black text-black">How It Works</h2>
+      <p class="text-black font-weight-bold fs-6">A simple 4-step workflow to launch your professional internship journey.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="master-card-black p-4 text-center h-100">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3 bg-primary text-white font-weight-black fs-4" style="width: 54px; height: 54px;">
+            1
+          </div>
+          <h5 class="font-weight-black text-black mb-2">Create Account</h5>
+          <p class="text-black font-weight-bold small mb-0">Register using your Gmail address as a Student or Company Manager.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="master-card-black p-4 text-center h-100">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3 bg-info text-white font-weight-black fs-4" style="width: 54px; height: 54px;">
+            2
+          </div>
+          <h5 class="font-weight-black text-black mb-2">Browse & Apply</h5>
+          <p class="text-black font-weight-bold small mb-0">Explore active listings, upload your CV, and submit applications directly.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="master-card-black p-4 text-center h-100">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3 bg-success text-white font-weight-black fs-4" style="width: 54px; height: 54px;">
+            3
+          </div>
+          <h5 class="font-weight-black text-black mb-2">Onsite Interview</h5>
+          <p class="text-black font-weight-bold small mb-0">Receive physical onsite interview schedules and venue address details.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <div class="master-card-black p-4 text-center h-100">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3 bg-warning text-dark font-weight-black fs-4" style="width: 54px; height: 54px;">
+            4
+          </div>
+          <h5 class="font-weight-black text-black mb-2">Learn & Get Certified</h5>
+          <p class="text-black font-weight-bold small mb-0">Complete supervisor tasks, submit weekly reports, and get verified records.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: USER ROLES & SYSTEM CAPABILITIES -->
+<section id="about" class="bg-slate py-5 border-bottom">
   <div class="container py-4">
     <div class="text-center max-w-3xl mx-auto mb-5">
       <h2 class="h2 font-weight-black text-black">System Capabilities & User Modules</h2>
@@ -196,8 +248,121 @@ require_once __DIR__ . '/includes/navbar.php';
   </div>
 </section>
 
-<!-- SECTION 4: CONTACT US -->
-<section id="contact" class="py-5 bg-slate">
+<!-- SECTION 5: TESTIMONIALS -->
+<section id="testimonials" class="py-5 bg-white border-bottom">
+  <div class="container py-4">
+    <div class="text-center max-w-3xl mx-auto mb-5">
+      <h2 class="h2 font-weight-black text-black">Student & Partner Testimonials</h2>
+      <p class="text-black font-weight-bold fs-6">See what our students and company partners have to say about the Digital Internship System.</p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="master-card-black p-4 h-100 d-flex flex-column justify-content-between">
+          <div>
+            <div class="text-warning mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="text-black font-weight-bold small mb-3">"The platform streamlined my internship allocation process. I received my onsite interview schedule within 3 days and got selected at TechCorp!"</p>
+          </div>
+          <div class="pt-3 border-top d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-primary text-white font-weight-black d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">AH</div>
+            <div>
+              <h6 class="fw-black text-black mb-0">Ahmed Hassan</h6>
+              <small class="text-black font-weight-bold extra-small">Software Engineer Intern, NUST</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="master-card-black p-4 h-100 d-flex flex-column justify-content-between">
+          <div>
+            <div class="text-warning mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="text-black font-weight-bold small mb-3">"Managing applicant CVs and assigning onsite physical interview schedules to candidates has never been this smooth."</p>
+          </div>
+          <div class="pt-3 border-top d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-info text-white font-weight-black d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">SJ</div>
+            <div>
+              <h6 class="fw-black text-black mb-0">Sarah Jenkins</h6>
+              <small class="text-black font-weight-bold extra-small">HR Manager, TechCorp Solutions</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="master-card-black p-4 h-100 d-flex flex-column justify-content-between">
+          <div>
+            <div class="text-warning mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="text-black font-weight-bold small mb-3">"Issuing workplace tasks and rating weekly intern reports is clean, fast, and structured. Highly recommended!"</p>
+          </div>
+          <div class="pt-3 border-top d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-success text-white font-weight-black d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">WS</div>
+            <div>
+              <h6 class="fw-black text-black mb-0">Workplace Supervisor</h6>
+              <small class="text-black font-weight-bold extra-small">Lead AI Engineer, TechCorp</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: FAQ ACCORDION -->
+<section id="faq" class="py-5 bg-slate border-bottom">
+  <div class="container py-4">
+    <div class="text-center max-w-3xl mx-auto mb-5">
+      <h2 class="h2 font-weight-black text-black">Frequently Asked Questions</h2>
+      <p class="text-black font-weight-bold fs-6">Find quick answers to common questions about accounts, applications, and evaluations.</p>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item master-card-black mb-3 border-0">
+          <h2 class="accordion-header">
+            <button class="accordion-button font-weight-black text-black bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+              How do students register for internships?
+            </button>
+          </h2>
+          <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-black font-weight-bold small">
+              Students can register dynamically via the <a href="signup.php" class="text-primary font-weight-black">Registration Page</a> using their Gmail address and custom password. Once registered, you can browse listings and apply with your CV.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item master-card-black mb-3 border-0">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed font-weight-black text-black bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+              How are onsite interviews scheduled?
+            </button>
+          </h2>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-black font-weight-bold small">
+              Company HR managers shortlist applicant CVs and set the physical onsite interview date, time, and office venue address directly from the Company HR Portal.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item master-card-black mb-3 border-0">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed font-weight-black text-black bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+              What is the password reset policy for Admin accounts?
+            </button>
+          </h2>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-black font-weight-bold small">
+              For security compliance, online password reset is strictly disabled for Administrator accounts. Password resets for Students, HRs, and Supervisors remain available online.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: CONTACT US -->
+<section id="contact" class="py-5 bg-white">
   <div class="container py-4">
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-7">
