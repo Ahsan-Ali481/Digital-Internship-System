@@ -1,5 +1,5 @@
 <?php
-// signup.php - Role-Based Registration Page (Dynamic Student vs Company Fields)
+// signup.php - Role-Based Registration Page with Certificate File Size Notice & Real-time Validation
 $pageTitle = "Register Account - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -120,12 +120,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </div>
 
-            <!-- Company Certificate File Upload (Only for Company HR) -->
+            <!-- Company Certificate File Upload with Clear Size Badge & Notice -->
             <div id="company-cert-field" class="d-none mb-3">
-              <label class="form-label font-weight-black text-black">Company Certificate (PDF/Image)</label>
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label font-weight-black text-black mb-0">Company Certificate</label>
+                <span class="badge badge-black-pill badge-indigo">
+                  <i class="fas fa-info-circle me-1"></i> Max size: 5 MB (PDF, PNG, JPG)
+                </span>
+              </div>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-file-contract text-primary"></i></span>
-                <input type="file" name="companyCertificate" id="reg-company-cert" class="form-control py-2" accept=".pdf,.png,.jpg,.jpeg">
+                <input type="file" name="companyCertificate" id="reg-company-cert" class="form-control py-2" accept=".pdf,.png,.jpg,.jpeg" onchange="validateCertSize(this)">
+              </div>
+              <div id="cert-size-error" class="text-danger small font-weight-black mt-1 d-none">
+                <i class="fas fa-exclamation-triangle me-1"></i> File size exceeds 5 MB limit. Please choose a smaller file.
               </div>
             </div>
 
@@ -176,6 +184,24 @@ function toggleFormFieldsByRole() {
     studentFields.classList.remove('d-none');
     companyFields.classList.add('d-none');
     certField.classList.add('d-none');
+  }
+}
+
+function validateCertSize(input) {
+  const errorEl = document.getElementById('cert-size-error');
+  if (input.files && input.files[0]) {
+    const sizeMB = input.files[0].size / (1024 * 1024);
+    if (sizeMB > 5) {
+      errorEl.classList.remove('d-none');
+      input.value = '';
+      if (typeof DIS !== 'undefined') {
+        DIS.showToast('File size exceeds 5 MB limit! Please upload a file smaller than 5 MB.', 'warning');
+      } else {
+        alert('File size exceeds 5 MB limit! Please upload a file smaller than 5 MB.');
+      }
+    } else {
+      errorEl.classList.add('d-none');
+    }
   }
 }
 
