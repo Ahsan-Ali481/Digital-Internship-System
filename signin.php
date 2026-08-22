@@ -1,5 +1,5 @@
 <?php
-// signin.php - Unified User Sign In Page (NO FOOTER & NO DEMO BUTTONS)
+// signin.php - Unified User Sign In Page (NO ROLE DROPDOWN & NO FOOTER)
 $pageTitle = "Sign In - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -22,7 +22,6 @@ if (isset($_GET['password_reset'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
-    $role = trim($_POST['role'] ?? '');
 
     if (empty($email) || empty($password)) {
         $error = "Please enter both Email and Password.";
@@ -56,11 +55,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (!$userFound) {
+            $detectedRole = 'student';
+            if (strpos(strtolower($email), 'hr') !== false || strpos(strtolower($email), 'company') !== false) {
+                $detectedRole = 'company';
+            } elseif (strpos(strtolower($email), 'sup') !== false) {
+                $detectedRole = 'supervisor';
+            } elseif (strpos(strtolower($email), 'admin') !== false) {
+                $detectedRole = 'admin';
+            }
+
             $userFound = [
                 'id' => 'usr_' . time(),
                 'name' => explode('@', $email)[0],
                 'email' => $email,
-                'role' => $role ?: 'student'
+                'role' => $detectedRole
             ];
         }
 
@@ -103,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-4">
               <div class="d-flex justify-content-between align-items-center mb-1">
                 <label class="form-label font-weight-black text-black mb-0">Password</label>
                 <a href="forgot-password.php" class="small text-primary font-weight-black text-decoration-none">
@@ -114,16 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
                 <input type="password" name="password" id="login-password" class="form-control py-2" required placeholder="••••••••">
               </div>
-            </div>
-
-            <div class="mb-4">
-              <label class="form-label font-weight-black text-black">Account Role</label>
-              <select name="role" id="login-role" class="form-select py-2">
-                <option value="student">Student Account</option>
-                <option value="company">Company HR / Manager</option>
-                <option value="supervisor">Workplace Supervisor</option>
-                <option value="admin">System Admin</option>
-              </select>
             </div>
 
             <button type="submit" class="btn btn-black-primary w-100 py-3 font-weight-black shadow-sm">
@@ -145,16 +143,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function handleSigninJS(e) {
   const email = document.getElementById('login-email').value;
   const pass = document.getElementById('login-password').value;
-  const role = document.getElementById('login-role').value;
 
   const users = DIS.getUsers();
   let user = users.find(u => u.email === email);
   if (!user) {
+    let detectedRole = 'student';
+    if (email.toLowerCase().includes('hr') || email.toLowerCase().includes('company')) detectedRole = 'company';
+    else if (email.toLowerCase().includes('sup')) detectedRole = 'supervisor';
+    else if (email.toLowerCase().includes('admin')) detectedRole = 'admin';
+
     user = {
       id: 'usr_' + Date.now(),
       name: email.split('@')[0],
       email: email,
-      role: role,
+      role: detectedRole,
       status: 'approved'
     };
     users.push(user);
