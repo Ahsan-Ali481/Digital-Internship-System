@@ -71,6 +71,20 @@ p, span, div, td, th, label, small, li, a, input, select, textarea {
   font-weight: 700;
 }
 
+/* FOOTER UNIFORM LIGHT TEXT OVERRIDE */
+footer, footer *, footer a, footer p, footer span, footer li, footer div, footer small {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+footer h5, footer h6, footer h5 *, footer h6 * {
+  color: #ffffff !important;
+  font-weight: 800;
+}
+
+footer a:hover {
+  color: #818cf8 !important;
+}
+
 /* Classic Professional Navbar */
 .navbar-classic {
   background-color: #ffffff !important;
@@ -96,7 +110,7 @@ p, span, div, td, th, label, small, li, a, input, select, textarea {
   color: var(--primary) !important;
 }
 
-/* Clean Light Hero Canvas (NO Background Image) */
+/* Clean Light Hero Canvas */
 .hero-clean-canvas {
   background-color: #ffffff !important;
   border-bottom: 2px solid var(--border-color);
