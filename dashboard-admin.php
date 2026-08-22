@@ -1,5 +1,5 @@
 <?php
-// dashboard-admin.php - High Contrast Administrator Portal (NO FOOTER AS REQUESTED)
+// dashboard-admin.php - High Contrast Administrator Portal with Collapsible & Scrollable Sidebar
 $pageTitle = "Admin Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -14,10 +14,15 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 $currentAdmin = $_SESSION['user'];
 ?>
 
-<!-- High Contrast Top Header Bar -->
+<!-- High Contrast Top Header Bar with Menu Toggle -->
 <header class="bg-white border-bottom border-2 border-slate-200 py-3 sticky-top shadow-sm">
   <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
+      <!-- Menu Toggle Button -->
+      <button onclick="toggleSidebarMenu()" class="btn btn-black-secondary btn-sm px-3 font-weight-black d-flex align-items-center gap-2" id="btn-toggle-menu">
+        <i class="fas fa-bars text-primary" id="menu-icon"></i> <span>Menu</span>
+      </button>
+
       <a href="index.php" class="navbar-brand fw-black text-black mb-0 d-flex align-items-center gap-2">
         <div class="bg-warning text-dark rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
           <i class="fas fa-user-shield"></i>
@@ -38,34 +43,36 @@ $currentAdmin = $_SESSION['user'];
 
 <div class="container-fluid px-4 py-4">
   <div class="row g-4">
-    <!-- Left Sidebar Navigation -->
-    <div class="col-md-3 col-lg-2">
+    
+    <!-- Collapsible & Scrollable Left Sidebar Navigation -->
+    <div class="col-md-3 col-lg-2" id="sidebar-wrapper">
       <div class="master-card-black mb-4 p-3 text-center">
         <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 56px; height: 56px; background-color: #fef3c7;">
           <i class="fas fa-user-shield fa-lg text-warning"></i>
         </div>
         <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentAdmin['name']); ?></h6>
-        <small class="text-black font-weight-black extra-small d-block text-break"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
+        <small class="text-black font-weight-black extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
 
-        <div class="pt-3 mt-3 border-top d-flex flex-column gap-2">
+        <!-- Scrollable Sidebar Container -->
+        <div class="sidebar-scrollable-container pt-2 border-top d-flex flex-column gap-2">
           <button onclick="switchAdminTab('users')" class="sidebar-link active w-100 text-start border-0" id="link-adm-users">
-            <i class="fas fa-users me-2"></i> Users Management
+            <i class="fas fa-users"></i> <span>Users Management</span>
           </button>
           <button onclick="switchAdminTab('companies')" class="sidebar-link w-100 text-start border-0" id="link-adm-companies">
-            <i class="fas fa-certificate me-2"></i> Certificates
+            <i class="fas fa-certificate"></i> <span>Certificates</span>
           </button>
           <button onclick="switchAdminTab('reports')" class="sidebar-link w-100 text-start border-0" id="link-adm-reports">
-            <i class="fas fa-file-export me-2"></i> Export Reports
+            <i class="fas fa-file-export"></i> <span>Export Reports</span>
           </button>
           <a href="logout.php" class="sidebar-link text-danger w-100 text-start text-decoration-none">
-            <i class="fas fa-sign-out-alt me-2"></i> Logout
+            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
           </a>
         </div>
       </div>
     </div>
 
     <!-- Main Content Area -->
-    <div class="col-md-9 col-lg-10">
+    <div class="col-md-9 col-lg-10" id="main-content-col">
       
       <!-- Stats Header Widgets -->
       <div class="row g-4 mb-4">
@@ -190,6 +197,29 @@ $currentAdmin = $_SESSION['user'];
     renderCompanyCertificates();
     loadNotifications();
   });
+
+  function toggleSidebarMenu() {
+    const sidebarWrapper = document.getElementById('sidebar-wrapper');
+    const mainContentCol = document.getElementById('main-content-col');
+    const menuIcon = document.getElementById('menu-icon');
+
+    if (sidebarWrapper) {
+      sidebarWrapper.classList.toggle('d-none');
+      if (sidebarWrapper.classList.contains('d-none')) {
+        if (mainContentCol) {
+          mainContentCol.classList.remove('col-md-9', 'col-lg-10');
+          mainContentCol.classList.add('col-12');
+        }
+        if (menuIcon) menuIcon.className = 'fas fa-bars text-primary';
+      } else {
+        if (mainContentCol) {
+          mainContentCol.classList.remove('col-12');
+          mainContentCol.classList.add('col-md-9', 'col-lg-10');
+        }
+        if (menuIcon) menuIcon.className = 'fas fa-times text-danger';
+      }
+    }
+  }
 
   function switchAdminTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));

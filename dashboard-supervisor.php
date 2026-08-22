@@ -1,5 +1,5 @@
 <?php
-// dashboard-supervisor.php - High Contrast Supervisor Portal (NO FOOTER AS REQUESTED)
+// dashboard-supervisor.php - High Contrast Supervisor Portal with Collapsible & Scrollable Sidebar
 $pageTitle = "Supervisor Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -8,19 +8,25 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'supervisor') {
         'id' => 'usr_sup1',
         'name' => 'Workplace Supervisor',
         'email' => 'supervisor123@gmail.com',
-        'role' => 'supervisor'
+        'role' => 'supervisor',
+        'department' => 'Workplace Operations & Evaluation'
     ];
 }
 $currentSup = $_SESSION['user'];
 ?>
 
-<!-- High Contrast Top Header Bar -->
+<!-- High Contrast Header Bar with Menu Toggle -->
 <header class="bg-white border-bottom border-2 border-slate-200 py-3 sticky-top shadow-sm">
   <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
+      <!-- Menu Toggle Button -->
+      <button onclick="toggleSidebarMenu()" class="btn btn-black-secondary btn-sm px-3 font-weight-black d-flex align-items-center gap-2" id="btn-toggle-menu">
+        <i class="fas fa-bars text-primary" id="menu-icon"></i> <span>Menu</span>
+      </button>
+
       <a href="index.php" class="navbar-brand fw-black text-black mb-0 d-flex align-items-center gap-2">
-        <div class="bg-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
-          <i class="fas fa-user-tie text-white"></i>
+        <div class="bg-success text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
+          <i class="fas fa-user-check text-white"></i>
         </div>
         <span class="fs-4 text-black fw-black">Digital <span class="text-primary">Internship</span></span>
       </a>
@@ -38,73 +44,87 @@ $currentSup = $_SESSION['user'];
 
 <div class="container-fluid px-4 py-4">
   <div class="row g-4">
-    <!-- Left Sidebar Navigation -->
-    <div class="col-md-3 col-lg-2">
+    
+    <!-- Collapsible & Scrollable Left Sidebar Navigation -->
+    <div class="col-md-3 col-lg-2" id="sidebar-wrapper">
       <div class="master-card-black mb-4 p-3 text-center">
         <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 56px; height: 56px; background-color: #d1fae5;">
-          <i class="fas fa-user-tie fa-lg text-success"></i>
+          <i class="fas fa-user-check fa-lg text-success"></i>
         </div>
         <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentSup['name']); ?></h6>
-        <small class="text-black font-weight-black extra-small d-block text-break"><?php echo htmlspecialchars($currentSup['email']); ?></small>
+        <small class="text-black font-weight-black extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentSup['email']); ?></small>
 
-        <div class="pt-3 mt-3 border-top d-flex flex-column gap-2">
+        <!-- Scrollable Sidebar Container -->
+        <div class="sidebar-scrollable-container pt-2 border-top d-flex flex-column gap-2">
           <button onclick="switchSupTab('tasks')" class="sidebar-link active w-100 text-start border-0" id="link-sup-tasks">
-            <i class="fas fa-tasks me-2"></i> Issue Task
+            <i class="fas fa-tasks"></i> <span>Assign Workplace Tasks</span>
           </button>
           <button onclick="switchSupTab('reports')" class="sidebar-link w-100 text-start border-0" id="link-sup-reports">
-            <i class="fas fa-clipboard-check me-2"></i> Review Reports
-          </button>
-          <a href="logout.php" class="sidebar-link text-danger w-100 text-start text-decoration-none">
-            <i class="fas fa-sign-out-alt me-2"></i> Logout
+            <i class="fas fa-clipboard-check"></i> <span>Review Student Logs</span>
+          </button>          <a href="logout.php" class="sidebar-link text-danger w-100 text-start text-decoration-none">
+            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
           </a>
         </div>
       </div>
     </div>
 
     <!-- Main Content Area -->
-    <div class="col-md-9 col-lg-10">
+    <div class="col-md-9 col-lg-10" id="main-content-col">
       
-      <!-- TAB 1: ISSUE WORKPLACE TASK -->
+      <!-- TAB 1: ASSIGN WORKPLACE TASKS -->
       <div id="tab-sup-tasks" class="tab-content">
         <div class="master-card-black p-4 mb-4">
           <h4 class="fw-black text-black mb-3">
-            <i class="fas fa-plus-circle text-success me-2"></i> Issue New Task to Intern
+            <i class="fas fa-tasks text-success me-2"></i> Assign Workplace Task to Student
           </h4>
-          <form onsubmit="assignTaskToStudent(event)">
+          <form onsubmit="createSupervisorTask(event)">
             <div class="row g-3 mb-3">
               <div class="col-md-6">
-                <label class="form-label font-weight-black text-black">Select Intern Student</label>
-                <select id="task-student-select" required class="form-select py-2"></select>
+                <label class="form-label font-weight-black text-black">Select Student</label>
+                <select id="task-student-id" required class="form-select py-2">
+                  <option value="usr_std1">Ahmed Hassan (NUST)</option>
+                  <option value="usr_std2">Fatima Ali (FAST)</option>
+                </select>
               </div>
               <div class="col-md-6">
-                <label class="form-label font-weight-black text-black">Task Completion Deadline</label>
+                <label class="form-label font-weight-black text-black">Task Title</label>
+                <input type="text" id="task-title" required class="form-control py-2" placeholder="e.g. Build REST API Module">
+              </div>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label font-weight-black text-black">Task Deadline</label>
                 <input type="date" id="task-deadline" required class="form-control py-2">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label font-weight-black text-black">Priority Level</label>
+                <select id="task-priority" class="form-select py-2">
+                  <option value="Normal">Normal Priority</option>
+                  <option value="High">High Priority</option>
+                  <option value="Urgent">Urgent Priority</option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
-              <label class="form-label font-weight-black text-black">Task Title</label>
-              <input type="text" id="task-title" required class="form-control py-2" placeholder="e.g. Implement Responsive Navigation Component">
-            </div>
-            <div class="mb-3">
-              <label class="form-label font-weight-black text-black">Task Instructions</label>
-              <textarea id="task-desc" required rows="3" class="form-control py-2" placeholder="Provide instructions..."></textarea>
+              <label class="form-label font-weight-black text-black">Detailed Instructions</label>
+              <textarea id="task-desc" required rows="3" class="form-control py-2" placeholder="Describe the objectives and expected deliverables..."></textarea>
             </div>
             <button type="submit" class="btn btn-black-primary font-weight-black">
-              <i class="fas fa-paper-plane me-1"></i> Issue Workplace Task
+              <i class="fas fa-paper-plane me-1"></i> Assign Task to Student
             </button>
           </form>
         </div>
 
-        <h3 class="fw-black text-black mb-3">Issued Tasks Overview</h3>
-        <div id="issued-tasks-grid" class="row g-3">
+        <h3 class="fw-black text-black mb-3">Assigned Tasks Directory</h3>
+        <div id="sup-tasks-list" class="row g-3">
           <!-- Dynamically populated -->
         </div>
       </div>
 
-      <!-- TAB 2: REVIEW REPORTS -->
+      <!-- TAB 2: REVIEW PROGRESS LOGS -->
       <div id="tab-sup-reports" class="tab-content d-none">
-        <h3 class="fw-black text-black mb-3">Review Progress Reports</h3>
-        <div id="supervisor-reports-container" class="space-y-3">
+        <h3 class="fw-black text-black mb-3">Student Weekly Progress Logs Evaluation</h3>
+        <div id="sup-reports-list" class="space-y-3">
           <!-- Dynamically populated -->
         </div>
       </div>
@@ -113,30 +133,30 @@ $currentSup = $_SESSION['user'];
   </div>
 </div>
 
-<!-- EVALUATION RATING MODAL -->
-<div class="modal fade" id="reviewModal" tabindex="-1">
+<!-- EVALUATE LOG REPORT MODAL -->
+<div class="modal fade" id="evalModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content rounded-4 border-0">
       <div class="modal-header bg-success text-white border-0 py-3">
-        <h5 class="modal-title font-weight-black text-white">Evaluate Report</h5>
+        <h5 class="modal-title font-weight-black text-white"><i class="fas fa-star me-2"></i> Grade & Evaluate Log Report</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <form onsubmit="saveReportEvaluation(event)">
         <div class="modal-body p-4">
-          <input type="hidden" id="rev-report-id">
+          <input type="hidden" id="eval-report-id">
           <div class="mb-3">
-            <label class="form-label font-weight-black text-black">Rating (1 - 5 Stars)</label>
-            <select id="rev-rating" required class="form-select py-2">
-              <option value="5">5 Stars - Excellent</option>
-              <option value="4">4 Stars - Very Good</option>
-              <option value="3">3 Stars - Good</option>
-              <option value="2">2 Stars - Needs Improvement</option>
-              <option value="1">1 Star - Unsatisfactory</option>
+            <label class="form-label font-weight-black text-black">Star Rating (1 to 5 Stars)</label>
+            <select id="eval-rating" class="form-select py-2">
+              <option value="5">⭐⭐⭐⭐⭐ 5 Stars - Outstanding Performance</option>
+              <option value="4">⭐⭐⭐⭐ 4 Stars - Excellent Work</option>
+              <option value="3">⭐⭐⭐ 3 Stars - Good Progress</option>
+              <option value="2">⭐⭐ 2 Stars - Satisfactory</option>
+              <option value="1">⭐ 1 Star - Needs Improvement</option>
             </select>
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-black text-black">Supervisor Feedback</label>
-            <textarea id="rev-feedback" required rows="3" class="form-control py-2" placeholder="Provide constructive feedback..."></textarea>
+            <label class="form-label font-weight-black text-black">Supervisor Guidance & Feedback</label>
+            <textarea id="eval-feedback" required rows="3" class="form-control py-2" placeholder="Write constructive feedback for the student..."></textarea>
           </div>
         </div>
         <div class="modal-footer border-0">
@@ -170,11 +190,33 @@ $currentSup = $_SESSION['user'];
 
   document.addEventListener('DOMContentLoaded', () => {
     if (!currentSup) return;
-    loadStudentSelectOptions();
-    renderIssuedTasks();
-    renderSubmittedReports();
+    renderSupervisorTasks();
+    renderSupervisorReports();
     loadNotifications();
   });
+
+  function toggleSidebarMenu() {
+    const sidebarWrapper = document.getElementById('sidebar-wrapper');
+    const mainContentCol = document.getElementById('main-content-col');
+    const menuIcon = document.getElementById('menu-icon');
+
+    if (sidebarWrapper) {
+      sidebarWrapper.classList.toggle('d-none');
+      if (sidebarWrapper.classList.contains('d-none')) {
+        if (mainContentCol) {
+          mainContentCol.classList.remove('col-md-9', 'col-lg-10');
+          mainContentCol.classList.add('col-12');
+        }
+        if (menuIcon) menuIcon.className = 'fas fa-bars text-primary';
+      } else {
+        if (mainContentCol) {
+          mainContentCol.classList.remove('col-12');
+          mainContentCol.classList.add('col-md-9', 'col-lg-10');
+        }
+        if (menuIcon) menuIcon.className = 'fas fa-times text-danger';
+      }
+    }
+  }
 
   function switchSupTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
@@ -184,61 +226,41 @@ $currentSup = $_SESSION['user'];
     document.getElementById(`link-sup-${tabId}`).classList.add('active');
   }
 
-  function loadStudentSelectOptions() {
-    const select = document.getElementById('task-student-select');
-    const apps = DIS.getApplications().filter(a => a.supervisorId === currentSup.id || a.status === 'Selected');
-    select.innerHTML = '';
-
-    if (apps.length === 0) {
-      select.innerHTML = '<option value="usr_std1">Ahmed Hassan (Default Intern)</option>';
-    } else {
-      apps.forEach(a => {
-        select.innerHTML += `<option value="${a.studentId}">${a.studentName} (${a.studentEmail})</option>`;
-      });
-    }
-  }
-
-  function assignTaskToStudent(e) {
+  function createSupervisorTask(e) {
     e.preventDefault();
-    const studentId = document.getElementById('task-student-select').value;
-    const deadline = document.getElementById('task-deadline').value;
+    const studentId = document.getElementById('task-student-id').value;
     const title = document.getElementById('task-title').value;
+    const deadline = document.getElementById('task-deadline').value;
+    const priority = document.getElementById('task-priority').value;
     const description = document.getElementById('task-desc').value;
-
-    if (!DIS.validateFutureDate(deadline)) {
-      DIS.showToast('Deadline must be a future date!', 'warning');
-      return;
-    }
 
     const tasks = DIS.getTasks();
     const newTask = {
-      id: 'tsk_' + Date.now(),
-      studentId,
+      id: 'task_' + Date.now(),
       supervisorId: currentSup.id,
-      companyId: 'usr_hr1',
+      studentId,
       title,
-      description,
+      description: `[${priority} Priority] ${description}`,
       deadline,
-      status: 'Pending',
-      assignedAt: new Date().toISOString().split('T')[0]
+      status: 'Assigned'
     };
 
     tasks.unshift(newTask);
     DIS.setTasks(tasks);
-    DIS.addNotification(studentId, 'New Task Assigned', `Task assigned: ${title}`, 'info');
-    DIS.showToast('Task assigned!', 'success');
-
+    DIS.addNotification(studentId, 'New Workplace Task Assigned', `Supervisor assigned task: ${title}`);
+    DIS.showToast('Workplace task assigned to student!', 'success');
     e.target.reset();
-    renderIssuedTasks();
+
+    renderSupervisorTasks();
   }
 
-  function renderIssuedTasks() {
-    const tasks = DIS.getTasks().filter(t => t.supervisorId === currentSup.id);
-    const grid = document.getElementById('issued-tasks-grid');
-    grid.innerHTML = '';
+  function renderSupervisorTasks() {
+    const tasks = DIS.getTasks();
+    const container = document.getElementById('sup-tasks-list');
+    container.innerHTML = '';
 
     if (tasks.length === 0) {
-      grid.innerHTML = '<div class="col-12 text-center py-4 text-black font-weight-black">No tasks issued yet.</div>';
+      container.innerHTML = '<div class="col-12 text-center py-4 text-black font-weight-black">No tasks assigned yet.</div>';
       return;
     }
 
@@ -254,76 +276,83 @@ $currentSup = $_SESSION['user'];
               <span class="badge badge-black-pill ${isDone ? 'badge-emerald' : 'badge-amber'}">${t.status}</span>
             </div>
             <h5 class="font-weight-black text-black mb-2">${t.title}</h5>
-            <p class="text-black font-weight-bold small">${t.description}</p>
+            <p class="text-black font-weight-bold small mb-3">${t.description}</p>
+          </div>
+          <div class="pt-2 border-top extra-small text-black font-weight-black">
+            Assigned Student ID: ${t.studentId}
           </div>
         </div>
       `;
-      grid.appendChild(col);
+      container.appendChild(col);
     });
   }
 
-  function renderSubmittedReports() {
+  function renderSupervisorReports() {
     const reports = DIS.getProgressReports();
-    const container = document.getElementById('supervisor-reports-container');
+    const container = document.getElementById('sup-reports-list');
     container.innerHTML = '';
 
     if (reports.length === 0) {
-      container.innerHTML = '<div class="text-center py-4 text-black font-weight-black">No reports submitted.</div>';
+      container.innerHTML = '<div class="text-center py-4 text-black font-weight-black">No student log reports submitted yet.</div>';
       return;
     }
 
     reports.forEach(r => {
+      const isEvaluated = r.rating !== null;
       const card = document.createElement('div');
-      card.className = 'master-card-black p-4 mb-3';
+      card.className = 'master-card-black p-4 mb-3 d-flex justify-content-between align-items-center';
       card.innerHTML = `
-        <div class="d-flex justify-content-between mb-2">
-          <h5 class="font-weight-black text-primary mb-0">Week ${r.weekNumber} Report - Student (${r.studentId})</h5>
-          <small class="text-black font-weight-black">${r.submittedAt}</small>
+        <div>
+          <h5 class="font-weight-black text-black mb-1">Week ${r.weekNumber} Log Report</h5>
+          <p class="small text-black font-weight-bold mb-1"><strong>Summary:</strong> ${r.summary}</p>
+          <a href="#" onclick="alert('Viewing Attached Document: ${r.fileName}'); return false;" class="text-primary font-weight-black extra-small text-decoration-none">
+            <i class="fas fa-file-pdf me-1"></i> Attached: ${r.fileName}
+          </a>
         </div>
-        <p class="small text-black font-weight-bold mb-1"><strong>Summary:</strong> ${r.summary}</p>
-        <p class="small text-black font-weight-bold mb-3"><strong>Achievements:</strong> ${r.achievements}</p>
-        ${r.rating ? `
-          <div class="bg-light p-3 rounded-3 border border-success extra-small text-black font-weight-black">
-            <span class="text-success font-weight-black"><i class="fas fa-star text-warning me-1"></i> Rating: ${r.rating}/5 Stars</span>
-            <div class="text-black mt-1"><strong>Supervisor Feedback:</strong> ${r.feedback}</div>
-          </div>
-        ` : `
-          <button onclick="openReviewModal('${r.id}')" class="btn btn-black-primary btn-sm font-weight-black">
-            <i class="fas fa-star me-1"></i> Evaluate & Grade Report
-          </button>
-        `}
+        <div>
+          ${isEvaluated ? `
+            <div class="text-end">
+              <span class="badge badge-black-pill badge-emerald mb-1"><i class="fas fa-star text-warning me-1"></i> ${r.rating}/5 Stars</span>
+              <small class="d-block extra-small text-black font-weight-bold">${r.feedback}</small>
+            </div>
+          ` : `
+            <button onclick="openEvalModal('${r.id}')" class="btn btn-black-primary btn-sm font-weight-black">
+              Grade & Evaluate
+            </button>
+          `}
+        </div>
       `;
       container.appendChild(card);
     });
   }
 
-  function openReviewModal(repId) {
-    document.getElementById('rev-report-id').value = repId;
-    const bsModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+  function openEvalModal(reportId) {
+    document.getElementById('eval-report-id').value = reportId;
+    const bsModal = new bootstrap.Modal(document.getElementById('evalModal'));
     bsModal.show();
   }
 
   function saveReportEvaluation(e) {
     e.preventDefault();
-    const repId = document.getElementById('rev-report-id').value;
-    const rating = document.getElementById('rev-rating').value;
-    const feedback = document.getElementById('rev-feedback').value;
+    const reportId = document.getElementById('eval-report-id').value;
+    const rating = document.getElementById('eval-rating').value;
+    const feedback = document.getElementById('eval-feedback').value;
 
     const reports = DIS.getProgressReports();
-    const rep = reports.find(r => r.id === repId);
-    if (rep) {
-      rep.rating = parseInt(rating, 10);
-      rep.feedback = feedback;
+    const r = reports.find(x => x.id === reportId);
+    if (r) {
+      r.rating = parseInt(rating, 10);
+      r.feedback = feedback;
       DIS.setProgressReports(reports);
 
-      DIS.addNotification(rep.studentId, 'Report Evaluated', `Supervisor rated Week ${rep.weekNumber} report: ${rating}/5`, 'success');
-      DIS.showToast('Evaluation submitted!', 'success');
+      DIS.addNotification(r.studentId, 'Progress Report Evaluated', `Supervisor evaluated Week ${r.weekNumber} report: ${rating}/5 Stars.`);
+      DIS.showToast('Evaluation saved & student notified!', 'success');
 
-      const modalEl = document.getElementById('reviewModal');
+      const modalEl = document.getElementById('evalModal');
       const modal = bootstrap.Modal.getInstance(modalEl);
       if (modal) modal.hide();
 
-      renderSubmittedReports();
+      renderSupervisorReports();
     }
   }
 
