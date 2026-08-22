@@ -1,5 +1,5 @@
 <?php
-// signup.php - Registration Page with Autofill Prevention on Full Name
+// signup.php - Role-Based Registration Page (Dynamic Student vs Company Fields)
 $pageTitle = "Register Account - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -10,13 +10,16 @@ $success = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = trim($_POST['role'] ?? 'student');
     $companyName = trim($_POST['companyName'] ?? '');
+    $companyUrl = trim($_POST['companyUrl'] ?? '');
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $password = trim($_POST['password'] ?? '');
     $confirmPassword = trim($_POST['confirm_password'] ?? '');
 
-    if (empty($name) || empty($email) || empty($password) || empty($confirmPassword)) {
+    $displayName = ($role === 'company') ? ($companyName ?: $name) : $name;
+
+    if (empty($email) || empty($password) || empty($confirmPassword)) {
         $error = "Please fill in all required fields.";
     } elseif ($password !== $confirmPassword) {
         $error = "Password and Confirm Password do not match.";
@@ -25,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $stmt = $pdo->prepare("INSERT INTO users (user_uid, role, name, email, password, company_name, status) VALUES (?, ?, ?, ?, ?, ?, 'approved')");
                 $userId = 'usr_' . time();
-                $stmt->execute([$userId, $role, $name, $email, $password, $companyName]);
+                $stmt->execute([$userId, $role, $displayName, $email, $password, $companyName]);
             } catch (Exception $e) {
                 // Ignore DB duplicate error
             }
@@ -57,36 +60,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
           <?php endif; ?>
 
-          <form action="signup.php" method="POST" autocomplete="off" onsubmit="return handleSignupJS(event)">
+          <form action="signup.php" method="POST" enctype="multipart/form-data" autocomplete="off" onsubmit="return handleSignupJS(event)">
             
             <!-- 1. Account Role (AT THE VERY TOP) -->
             <div class="mb-3">
               <label class="form-label font-weight-black text-black">Account Role</label>
-              <select name="role" id="reg-role" onchange="toggleCompanyFields()" class="form-select py-2">
+              <select name="role" id="reg-role" onchange="toggleFormFieldsByRole()" class="form-select py-2">
                 <option value="student">Student Account</option>
                 <option value="company">Company HR / Manager Account</option>
               </select>
             </div>
 
-            <!-- Company Name (If HR Selected) -->
-            <div id="company-fields" class="d-none mb-3">
-              <label class="form-label font-weight-black text-black">Company Name</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-building text-primary"></i></span>
-                <input type="text" name="companyName" id="reg-company-name" class="form-control py-2" autocomplete="organization" placeholder="e.g. TechCorp Solutions">
+            <!-- Student Only Fields -->
+            <div id="student-fields">
+              <div class="mb-3">
+                <label class="form-label font-weight-black text-black">Full Name</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
+                  <input type="text" name="name" id="reg-name" class="form-control py-2" autocomplete="name" placeholder="e.g. John Doe">
+                </div>
               </div>
             </div>
 
-            <!-- 2. Full Name (Explicit autocomplete="name" & off to prevent email autofill) -->
-            <div class="mb-3">
-              <label class="form-label font-weight-black text-black">Full Name</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
-                <input type="text" name="name" id="reg-name" class="form-control py-2" autocomplete="name" required placeholder="e.g. John Doe">
+            <!-- Company Only Fields -->
+            <div id="company-fields" class="d-none">
+              <!-- Company Name -->
+              <div class="mb-3">
+                <label class="form-label font-weight-black text-black">Company Name</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="fas fa-building text-primary"></i></span>
+                  <input type="text" name="companyName" id="reg-company-name" class="form-control py-2" autocomplete="organization" placeholder="e.g. TechCorp Solutions">
+                </div>
+              </div>
+
+              <!-- URL Address -->
+              <div class="mb-3">
+                <label class="form-label font-weight-black text-black">URL Address</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="fas fa-globe text-primary"></i></span>
+                  <input type="url" name="companyUrl" id="reg-company-url" class="form-control py-2" placeholder="https://companywebsite.com">
+                </div>
               </div>
             </div>
 
-            <!-- 3. Gmail Address -->
+            <!-- Common Fields: Gmail Address & Contact No -->
             <div class="mb-3">
               <label class="form-label font-weight-black text-black">Gmail Address</label>
               <div class="input-group">
@@ -95,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </div>
 
-            <!-- 4. Contact No -->
             <div class="mb-3">
               <label class="form-label font-weight-black text-black">Contact No</label>
               <div class="input-group">
@@ -104,7 +120,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </div>
 
-            <!-- 5. Password -->
+            <!-- Company Certificate File Upload (Only for Company HR) -->
+            <div id="company-cert-field" class="d-none mb-3">
+              <label class="form-label font-weight-black text-black">Company Certificate (PDF/Image)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-file-contract text-primary"></i></span>
+                <input type="file" name="companyCertificate" id="reg-company-cert" class="form-control py-2" accept=".pdf,.png,.jpg,.jpeg">
+              </div>
+            </div>
+
+            <!-- Password & Confirm Password -->
             <div class="mb-3">
               <label class="form-label font-weight-black text-black">Password</label>
               <div class="input-group">
@@ -113,7 +138,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </div>
 
-            <!-- 6. Confirm Password -->
             <div class="mb-3">
               <label class="form-label font-weight-black text-black">Confirm Password</label>
               <div class="input-group">
@@ -138,19 +162,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <script>
-function toggleCompanyFields() {
+function toggleFormFieldsByRole() {
   const role = document.getElementById('reg-role').value;
-  const compFields = document.getElementById('company-fields');
+  const studentFields = document.getElementById('student-fields');
+  const companyFields = document.getElementById('company-fields');
+  const certField = document.getElementById('company-cert-field');
+
   if (role === 'company') {
-    compFields.classList.remove('d-none');
+    studentFields.classList.add('d-none');
+    companyFields.classList.remove('d-none');
+    certField.classList.remove('d-none');
   } else {
-    compFields.classList.add('d-none');
+    studentFields.classList.remove('d-none');
+    companyFields.classList.add('d-none');
+    certField.classList.add('d-none');
   }
 }
 
 function handleSignupJS(e) {
   const role = document.getElementById('reg-role').value;
   const compName = document.getElementById('reg-company-name').value;
+  const compUrl = document.getElementById('reg-company-url').value;
   const name = document.getElementById('reg-name').value;
   const email = document.getElementById('reg-email').value;
   const phone = document.getElementById('reg-phone').value;
@@ -169,17 +201,21 @@ function handleSignupJS(e) {
   const users = DIS.getUsers();
   users.push({
     id: 'usr_' + Date.now(),
-    name,
+    name: role === 'company' ? (compName || 'Company HR') : (name || email.split('@')[0]),
     email,
     phone: phone || '',
+    companyUrl: compUrl || '',
     password: pass,
     role,
     companyName: compName || null,
+    verified: true,
     status: 'approved'
   });
   DIS.setUsers(users);
   return true;
 }
+
+document.addEventListener('DOMContentLoaded', toggleFormFieldsByRole);
 </script>
 
 <!-- Bootstrap 5 Bundle JS & App Engine -->
