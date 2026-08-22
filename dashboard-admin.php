@@ -1,5 +1,5 @@
 <?php
-// dashboard-admin.php - High Contrast Administrator Portal with Flat Classic Vertical Sidebar Panel
+// dashboard-admin.php - High Contrast Administrator Portal with Exact Dark Enterprise Sidebar Panel
 $pageTitle = "Admin Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -44,31 +44,50 @@ $currentAdmin = $_SESSION['user'];
 <div class="container-fluid px-0">
   <div class="row g-0">
     
-    <!-- Flat Classic Vertical Sidebar Panel (NO CARD BOX, NO BLINK) -->
-    <div class="col-md-3 col-lg-2" id="sidebar-wrapper">
-      <div class="vertical-sidebar-panel">
+    <!-- Left Dark Vertical Sidebar Panel (EXACT REPLICA OF REFERENCE SCREENSHOT) -->
+    <div class="col-md-3 col-lg-2 p-0" id="sidebar-wrapper">
+      <div class="sidebar-dark-panel">
         
-        <div class="text-center pb-3 mb-3 border-bottom">
-          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 52px; height: 52px; background-color: #fef3c7;">
-            <i class="fas fa-user-shield fa-lg text-warning"></i>
+        <!-- Large Circular Avatar & Name -->
+        <div class="text-center pb-2 mb-2">
+          <div class="rounded-circle border border-2 border-secondary d-flex align-items-center justify-center mx-auto mb-2 shadow-sm" style="width: 80px; height: 80px; background-color: #1e293b;">
+            <i class="fas fa-user-shield fa-2x text-warning opacity-75"></i>
           </div>
-          <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentAdmin['name']); ?></h6>
-          <small class="text-black font-weight-black extra-small d-block text-break"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
+          <h6 class="fw-bold mb-1 text-white fs-5"><?php echo htmlspecialchars(strtolower(explode(' ', $currentAdmin['name'])[0])); ?></h6>
+          <small class="text-secondary extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
+
+          <!-- Outlined Action Pill Buttons -->
+          <div class="d-flex flex-column gap-2 mb-2">
+            <button onclick="switchAdminTab('users')" class="btn-sidebar-outline">
+              <i class="fas fa-user-shield"></i> System Settings
+            </button>
+            <button onclick="switchAdminTab('reports')" class="btn-sidebar-outline">
+              <i class="fas fa-file-export"></i> Export Audits
+            </button>
+          </div>
+          <small class="text-secondary extra-small font-weight-bold d-block mt-2">
+            <i class="fas fa-key me-1 text-warning"></i> Super Admin Account
+          </small>
         </div>
 
-        <!-- Vertical Scroller Container -->
-        <div class="vertical-sidebar-scroll d-flex flex-column gap-1">
-          <button onclick="switchAdminTab('users')" class="sidebar-link-flat active" id="link-adm-users">
-            <i class="fas fa-users me-2 text-primary"></i> <span>Users Management</span>
+        <hr class="border-secondary opacity-25 my-2">
+
+        <!-- Scrollable Vertical Modules -->
+        <div class="sidebar-dark-scroll d-flex flex-column gap-2 mt-1">
+          <button onclick="switchAdminTab('users')" class="sidebar-dark-link active" id="link-adm-users">
+            <i class="fas fa-users"></i> <span>Users Directory</span>
           </button>
-          <button onclick="switchAdminTab('companies')" class="sidebar-link-flat" id="link-adm-companies">
-            <i class="fas fa-certificate me-2 text-primary"></i> <span>Certificates</span>
+          <button onclick="switchAdminTab('companies')" class="sidebar-dark-link" id="link-adm-companies">
+            <i class="fas fa-certificate"></i> <span>Certificates</span>
           </button>
-          <button onclick="switchAdminTab('reports')" class="sidebar-link-flat" id="link-adm-reports">
-            <i class="fas fa-file-export me-2 text-primary"></i> <span>Export Reports</span>
+          <button onclick="switchAdminTab('reports')" class="sidebar-dark-link" id="link-adm-reports">
+            <i class="fas fa-file-export"></i> <span>Audit Reports</span>
           </button>
-          <a href="logout.php" class="sidebar-link-flat text-danger text-decoration-none mt-2">
-            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span>Logout</span>
+
+          <hr class="border-secondary opacity-25 my-2">
+
+          <a href="logout.php" class="sidebar-dark-link text-danger text-decoration-none">
+            <i class="fas fa-sign-out-alt text-danger"></i> <span class="text-danger">Logout</span>
           </a>
         </div>
 
@@ -227,7 +246,7 @@ $currentAdmin = $_SESSION['user'];
 
   function switchAdminTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.sidebar-link-flat').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar-dark-link').forEach(el => el.classList.remove('active'));
 
     document.getElementById(`tab-adm-${tabId}`).classList.remove('d-none');
     document.getElementById(`link-adm-${tabId}`).classList.add('active');

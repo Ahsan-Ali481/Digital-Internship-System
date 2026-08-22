@@ -236,66 +236,114 @@ footer a:hover {
   border-color: var(--secondary) !important;
 }
 
-/* CLASSIC VERTICAL SIDEBAR PANEL (NO CARD BOX, NO BORDER RADIUS, NO BLINK) */
-.vertical-sidebar-panel {
-  background-color: #ffffff !important;
-  border-right: 2px solid var(--border-color) !important;
+/* EXACT MATCH REFERENCE: DARK ENTERPRISE VERTICAL SIDEBAR PANEL */
+.sidebar-dark-panel {
+  background-color: #0b1329 !important;
   min-height: calc(100vh - 72px);
-  padding: 1.5rem 1rem;
+  padding: 1.75rem 1.25rem;
   display: flex;
   flex-direction: column;
 }
 
-.vertical-sidebar-scroll {
-  max-height: calc(100vh - 200px);
+.sidebar-dark-panel, .sidebar-dark-panel * {
+  color: #f8fafc !important;
+}
+
+.sidebar-dark-scroll {
+  max-height: calc(100vh - 310px);
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 4px;
 }
 
-.vertical-sidebar-scroll::-webkit-scrollbar {
+.sidebar-dark-scroll::-webkit-scrollbar {
   width: 5px;
 }
 
-.vertical-sidebar-scroll::-webkit-scrollbar-track {
-  background: #f1f5f9;
+.sidebar-dark-scroll::-webkit-scrollbar-track {
+  background: #1e293b;
 }
 
-.vertical-sidebar-scroll::-webkit-scrollbar-thumb {
-  background: #4f46e5;
+.sidebar-dark-scroll::-webkit-scrollbar-thumb {
+  background: #6366f1;
   border-radius: 3px;
 }
 
-/* Flat Clean Sidebar Module Links (No Container Lift / No Blink) */
-.sidebar-link-flat {
+/* Profile Action Buttons */
+.btn-sidebar-outline {
+  background: transparent !important;
+  border: 1.5px solid #334155 !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.btn-sidebar-outline:hover {
+  background: #1e293b !important;
+  border-color: #6366f1 !important;
+  color: #ffffff !important;
+}
+
+.btn-sidebar-outline * {
+  color: #ffffff !important;
+}
+
+/* Module Links */
+.sidebar-dark-link {
   background-color: transparent !important;
   border: none !important;
-  border-left: 4px solid transparent !important;
-  color: var(--pure-black) !important;
-  font-weight: 800;
+  color: #cbd5e1 !important;
+  font-weight: 700;
+  font-size: 0.95rem;
   padding: 12px 16px;
-  border-radius: 6px;
+  border-radius: 12px;
   transition: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
   text-align: left;
 }
 
-.sidebar-link-flat:hover {
-  background-color: #eef2ff !important;
-  border-left-color: var(--primary) !important;
-  color: var(--primary) !important;
-  transform: translateX(4px);
+.sidebar-dark-link i {
+  font-size: 1.1rem;
+  color: #94a3b8 !important;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.sidebar-link-flat.active {
-  background-color: #eef2ff !important;
-  border-left-color: var(--primary) !important;
-  color: var(--primary) !important;
+.sidebar-dark-link:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
 }
 
-.sidebar-link-flat.active * {
-  color: var(--primary) !important;
+.sidebar-dark-link:hover i {
+  color: #818cf8 !important;
+  transform: scale(1.15);
+}
+
+.sidebar-dark-link.active {
+  background: linear-gradient(135deg, #7c3aed, #6366f1) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4) !important;
+}
+
+.sidebar-dark-link.active i, .sidebar-dark-link.active span {
+  color: #ffffff !important;
+}
+
+.sidebar-dark-link.text-danger:hover {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+}
+
+.sidebar-dark-link.text-danger i, .sidebar-dark-link.text-danger span {
+  color: #f87171 !important;
 }

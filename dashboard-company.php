@@ -1,5 +1,5 @@
 <?php
-// dashboard-company.php - High Contrast Company HR Portal with Flat Classic Vertical Sidebar Panel
+// dashboard-company.php - High Contrast Company HR Portal with Exact Dark Enterprise Sidebar Panel
 $pageTitle = "Company Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -45,31 +45,50 @@ $currentCompany = $_SESSION['user'];
 <div class="container-fluid px-0">
   <div class="row g-0">
     
-    <!-- Flat Classic Vertical Sidebar Panel (NO CARD BOX, NO BLINK) -->
-    <div class="col-md-3 col-lg-2" id="sidebar-wrapper">
-      <div class="vertical-sidebar-panel">
+    <!-- Left Dark Vertical Sidebar Panel (EXACT REPLICA OF REFERENCE SCREENSHOT) -->
+    <div class="col-md-3 col-lg-2 p-0" id="sidebar-wrapper">
+      <div class="sidebar-dark-panel">
         
-        <div class="text-center pb-3 mb-3 border-bottom">
-          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 52px; height: 52px; background-color: #e0f2fe;">
-            <i class="fas fa-user-tie fa-lg text-info"></i>
+        <!-- Large Circular Avatar & Company Name -->
+        <div class="text-center pb-2 mb-2">
+          <div class="rounded-circle border border-2 border-secondary d-flex align-items-center justify-center mx-auto mb-2 shadow-sm" style="width: 80px; height: 80px; background-color: #1e293b;">
+            <i class="fas fa-user-tie fa-2x text-light opacity-75"></i>
           </div>
-          <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentCompany['companyName']); ?></h6>
-          <small class="text-black font-weight-black extra-small d-block text-break"><?php echo htmlspecialchars($currentCompany['email']); ?></small>
+          <h6 class="fw-bold mb-1 text-white fs-5"><?php echo htmlspecialchars(strtolower(explode(' ', $currentCompany['companyName'])[0])); ?></h6>
+          <small class="text-secondary extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentCompany['email']); ?></small>
+
+          <!-- Outlined Action Pill Buttons -->
+          <div class="d-flex flex-column gap-2 mb-2">
+            <button onclick="switchCompanyTab('postings')" class="btn-sidebar-outline">
+              <i class="fas fa-building"></i> Edit Company Profile
+            </button>
+            <button onclick="switchCompanyTab('postings')" class="btn-sidebar-outline">
+              <i class="fas fa-certificate"></i> Verified Certificate
+            </button>
+          </div>
+          <small class="text-secondary extra-small font-weight-bold d-block mt-2">
+            <i class="fas fa-check-circle me-1 text-success"></i> Verified HR Account
+          </small>
         </div>
 
-        <!-- Vertical Scroller Container -->
-        <div class="vertical-sidebar-scroll d-flex flex-column gap-1">
-          <button onclick="switchCompanyTab('postings')" class="sidebar-link-flat active" id="link-cmp-postings">
-            <i class="fas fa-briefcase me-2 text-primary"></i> <span>Manage Opportunities</span>
+        <hr class="border-secondary opacity-25 my-2">
+
+        <!-- Scrollable Vertical Modules -->
+        <div class="sidebar-dark-scroll d-flex flex-column gap-2 mt-1">
+          <button onclick="switchCompanyTab('postings')" class="sidebar-dark-link active" id="link-cmp-postings">
+            <i class="fas fa-chart-line"></i> <span>Dashboard</span>
           </button>
-          <button onclick="switchCompanyTab('applicants')" class="sidebar-link-flat" id="link-cmp-applicants">
-            <i class="fas fa-users me-2 text-primary"></i> <span>Review Applicants</span>
+          <button onclick="switchCompanyTab('applicants')" class="sidebar-dark-link" id="link-cmp-applicants">
+            <i class="fas fa-users"></i> <span>Applicants</span>
           </button>
-          <button onclick="switchCompanyTab('interviews')" class="sidebar-link-flat" id="link-cmp-interviews">
-            <i class="fas fa-calendar-alt me-2 text-primary"></i> <span>Schedule Interviews</span>
+          <button onclick="switchCompanyTab('interviews')" class="sidebar-dark-link" id="link-cmp-interviews">
+            <i class="fas fa-calendar-alt"></i> <span>Interviews</span>
           </button>
-          <a href="logout.php" class="sidebar-link-flat text-danger text-decoration-none mt-2">
-            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span>Logout</span>
+
+          <hr class="border-secondary opacity-25 my-2">
+
+          <a href="logout.php" class="sidebar-dark-link text-danger text-decoration-none">
+            <i class="fas fa-sign-out-alt text-danger"></i> <span class="text-danger">Logout</span>
           </a>
         </div>
 
@@ -269,7 +288,7 @@ $currentCompany = $_SESSION['user'];
 
   function switchCompanyTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.sidebar-link-flat').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar-dark-link').forEach(el => el.classList.remove('active'));
 
     document.getElementById(`tab-cmp-${tabId}`).classList.remove('d-none');
     document.getElementById(`link-cmp-${tabId}`).classList.add('active');

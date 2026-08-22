@@ -1,5 +1,5 @@
 <?php
-// dashboard-student.php - High Contrast Student Portal with Flat Classic Vertical Sidebar Panel
+// dashboard-student.php - High Contrast Student Portal with Exact Dark Enterprise Sidebar Panel
 $pageTitle = "Student Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -45,34 +45,53 @@ $currentStudent = $_SESSION['user'];
 <div class="container-fluid px-0">
   <div class="row g-0">
     
-    <!-- Flat Classic Vertical Sidebar Panel (NO CARD BOX, NO BLINK) -->
-    <div class="col-md-3 col-lg-2" id="sidebar-wrapper">
-      <div class="vertical-sidebar-panel">
+    <!-- Left Dark Vertical Sidebar Panel (EXACT REPLICA OF REFERENCE SCREENSHOT) -->
+    <div class="col-md-3 col-lg-2 p-0" id="sidebar-wrapper">
+      <div class="sidebar-dark-panel">
         
-        <div class="text-center pb-3 mb-3 border-bottom">
-          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 52px; height: 52px; background-color: #e0e7ff;">
-            <i class="fas fa-user-graduate fa-lg text-primary"></i>
+        <!-- Large Circular Avatar & Username -->
+        <div class="text-center pb-2 mb-2">
+          <div class="rounded-circle border border-2 border-secondary d-flex align-items-center justify-center mx-auto mb-2 shadow-sm" style="width: 80px; height: 80px; background-color: #1e293b;">
+            <i class="fas fa-user-graduate fa-2x text-light opacity-75"></i>
           </div>
-          <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentStudent['name']); ?></h6>
-          <small class="text-black font-weight-black extra-small d-block text-break"><?php echo htmlspecialchars($currentStudent['email']); ?></small>
+          <h6 class="fw-bold mb-1 text-white fs-5"><?php echo htmlspecialchars(strtolower(explode(' ', $currentStudent['name'])[0])); ?></h6>
+          <small class="text-secondary extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentStudent['email']); ?></small>
+
+          <!-- Outlined Profile Action Pill Buttons -->
+          <div class="d-flex flex-column gap-2 mb-2">
+            <button onclick="switchStudentTab('reports')" class="btn-sidebar-outline">
+              <i class="fas fa-user-edit"></i> Edit Profile
+            </button>
+            <button onclick="switchStudentTab('reports')" class="btn-sidebar-outline">
+              <i class="fas fa-file-upload"></i> Upload Resume
+            </button>
+          </div>
+          <small class="text-secondary extra-small font-weight-bold d-block mt-2">
+            <i class="fas fa-exclamation-circle me-1 text-warning"></i> Active Student Profile
+          </small>
         </div>
 
-        <!-- Vertical Scroller Container -->
-        <div class="vertical-sidebar-scroll d-flex flex-column gap-1">
-          <button onclick="switchStudentTab('browse')" class="sidebar-link-flat active" id="link-std-browse">
-            <i class="fas fa-search me-2 text-primary"></i> <span>Browse Positions</span>
+        <hr class="border-secondary opacity-25 my-2">
+
+        <!-- Scrollable Vertical Modules -->
+        <div class="sidebar-dark-scroll d-flex flex-column gap-2 mt-1">
+          <button onclick="switchStudentTab('browse')" class="sidebar-dark-link active" id="link-std-browse">
+            <i class="fas fa-chart-line"></i> <span>Dashboard</span>
           </button>
-          <button onclick="switchStudentTab('apps')" class="sidebar-link-flat" id="link-std-apps">
-            <i class="fas fa-paper-plane me-2 text-primary"></i> <span>My Applications</span>
+          <button onclick="switchStudentTab('tasks')" class="sidebar-dark-link" id="link-std-tasks">
+            <i class="fas fa-list-ul"></i> <span>My Tasks</span>
           </button>
-          <button onclick="switchStudentTab('tasks')" class="sidebar-link-flat" id="link-std-tasks">
-            <i class="fas fa-tasks me-2 text-primary"></i> <span>Workplace Tasks</span>
+          <button onclick="switchStudentTab('reports')" class="sidebar-dark-link" id="link-std-reports">
+            <i class="fas fa-upload"></i> <span>Upload Progress</span>
           </button>
-          <button onclick="switchStudentTab('reports')" class="sidebar-link-flat" id="link-std-reports">
-            <i class="fas fa-file-alt me-2 text-primary"></i> <span>Submit Reports</span>
+          <button onclick="switchStudentTab('apps')" class="sidebar-dark-link" id="link-std-apps">
+            <i class="fas fa-flag"></i> <span>Applications</span>
           </button>
-          <a href="logout.php" class="sidebar-link-flat text-danger text-decoration-none mt-2">
-            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span>Logout</span>
+
+          <hr class="border-secondary opacity-25 my-2">
+
+          <a href="logout.php" class="sidebar-dark-link text-danger text-decoration-none">
+            <i class="fas fa-sign-out-alt text-danger"></i> <span class="text-danger">Logout</span>
           </a>
         </div>
 
@@ -252,7 +271,7 @@ $currentStudent = $_SESSION['user'];
 
   function switchStudentTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.sidebar-link-flat').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar-dark-link').forEach(el => el.classList.remove('active'));
 
     document.getElementById(`tab-std-${tabId}`).classList.remove('d-none');
     document.getElementById(`link-std-${tabId}`).classList.add('active');
