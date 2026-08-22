@@ -1,5 +1,5 @@
 <?php
-// dashboard-student.php - High Contrast Student Portal
+// dashboard-student.php - High Contrast Student Portal (NO FOOTER AS REQUESTED)
 $pageTitle = "Student Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -202,6 +202,7 @@ $currentStudent = $_SESSION['user'];
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/app.js"></script>
 <script>
   const currentStudent = DIS.checkAuth(['student']);
@@ -459,5 +460,5 @@ $currentStudent = $_SESSION['user'];
     bsModal.show();
   }
 </script>
-
-<?php require_once __DIR__ . '/includes/footer.php'; ?>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <?php
-// forgot-password.php - Corporate Password Recovery Page
+// forgot-password.php - Corporate Password Recovery Page (NO FOOTER AS REQUESTED)
 $pageTitle = "Forgot Password - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -33,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container py-5 my-auto">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
-      <div class="corp-card p-0 overflow-hidden shadow-sm">
+      <div class="master-card-black p-0 overflow-hidden shadow-sm">
         <div class="bg-primary text-white text-center py-4">
-          <h4 class="mb-0 font-weight-bold text-white"><i class="fas fa-key me-2"></i> Password Recovery</h4>
+          <h4 class="mb-0 font-weight-black text-white"><i class="fas fa-key me-2"></i> Password Recovery</h4>
         </div>
         <div class="p-4 p-md-5">
 
           <?php if (!empty($error)): ?>
-            <div class="alert alert-danger alert-dismissible fade show font-weight-semibold" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show font-weight-bold" role="alert">
               <i class="fas fa-shield-alt me-1"></i> <?php echo $error; ?>
               <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -48,35 +48,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
           <form action="forgot-password.php" method="POST">
             <div class="mb-3">
-              <label class="form-label font-weight-semibold text-dark">Select Your Account Role</label>
+              <label class="form-label font-weight-black text-black">Select Your Account Role</label>
               <select name="role" id="reset-role" class="form-select py-2" onchange="checkAdminPolicy()">
                 <option value="student">Student Account</option>
                 <option value="company">Company HR Account</option>
                 <option value="supervisor">Workplace Supervisor Account</option>
                 <option value="admin">System Admin Account (Disabled)</option>
               </select>
-              <div id="admin-warning" class="form-text text-danger d-none mt-1 font-weight-semibold">
+              <div id="admin-warning" class="form-text text-danger d-none mt-1 font-weight-bold">
                 <i class="fas fa-exclamation-triangle me-1"></i> Password reset is disabled for Admin accounts for security reasons.
               </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label font-weight-semibold text-dark">Registered Gmail Address</label>
+              <label class="form-label font-weight-black text-black">Registered Gmail Address</label>
               <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-envelope text-muted"></i></span>
+                <span class="input-group-text bg-light"><i class="fas fa-envelope text-primary"></i></span>
                 <input type="email" name="email" id="reset-email" class="form-control py-2" required placeholder="user@gmail.com">
               </div>
             </div>
 
             <div class="mb-3">
-              <label class="form-label font-weight-semibold text-dark">New Password</label>
+              <label class="form-label font-weight-black text-black">New Password</label>
               <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-lock text-muted"></i></span>
+                <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
                 <input type="password" name="new_password" id="reset-pass" class="form-control py-2" required placeholder="Enter new password">
               </div>
             </div>
 
-            <button type="submit" id="reset-btn" class="btn btn-corp-primary w-100 py-3 font-weight-bold shadow-sm">
+            <button type="submit" id="reset-btn" class="btn btn-black-primary w-100 py-3 font-weight-black shadow-sm">
               <i class="fas fa-sync-alt me-2"></i> Reset Password & Sign In
             </button>
           </form>
@@ -100,14 +100,18 @@ function checkAdminPolicy() {
     warning.classList.remove('d-none');
     btn.disabled = true;
     btn.classList.add('btn-secondary');
-    btn.classList.remove('btn-corp-primary');
+    btn.classList.remove('btn-black-primary');
   } else {
     warning.classList.add('d-none');
     btn.disabled = false;
     btn.classList.remove('btn-secondary');
-    btn.classList.add('btn-corp-primary');
+    btn.classList.add('btn-black-primary');
   }
 }
 </script>
 
-<?php require_once __DIR__ . '/includes/footer.php'; ?>
+<!-- Bootstrap 5 Bundle JS & App Engine -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

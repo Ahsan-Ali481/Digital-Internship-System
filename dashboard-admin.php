@@ -1,5 +1,5 @@
 <?php
-// dashboard-admin.php - High Contrast Administrator Portal
+// dashboard-admin.php - High Contrast Administrator Portal (NO FOOTER AS REQUESTED)
 $pageTitle = "Admin Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -18,17 +18,17 @@ $currentAdmin = $_SESSION['user'];
 <header class="bg-white border-bottom border-2 border-slate-200 py-3 sticky-top shadow-sm">
   <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
-      <a href="index.php" class="navbar-brand fw-extrabold text-dark-contrast mb-0 d-flex align-items-center gap-2">
-        <div class="bg-gradient-warning text-dark rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
+      <a href="index.php" class="navbar-brand fw-black text-black mb-0 d-flex align-items-center gap-2">
+        <div class="bg-warning text-dark rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
           <i class="fas fa-user-shield"></i>
         </div>
-        <span class="fs-4">Digital <span class="gradient-text-mask">Internship</span></span>
+        <span class="fs-4 text-black fw-black">Digital <span class="text-primary">Internship</span></span>
       </a>
-      <span class="badge badge-adv badge-adv-warning px-3 py-2">Administrator Portal</span>
+      <span class="badge badge-black-pill badge-amber px-3 py-2">Administrator Portal</span>
     </div>
     
     <div class="d-flex align-items-center gap-3">
-      <button onclick="toggleNotificationModal()" class="btn btn-adv-secondary btn-sm position-relative px-3">
+      <button onclick="toggleNotificationModal()" class="btn btn-black-secondary btn-sm position-relative px-3">
         <i class="fas fa-bell me-1 text-warning"></i> Notifications
         <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
       </button>
@@ -40,12 +40,12 @@ $currentAdmin = $_SESSION['user'];
   <div class="row g-4">
     <!-- Left Sidebar Navigation -->
     <div class="col-md-3 col-lg-2">
-      <div class="adv-card mb-4 p-3 text-center">
+      <div class="master-card-black mb-4 p-3 text-center">
         <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 56px; height: 56px; background-color: #fef3c7;">
           <i class="fas fa-user-shield fa-lg text-warning"></i>
         </div>
-        <h6 class="fw-extrabold mb-0 text-dark-contrast"><?php echo htmlspecialchars($currentAdmin['name']); ?></h6>
-        <small class="text-dark-contrast font-weight-bold extra-small d-block text-break"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
+        <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentAdmin['name']); ?></h6>
+        <small class="text-black font-weight-black extra-small d-block text-break"><?php echo htmlspecialchars($currentAdmin['email']); ?></small>
 
         <div class="pt-3 mt-3 border-top d-flex flex-column gap-2">
           <button onclick="switchAdminTab('users')" class="sidebar-link active w-100 text-start border-0" id="link-adm-users">
@@ -70,38 +70,38 @@ $currentAdmin = $_SESSION['user'];
       <!-- Stats Header Widgets -->
       <div class="row g-4 mb-4">
         <div class="col-md-3">
-          <div class="adv-card p-4 text-center">
-            <h3 class="font-weight-extrabold mb-1 text-primary fs-1" id="adm-stat-users">0</h3>
-            <p class="text-dark-contrast font-weight-extrabold mb-0 small">Total Users</p>
+          <div class="master-card-black p-4 text-center">
+            <h3 class="font-weight-black mb-1 text-primary fs-1" id="adm-stat-users">0</h3>
+            <p class="text-black font-weight-black mb-0 small">Total Users</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="adv-card p-4 text-center">
-            <h3 class="font-weight-extrabold mb-1 text-info fs-1" id="adm-stat-companies">0</h3>
-            <p class="text-dark-contrast font-weight-extrabold mb-0 small">Companies</p>
+          <div class="master-card-black p-4 text-center">
+            <h3 class="font-weight-black mb-1 text-info fs-1" id="adm-stat-companies">0</h3>
+            <p class="text-black font-weight-black mb-0 small">Companies</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="adv-card p-4 text-center">
-            <h3 class="font-weight-extrabold mb-1 text-success fs-1" id="adm-stat-internships">0</h3>
-            <p class="text-dark-contrast font-weight-extrabold mb-0 small">Internships</p>
+          <div class="master-card-black p-4 text-center">
+            <h3 class="font-weight-black mb-1 text-success fs-1" id="adm-stat-internships">0</h3>
+            <p class="text-black font-weight-black mb-0 small">Internships</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="adv-card p-4 text-center">
-            <h3 class="font-weight-extrabold mb-1 text-warning fs-1" id="adm-stat-apps">0</h3>
-            <p class="text-dark-contrast font-weight-extrabold mb-0 small">Applications</p>
+          <div class="master-card-black p-4 text-center">
+            <h3 class="font-weight-black mb-1 text-warning fs-1" id="adm-stat-apps">0</h3>
+            <p class="text-black font-weight-black mb-0 small">Applications</p>
           </div>
         </div>
       </div>
 
       <!-- TAB 1: USER MANAGEMENT -->
       <div id="tab-adm-users" class="tab-content">
-        <h3 class="fw-extrabold text-dark-contrast mb-3">Registered Users Directory</h3>
-        <div class="adv-card p-0 overflow-hidden">
+        <h3 class="fw-black text-black mb-3">Registered Users Directory</h3>
+        <div class="master-card-black p-0 overflow-hidden">
           <div class="table-responsive">
-            <table class="table-adv">
-              <thead>
+            <table class="table table-hover mb-0 align-middle">
+              <thead class="table-light">
                 <tr>
                   <th>User Name</th>
                   <th>Email Address</th>
@@ -120,7 +120,7 @@ $currentAdmin = $_SESSION['user'];
 
       <!-- TAB 2: COMPANY CERTIFICATES -->
       <div id="tab-adm-companies" class="tab-content d-none">
-        <h3 class="fw-extrabold text-dark-contrast mb-3">Company Certificate Verification</h3>
+        <h3 class="fw-black text-black mb-3">Company Certificate Verification</h3>
         <div id="company-cert-list" class="space-y-3">
           <!-- Dynamically populated -->
         </div>
@@ -128,31 +128,31 @@ $currentAdmin = $_SESSION['user'];
 
       <!-- TAB 3: CSV REPORTS GENERATOR -->
       <div id="tab-adm-reports" class="tab-content d-none">
-        <div class="adv-card p-4">
-          <h4 class="fw-extrabold text-dark-contrast mb-2">
+        <div class="master-card-black p-4">
+          <h4 class="fw-black text-black mb-2">
             <i class="fas fa-file-csv text-success me-2"></i> Export System Audit Reports (CSV Format)
           </h4>
-          <p class="text-dark-contrast font-weight-semibold small mb-4">Export structured CSV data for university audit and evaluation records.</p>
+          <p class="text-black font-weight-bold small mb-4">Export structured CSV data for university audit and evaluation records.</p>
           <div class="row g-3">
             <div class="col-md-4">
-              <div class="adv-card p-3 text-center">
-                <h5 class="fw-bold text-dark-contrast mb-1">Users Directory</h5>
-                <p class="extra-small text-dark-contrast font-weight-semibold mb-3">Export all registered users.</p>
-                <button onclick="DIS.exportCSV('users')" class="btn btn-adv-secondary btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Export Users CSV</button>
+              <div class="master-card-black p-3 text-center">
+                <h5 class="fw-black text-black mb-1">Users Directory</h5>
+                <p class="extra-small text-black font-weight-bold mb-3">Export all registered users.</p>
+                <button onclick="DIS.exportCSV('users')" class="btn btn-black-secondary btn-sm w-100 font-weight-black"><i class="fas fa-download me-1"></i> Export Users CSV</button>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="adv-card p-3 text-center">
-                <h5 class="fw-bold text-dark-contrast mb-1">Internship Postings</h5>
-                <p class="extra-small text-dark-contrast font-weight-semibold mb-3">Export all posted opportunities.</p>
-                <button onclick="DIS.exportCSV('internships')" class="btn btn-adv-secondary btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Export Postings CSV</button>
+              <div class="master-card-black p-3 text-center">
+                <h5 class="fw-black text-black mb-1">Internship Postings</h5>
+                <p class="extra-small text-black font-weight-bold mb-3">Export all posted opportunities.</p>
+                <button onclick="DIS.exportCSV('internships')" class="btn btn-black-secondary btn-sm w-100 font-weight-black"><i class="fas fa-download me-1"></i> Export Postings CSV</button>
               </div>
             </div>
             <div class="col-md-4">
-              <div class="adv-card p-3 text-center">
-                <h5 class="fw-bold text-dark-contrast mb-1">Applications Log</h5>
-                <p class="extra-small text-dark-contrast font-weight-semibold mb-3">Export application statuses.</p>
-                <button onclick="DIS.exportCSV('applications')" class="btn btn-adv-secondary btn-sm w-100 font-weight-bold"><i class="fas fa-download me-1"></i> Export Applications CSV</button>
+              <div class="master-card-black p-3 text-center">
+                <h5 class="fw-black text-black mb-1">Applications Log</h5>
+                <p class="extra-small text-black font-weight-bold mb-3">Export application statuses.</p>
+                <button onclick="DIS.exportCSV('applications')" class="btn btn-black-secondary btn-sm w-100 font-weight-black"><i class="fas fa-download me-1"></i> Export Applications CSV</button>
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@ $currentAdmin = $_SESSION['user'];
   <div class="modal-dialog">
     <div class="modal-content rounded-4 border-0">
       <div class="modal-header bg-white border-bottom border-2 py-3">
-        <h5 class="modal-title font-weight-extrabold text-dark-contrast"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
+        <h5 class="modal-title font-weight-black text-black"><i class="fas fa-bell text-warning me-2"></i> Notifications</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body p-4">
@@ -178,6 +178,7 @@ $currentAdmin = $_SESSION['user'];
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/app.js"></script>
 <script>
   const currentAdmin = DIS.checkAuth(['admin']);
@@ -216,18 +217,18 @@ $currentAdmin = $_SESSION['user'];
     tbody.innerHTML = '';
 
     users.forEach(u => {
-      let roleBadge = 'badge-adv-primary';
-      if (u.role === 'company') roleBadge = 'badge-adv-info';
-      if (u.role === 'supervisor') roleBadge = 'badge-adv-success';
-      if (u.role === 'admin') roleBadge = 'badge-adv-warning';
+      let roleBadge = 'badge-indigo';
+      if (u.role === 'company') roleBadge = 'badge-sky';
+      if (u.role === 'supervisor') roleBadge = 'badge-emerald';
+      if (u.role === 'admin') roleBadge = 'badge-amber';
 
       const isBlocked = u.status === 'blocked';
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><div class="fw-bold text-dark-contrast">${u.name}</div></td>
-        <td class="small text-dark-contrast font-weight-semibold">${u.email}</td>
-        <td><span class="badge badge-adv ${roleBadge}">${u.role}</span></td>
-        <td><span class="badge badge-adv ${isBlocked ? 'badge-adv-danger' : 'badge-adv-success'}">${isBlocked ? 'Blocked' : 'Active'}</span></td>
+        <td><div class="fw-black text-black">${u.name}</div></td>
+        <td class="small text-black font-weight-bold">${u.email}</td>
+        <td><span class="badge badge-black-pill ${roleBadge}">${u.role}</span></td>
+        <td><span class="badge badge-black-pill ${isBlocked ? 'badge-danger' : 'badge-emerald'}">${isBlocked ? 'Blocked' : 'Active'}</span></td>
         <td>
           <div class="btn-group btn-group-sm">
             <button onclick="toggleUserStatus('${u.id}')" class="btn btn-outline-${isBlocked ? 'success' : 'warning'}" title="${isBlocked ? 'Unblock' : 'Block'}">
@@ -269,24 +270,24 @@ $currentAdmin = $_SESSION['user'];
     container.innerHTML = '';
 
     if (companies.length === 0) {
-      container.innerHTML = '<div class="text-center py-4 text-dark-contrast font-weight-bold">No companies registered.</div>';
+      container.innerHTML = '<div class="text-center py-4 text-black font-weight-black">No companies registered.</div>';
       return;
     }
 
     companies.forEach(c => {
       const isVerified = c.verified === true;
       const card = document.createElement('div');
-      card.className = 'adv-card p-4 mb-3 d-flex justify-content-between align-items-center';
+      card.className = 'master-card-black p-4 mb-3 d-flex justify-content-between align-items-center';
       card.innerHTML = `
         <div>
-          <h5 class="fw-bold mb-1 text-dark-contrast">${c.companyName || c.name}</h5>
+          <h5 class="fw-black mb-1 text-black">${c.companyName || c.name}</h5>
           <small class="text-primary font-weight-bold"><i class="fas fa-envelope me-1"></i> ${c.email}</small>
         </div>
         <div>
           ${isVerified ? `
-            <span class="badge badge-adv badge-adv-success"><i class="fas fa-check-circle me-1"></i> Verified Certificate</span>
+            <span class="badge badge-black-pill badge-emerald"><i class="fas fa-check-circle me-1"></i> Verified Certificate</span>
           ` : `
-            <button onclick="verifyCompany('${c.id}')" class="btn btn-adv-primary btn-sm font-weight-bold">
+            <button onclick="verifyCompany('${c.id}')" class="btn btn-black-primary btn-sm font-weight-black">
               <i class="fas fa-certificate me-1"></i> Verify Certificate
             </button>
           `}
@@ -311,9 +312,9 @@ $currentAdmin = $_SESSION['user'];
     const notifs = DIS.getNotifications(currentAdmin.id);
     const container = document.getElementById('notif-list-container');
     if (!container) return;
-    container.innerHTML = notifs.length ? '' : '<div class="text-center text-dark-contrast font-weight-bold small py-3">No notifications</div>';
+    container.innerHTML = notifs.length ? '' : '<div class="text-center text-black font-weight-black small py-3">No notifications</div>';
     notifs.forEach(n => {
-      container.innerHTML += `<div class="p-3 border rounded-3 small bg-light mb-2 text-dark-contrast font-weight-semibold"><strong>${n.title}</strong><br>${n.message}</div>`;
+      container.innerHTML += `<div class="p-3 border rounded-3 small bg-light mb-2 text-black font-weight-bold"><strong>${n.title}</strong><br>${n.message}</div>`;
     });
   }
 
@@ -322,5 +323,5 @@ $currentAdmin = $_SESSION['user'];
     bsModal.show();
   }
 </script>
-
-<?php require_once __DIR__ . '/includes/footer.php'; ?>
+</body>
+</html>

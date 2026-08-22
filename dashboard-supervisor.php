@@ -1,5 +1,5 @@
 <?php
-// dashboard-supervisor.php - High Contrast Supervisor Portal
+// dashboard-supervisor.php - High Contrast Supervisor Portal (NO FOOTER AS REQUESTED)
 $pageTitle = "Supervisor Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -19,7 +19,7 @@ $currentSup = $_SESSION['user'];
   <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-3">
       <a href="index.php" class="navbar-brand fw-black text-black mb-0 d-flex align-items-center gap-2">
-        <div class="bg-gradient-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
+        <div class="bg-primary text-white rounded-3 p-2 d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
           <i class="fas fa-user-tie text-white"></i>
         </div>
         <span class="fs-4 text-black fw-black">Digital <span class="text-primary">Internship</span></span>
@@ -163,6 +163,7 @@ $currentSup = $_SESSION['user'];
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/app.js"></script>
 <script>
   const currentSup = DIS.checkAuth(['supervisor']);
@@ -341,5 +342,5 @@ $currentSup = $_SESSION['user'];
     bsModal.show();
   }
 </script>
-
-<?php require_once __DIR__ . '/includes/footer.php'; ?>
+</body>
+</html>

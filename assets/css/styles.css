@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Digital Internship System (DIS) - Executive Masterpiece Design Engine
+   Digital Internship System (DIS) - High Contrast Stylish Typography & Clean Canvas
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap');
 
 :root {
   --primary: #4f46e5;
@@ -28,7 +28,6 @@
   --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
   --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
   --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 25px 50px -12px rgba(79, 70, 229, 0.25);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -39,7 +38,7 @@
   --transition-smooth: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Force 100% Solid Black Text Readability Across Application */
+/* Force Solid Black Text Readability & Stylish Outfit Typography Across Application */
 *, *::before, *::after {
   box-sizing: border-box;
   color: var(--pure-black) !important;
@@ -48,17 +47,28 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', 'Outfit', system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-slate);
   color: var(--pure-black) !important;
-  letter-spacing: -0.018em;
-  line-height: 1.6;
+  letter-spacing: -0.022em;
+  line-height: 1.55;
   overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select, textarea {
+/* Stylish Typography Headlines */
+h1, h2, h3, h4, h5, h6 {
   color: var(--pure-black) !important;
   font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.22;
+}
+
+p, span, div, td, th, label, small, li, a, input, select, textarea {
+  color: var(--pure-black) !important;
+  font-weight: 700;
 }
 
 /* Classic Professional Navbar */
@@ -74,34 +84,31 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
 /* 100% Equal Distance Navigation Links */
 .nav-link-equal {
   font-weight: 800 !important;
-  font-size: 1.025rem !important;
+  font-size: 1.05rem !important;
   color: var(--pure-black) !important;
   padding: 8px 0 !important;
   transition: var(--transition-fast);
   white-space: nowrap;
-  position: relative;
+  letter-spacing: -0.02em;
 }
 
 .nav-link-equal:hover {
   color: var(--primary) !important;
-  transform: translateY(-1px);
 }
 
-/* High Visibility Hero Background Picture */
-.hero-picture-banner {
-  background: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.55)), url('../images/hero-bg.png') no-repeat center center / cover !important;
+/* Clean Light Hero Canvas (NO Background Image) */
+.hero-clean-canvas {
+  background-color: #ffffff !important;
   border-bottom: 2px solid var(--border-color);
   position: relative;
   overflow: hidden;
   padding-top: 4.5rem;
   padding-bottom: 4.5rem;
-  min-height: 540px;
 }
 
 /* 3D Black-Text Master Cards */
 .master-card-black {
-  background: rgba(255, 255, 255, 0.98) !important;
-  backdrop-filter: blur(12px);
+  background: #ffffff !important;
   border: 2px solid var(--border-color) !important;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
@@ -123,7 +130,7 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
 
 .master-card-black:hover {
   transform: translateY(-8px) scale(1.015);
-  box-shadow: var(--shadow-xl) !important;
+  box-shadow: var(--shadow-lg) !important;
   border-color: var(--primary) !important;
 }
 
@@ -141,6 +148,7 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
   padding: 12px 28px;
   box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
   transition: var(--transition-fast);
+  letter-spacing: -0.01em;
 }
 
 .btn-black-primary:hover {
@@ -157,6 +165,7 @@ h1, h2, h3, h4, h5, h6, p, span, div, td, th, label, small, li, a, input, select
   border-radius: var(--radius-md);
   padding: 10px 24px;
   transition: var(--transition-fast);
+  letter-spacing: -0.01em;
 }
 
 .btn-black-secondary:hover {

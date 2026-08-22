@@ -1,12 +1,12 @@
 <?php
-// index.php - High Visibility 4K Hero Background Landing Page
+// index.php - Clean Canvas Landing Page with Header, Body, & Footer
 $pageTitle = "Digital Internship System - Enterprise Career Platform";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 ?>
 
-<!-- SECTION 1: HERO BANNER -->
-<section id="home" class="hero-picture-banner py-5 position-relative overflow-hidden" style="background: linear-gradient(rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.55)), url('assets/images/hero-bg.png') no-repeat center center / cover !important;">
+<!-- SECTION 1: HERO BANNER (CLEAN WHITE CANVAS WITH STYLISH TYPOGRAPHY) -->
+<section id="home" class="hero-clean-canvas py-5 position-relative overflow-hidden">
   <div class="container py-5 text-center position-relative" style="z-index: 2;">
     
     <div class="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill bg-white border border-2 border-slate-300 text-black font-weight-black small mb-4 shadow-sm">
