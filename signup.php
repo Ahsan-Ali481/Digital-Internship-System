@@ -1,5 +1,5 @@
 <?php
-// signup.php - Registration Page with Account Role at Top
+// signup.php - Registration Page with Autofill Prevention on Full Name
 $pageTitle = "Register Account - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
           <?php endif; ?>
 
-          <form action="signup.php" method="POST" onsubmit="return handleSignupJS(event)">
+          <form action="signup.php" method="POST" autocomplete="off" onsubmit="return handleSignupJS(event)">
             
             <!-- 1. Account Role (AT THE VERY TOP) -->
             <div class="mb-3">
@@ -73,16 +73,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label class="form-label font-weight-black text-black">Company Name</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-building text-primary"></i></span>
-                <input type="text" name="companyName" id="reg-company-name" class="form-control py-2" placeholder="e.g. TechCorp Solutions">
+                <input type="text" name="companyName" id="reg-company-name" class="form-control py-2" autocomplete="organization" placeholder="e.g. TechCorp Solutions">
               </div>
             </div>
 
-            <!-- 2. Full Name -->
+            <!-- 2. Full Name (Explicit autocomplete="name" & off to prevent email autofill) -->
             <div class="mb-3">
               <label class="form-label font-weight-black text-black">Full Name</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
-                <input type="text" name="name" id="reg-name" class="form-control py-2" required placeholder="e.g. John Doe">
+                <input type="text" name="name" id="reg-name" class="form-control py-2" autocomplete="name" required placeholder="e.g. John Doe">
               </div>
             </div>
 
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label class="form-label font-weight-black text-black">Gmail Address</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-envelope text-primary"></i></span>
-                <input type="email" name="email" id="reg-email" class="form-control py-2" required placeholder="yourname@gmail.com">
+                <input type="email" name="email" id="reg-email" class="form-control py-2" autocomplete="email" required placeholder="yourname@gmail.com">
               </div>
             </div>
 
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label class="form-label font-weight-black text-black">Contact No</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-phone text-primary"></i></span>
-                <input type="tel" name="phone" id="reg-phone" class="form-control py-2" placeholder="+92 300 1234567">
+                <input type="tel" name="phone" id="reg-phone" class="form-control py-2" autocomplete="tel" placeholder="+92 300 1234567">
               </div>
             </div>
 
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label class="form-label font-weight-black text-black">Password</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
-                <input type="password" name="password" id="reg-pass" class="form-control py-2" required placeholder="Enter password">
+                <input type="password" name="password" id="reg-pass" class="form-control py-2" autocomplete="new-password" required placeholder="Enter password">
               </div>
             </div>
 
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label class="form-label font-weight-black text-black">Confirm Password</label>
               <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
-                <input type="password" name="confirm_password" id="reg-confirm-pass" class="form-control py-2" required placeholder="Re-enter password">
+                <input type="password" name="confirm_password" id="reg-confirm-pass" class="form-control py-2" autocomplete="new-password" required placeholder="Re-enter password">
               </div>
             </div>
 
