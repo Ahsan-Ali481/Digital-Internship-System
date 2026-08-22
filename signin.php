@@ -102,8 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <select name="role" id="login-role" class="form-select py-2" onchange="toggleForgotLink()">
                 <option value="student">Student Account</option>
                 <option value="company">Company HR / Manager</option>
-                <option value="supervisor">Workplace Supervisor</option>
-                <option value="admin">System Admin Account</option>
+                <option value="supervisor">Supervisor</option>
+                <option value="admin">System Admin</option>
               </select>
             </div>
 
