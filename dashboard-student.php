@@ -1,5 +1,5 @@
 <?php
-// dashboard-student.php - High Contrast Student Portal with Exact Dark Enterprise Sidebar Panel
+// dashboard-student.php - High Contrast Student Portal with 30% Flat Professional Sidebar (50% Pill Hover)
 $pageTitle = "Student Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -45,52 +45,50 @@ $currentStudent = $_SESSION['user'];
 <div class="container-fluid px-0">
   <div class="row g-0">
     
-    <!-- Left Dark Vertical Sidebar Panel (EXACT REPLICA OF REFERENCE SCREENSHOT) -->
-    <div class="col-md-3 col-lg-2 p-0" id="sidebar-wrapper">
-      <div class="sidebar-dark-panel">
+    <!-- 30% Left Professional Sidebar Container (NO BORDER BOX IN DEFAULT STATE) -->
+    <div class="col-md-4 col-lg-3 p-0" id="sidebar-wrapper">
+      <div class="professional-sidebar-panel">
         
-        <!-- Large Circular Avatar & Username -->
-        <div class="text-center pb-2 mb-2">
-          <div class="rounded-circle border border-2 border-secondary d-flex align-items-center justify-center mx-auto mb-2 shadow-sm" style="width: 80px; height: 80px; background-color: #1e293b;">
-            <i class="fas fa-user-graduate fa-2x text-light opacity-75"></i>
+        <!-- User Profile Header -->
+        <div class="text-center p-4 border-bottom">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3 shadow-sm" style="width: 76px; height: 76px; background-color: #e0e7ff; border: 3px solid #6366f1;">
+            <i class="fas fa-user-graduate fa-2x text-primary"></i>
           </div>
-          <h6 class="fw-bold mb-1 text-white fs-5"><?php echo htmlspecialchars(strtolower(explode(' ', $currentStudent['name'])[0])); ?></h6>
-          <small class="text-secondary extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentStudent['email']); ?></small>
+          <h5 class="fw-black text-black mb-1"><?php echo htmlspecialchars($currentStudent['name']); ?></h5>
+          <small class="text-black font-weight-black extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentStudent['email']); ?></small>
 
-          <!-- Outlined Profile Action Pill Buttons -->
+          <!-- Action Buttons -->
           <div class="d-flex flex-column gap-2 mb-2">
-            <button onclick="switchStudentTab('reports')" class="btn-sidebar-outline">
-              <i class="fas fa-user-edit"></i> Edit Profile
+            <button onclick="switchStudentTab('reports')" class="btn-prof-action">
+              <i class="fas fa-user-edit me-1"></i> Edit Profile
             </button>
-            <button onclick="switchStudentTab('reports')" class="btn-sidebar-outline">
-              <i class="fas fa-file-upload"></i> Upload Resume
+            <button onclick="switchStudentTab('reports')" class="btn-prof-action">
+              <i class="fas fa-file-upload me-1"></i> Upload Resume
             </button>
           </div>
-          <small class="text-secondary extra-small font-weight-bold d-block mt-2">
-            <i class="fas fa-exclamation-circle me-1 text-warning"></i> Active Student Profile
-          </small>
+          <span class="badge badge-black-pill badge-indigo py-1 px-3 extra-small">
+            <i class="fas fa-check-circle me-1 text-primary"></i> Active Student Profile
+          </span>
         </div>
 
-        <hr class="border-secondary opacity-25 my-2">
-
-        <!-- Scrollable Vertical Modules -->
-        <div class="sidebar-dark-scroll d-flex flex-column gap-2 mt-1">
-          <button onclick="switchStudentTab('browse')" class="sidebar-dark-link active" id="link-std-browse">
+        <!-- 100% Flat Module Items (No Border Box lines in default state) -->
+        <div class="prof-sidebar-scroll p-3 d-flex flex-column gap-2">
+          <button onclick="switchStudentTab('browse')" class="sidebar-pill-link active" id="link-std-browse">
             <i class="fas fa-chart-line"></i> <span>Dashboard</span>
           </button>
-          <button onclick="switchStudentTab('tasks')" class="sidebar-dark-link" id="link-std-tasks">
-            <i class="fas fa-list-ul"></i> <span>My Tasks</span>
+          <button onclick="switchStudentTab('tasks')" class="sidebar-pill-link" id="link-std-tasks">
+            <i class="fas fa-tasks"></i> <span>My Tasks</span>
           </button>
-          <button onclick="switchStudentTab('reports')" class="sidebar-dark-link" id="link-std-reports">
-            <i class="fas fa-upload"></i> <span>Upload Progress</span>
+          <button onclick="switchStudentTab('reports')" class="sidebar-pill-link" id="link-std-reports">
+            <i class="fas fa-file-alt"></i> <span>Upload Progress</span>
           </button>
-          <button onclick="switchStudentTab('apps')" class="sidebar-dark-link" id="link-std-apps">
-            <i class="fas fa-flag"></i> <span>Applications</span>
+          <button onclick="switchStudentTab('apps')" class="sidebar-pill-link" id="link-std-apps">
+            <i class="fas fa-paper-plane"></i> <span>Applications</span>
           </button>
 
-          <hr class="border-secondary opacity-25 my-2">
+          <hr class="my-2 opacity-25">
 
-          <a href="logout.php" class="sidebar-dark-link text-danger text-decoration-none">
+          <a href="logout.php" class="sidebar-pill-link text-danger text-decoration-none">
             <i class="fas fa-sign-out-alt text-danger"></i> <span class="text-danger">Logout</span>
           </a>
         </div>
@@ -98,8 +96,8 @@ $currentStudent = $_SESSION['user'];
       </div>
     </div>
 
-    <!-- Main Content Area -->
-    <div class="col-md-9 col-lg-10 p-4" id="main-content-col">
+    <!-- 70% Right Main Content Area -->
+    <div class="col-md-8 col-lg-9 p-4" id="main-content-col">
       
       <!-- TAB 1: BROWSE POSITIONS -->
       <div id="tab-std-browse" class="tab-content">
@@ -255,14 +253,14 @@ $currentStudent = $_SESSION['user'];
       sidebarWrapper.classList.toggle('d-none');
       if (sidebarWrapper.classList.contains('d-none')) {
         if (mainContentCol) {
-          mainContentCol.classList.remove('col-md-9', 'col-lg-10');
+          mainContentCol.classList.remove('col-md-8', 'col-lg-9');
           mainContentCol.classList.add('col-12');
         }
         if (menuIcon) menuIcon.className = 'fas fa-bars text-primary';
       } else {
         if (mainContentCol) {
           mainContentCol.classList.remove('col-12');
-          mainContentCol.classList.add('col-md-9', 'col-lg-10');
+          mainContentCol.classList.add('col-md-8', 'col-lg-9');
         }
         if (menuIcon) menuIcon.className = 'fas fa-times text-danger';
       }
@@ -271,7 +269,7 @@ $currentStudent = $_SESSION['user'];
 
   function switchStudentTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.sidebar-dark-link').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar-pill-link').forEach(el => el.classList.remove('active'));
 
     document.getElementById(`tab-std-${tabId}`).classList.remove('d-none');
     document.getElementById(`link-std-${tabId}`).classList.add('active');
