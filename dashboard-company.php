@@ -1,5 +1,5 @@
 <?php
-// dashboard-company.php - High Contrast Company HR Portal with Collapsible & Scrollable Sidebar
+// dashboard-company.php - High Contrast Company HR Portal with Flat Classic Vertical Sidebar Panel
 $pageTitle = "Company Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -42,38 +42,42 @@ $currentCompany = $_SESSION['user'];
   </div>
 </header>
 
-<div class="container-fluid px-4 py-4">
-  <div class="row g-4">
+<div class="container-fluid px-0">
+  <div class="row g-0">
     
-    <!-- Collapsible & Scrollable Left Sidebar Navigation -->
+    <!-- Flat Classic Vertical Sidebar Panel (NO CARD BOX, NO BLINK) -->
     <div class="col-md-3 col-lg-2" id="sidebar-wrapper">
-      <div class="master-card-black mb-4 p-3 text-center">
-        <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 56px; height: 56px; background-color: #e0f2fe;">
-          <i class="fas fa-user-tie fa-lg text-info"></i>
+      <div class="vertical-sidebar-panel">
+        
+        <div class="text-center pb-3 mb-3 border-bottom">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 52px; height: 52px; background-color: #e0f2fe;">
+            <i class="fas fa-user-tie fa-lg text-info"></i>
+          </div>
+          <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentCompany['companyName']); ?></h6>
+          <small class="text-black font-weight-black extra-small d-block text-break"><?php echo htmlspecialchars($currentCompany['email']); ?></small>
         </div>
-        <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentCompany['companyName']); ?></h6>
-        <small class="text-black font-weight-black extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentCompany['email']); ?></small>
 
-        <!-- Scrollable Sidebar Container -->
-        <div class="sidebar-scrollable-container pt-2 border-top d-flex flex-column gap-2">
-          <button onclick="switchCompanyTab('postings')" class="sidebar-link active w-100 text-start border-0" id="link-cmp-postings">
-            <i class="fas fa-briefcase"></i> <span>Manage Opportunities</span>
+        <!-- Vertical Scroller Container -->
+        <div class="vertical-sidebar-scroll d-flex flex-column gap-1">
+          <button onclick="switchCompanyTab('postings')" class="sidebar-link-flat active" id="link-cmp-postings">
+            <i class="fas fa-briefcase me-2 text-primary"></i> <span>Manage Opportunities</span>
           </button>
-          <button onclick="switchCompanyTab('applicants')" class="sidebar-link w-100 text-start border-0" id="link-cmp-applicants">
-            <i class="fas fa-users"></i> <span>Review Applicants</span>
+          <button onclick="switchCompanyTab('applicants')" class="sidebar-link-flat" id="link-cmp-applicants">
+            <i class="fas fa-users me-2 text-primary"></i> <span>Review Applicants</span>
           </button>
-          <button onclick="switchCompanyTab('interviews')" class="sidebar-link w-100 text-start border-0" id="link-cmp-interviews">
-            <i class="fas fa-calendar-alt"></i> <span>Schedule Interviews</span>
+          <button onclick="switchCompanyTab('interviews')" class="sidebar-link-flat" id="link-cmp-interviews">
+            <i class="fas fa-calendar-alt me-2 text-primary"></i> <span>Schedule Interviews</span>
           </button>
-          <a href="logout.php" class="sidebar-link text-danger w-100 text-start text-decoration-none">
-            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+          <a href="logout.php" class="sidebar-link-flat text-danger text-decoration-none mt-2">
+            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span>Logout</span>
           </a>
         </div>
+
       </div>
     </div>
 
     <!-- Main Content Area -->
-    <div class="col-md-9 col-lg-10" id="main-content-col">
+    <div class="col-md-9 col-lg-10 p-4" id="main-content-col">
       
       <!-- TAB 1: MANAGE POSTINGS -->
       <div id="tab-cmp-postings" class="tab-content">
@@ -265,7 +269,7 @@ $currentCompany = $_SESSION['user'];
 
   function switchCompanyTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar-link-flat').forEach(el => el.classList.remove('active'));
 
     document.getElementById(`tab-cmp-${tabId}`).classList.remove('d-none');
     document.getElementById(`link-cmp-${tabId}`).classList.add('active');

@@ -1,5 +1,5 @@
 <?php
-// dashboard-supervisor.php - High Contrast Supervisor Portal with Collapsible & Scrollable Sidebar
+// dashboard-supervisor.php - High Contrast Supervisor Portal with Flat Classic Vertical Sidebar Panel
 $pageTitle = "Supervisor Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -42,34 +42,39 @@ $currentSup = $_SESSION['user'];
   </div>
 </header>
 
-<div class="container-fluid px-4 py-4">
-  <div class="row g-4">
+<div class="container-fluid px-0">
+  <div class="row g-0">
     
-    <!-- Collapsible & Scrollable Left Sidebar Navigation -->
+    <!-- Flat Classic Vertical Sidebar Panel (NO CARD BOX, NO BLINK) -->
     <div class="col-md-3 col-lg-2" id="sidebar-wrapper">
-      <div class="master-card-black mb-4 p-3 text-center">
-        <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 56px; height: 56px; background-color: #d1fae5;">
-          <i class="fas fa-user-check fa-lg text-success"></i>
+      <div class="vertical-sidebar-panel">
+        
+        <div class="text-center pb-3 mb-3 border-bottom">
+          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-2 shadow-sm" style="width: 52px; height: 52px; background-color: #d1fae5;">
+            <i class="fas fa-user-check fa-lg text-success"></i>
+          </div>
+          <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentSup['name']); ?></h6>
+          <small class="text-black font-weight-black extra-small d-block text-break"><?php echo htmlspecialchars($currentSup['email']); ?></small>
         </div>
-        <h6 class="fw-black mb-0 text-black"><?php echo htmlspecialchars($currentSup['name']); ?></h6>
-        <small class="text-black font-weight-black extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentSup['email']); ?></small>
 
-        <!-- Scrollable Sidebar Container -->
-        <div class="sidebar-scrollable-container pt-2 border-top d-flex flex-column gap-2">
-          <button onclick="switchSupTab('tasks')" class="sidebar-link active w-100 text-start border-0" id="link-sup-tasks">
-            <i class="fas fa-tasks"></i> <span>Assign Workplace Tasks</span>
+        <!-- Vertical Scroller Container -->
+        <div class="vertical-sidebar-scroll d-flex flex-column gap-1">
+          <button onclick="switchSupTab('tasks')" class="sidebar-link-flat active" id="link-sup-tasks">
+            <i class="fas fa-tasks me-2 text-primary"></i> <span>Assign Workplace Tasks</span>
           </button>
-          <button onclick="switchSupTab('reports')" class="sidebar-link w-100 text-start border-0" id="link-sup-reports">
-            <i class="fas fa-clipboard-check"></i> <span>Review Student Logs</span>
-          </button>          <a href="logout.php" class="sidebar-link text-danger w-100 text-start text-decoration-none">
-            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+          <button onclick="switchSupTab('reports')" class="sidebar-link-flat" id="link-sup-reports">
+            <i class="fas fa-clipboard-check me-2 text-primary"></i> <span>Review Student Logs</span>
+          </button>
+          <a href="logout.php" class="sidebar-link-flat text-danger text-decoration-none mt-2">
+            <i class="fas fa-sign-out-alt me-2 text-danger"></i> <span>Logout</span>
           </a>
         </div>
+
       </div>
     </div>
 
     <!-- Main Content Area -->
-    <div class="col-md-9 col-lg-10" id="main-content-col">
+    <div class="col-md-9 col-lg-10 p-4" id="main-content-col">
       
       <!-- TAB 1: ASSIGN WORKPLACE TASKS -->
       <div id="tab-sup-tasks" class="tab-content">
@@ -220,7 +225,7 @@ $currentSup = $_SESSION['user'];
 
   function switchSupTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('d-none'));
-    document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar-link-flat').forEach(el => el.classList.remove('active'));
 
     document.getElementById(`tab-sup-${tabId}`).classList.remove('d-none');
     document.getElementById(`link-sup-${tabId}`).classList.add('active');
