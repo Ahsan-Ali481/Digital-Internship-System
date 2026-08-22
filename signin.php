@@ -1,5 +1,5 @@
 <?php
-// signin.php - Unified User Sign In Page (NO FOOTER AS REQUESTED)
+// signin.php - Unified User Sign In Page (NO FOOTER & NO DEMO BUTTONS)
 $pageTitle = "Sign In - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -131,20 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </button>
           </form>
 
-          <hr class="my-4">
-
-          <div class="text-center">
-            <p class="text-black small font-weight-black mb-2">Pre-Configured Demo Accounts:</p>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-              <button onclick="fillDemo('supervisor123@gmail.com', '123456789', 'supervisor')" class="btn btn-outline-success btn-sm font-weight-black">
-                Supervisor Demo
-              </button>
-              <button onclick="fillDemo('admin123@gmail.com', '12345678', 'admin')" class="btn btn-outline-warning btn-sm text-black font-weight-black">
-                Admin Demo
-              </button>
-            </div>
-          </div>
-
         </div>
         <div class="card-footer bg-light text-center py-3 border-top">
           <span class="text-black small font-weight-bold">Don't have an account yet?</span>
@@ -156,12 +142,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <script>
-function fillDemo(email, pass, role) {
-  document.getElementById('login-email').value = email;
-  document.getElementById('login-password').value = pass;
-  document.getElementById('login-role').value = role;
-}
-
 function handleSigninJS(e) {
   const email = document.getElementById('login-email').value;
   const pass = document.getElementById('login-password').value;
