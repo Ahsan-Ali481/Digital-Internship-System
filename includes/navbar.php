@@ -1,5 +1,5 @@
 <?php
-// includes/navbar.php - Classic Professional Navbar (100% Equal Distance)
+// includes/navbar.php - Clean Professional Navbar (Equal Distance, Single Action Button)
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -35,18 +35,15 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
         </li>
       </ul>
       
-      <!-- Clean Action Buttons -->
+      <!-- Clean Action Button -->
       <div class="d-flex align-items-center gap-3 ms-lg-3">
         <?php if ($user): ?>
           <a href="logout.php" class="btn btn-black-secondary btn-sm px-4 font-weight-bold">
             <i class="fas fa-sign-out-alt me-1"></i> Logout
           </a>
         <?php else: ?>
-          <a href="signin.php" class="btn btn-black-secondary btn-sm px-4 font-weight-bold me-1">
+          <a href="signin.php" class="btn btn-black-primary btn-sm px-4 font-weight-bold">
             <i class="fas fa-sign-in-alt me-1"></i> Sign In
-          </a>
-          <a href="signup.php" class="btn btn-black-primary btn-sm px-4 font-weight-bold">
-            <i class="fas fa-user-plus me-1"></i> Get Started
           </a>
         <?php endif; ?>
       </div>
