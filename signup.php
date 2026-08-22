@@ -1,5 +1,5 @@
 <?php
-// signup.php - Registration Page with Full Name, Gmail, Contact No, Password, Confirm Password
+// signup.php - Registration Page with Account Role at Top
 $pageTitle = "Register Account - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -8,13 +8,13 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $role = trim($_POST['role'] ?? 'student');
+    $companyName = trim($_POST['companyName'] ?? '');
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $password = trim($_POST['password'] ?? '');
     $confirmPassword = trim($_POST['confirm_password'] ?? '');
-    $role = trim($_POST['role'] ?? 'student');
-    $companyName = trim($_POST['companyName'] ?? '');
 
     if (empty($name) || empty($email) || empty($password) || empty($confirmPassword)) {
         $error = "Please fill in all required fields.";
@@ -59,52 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
           <form action="signup.php" method="POST" onsubmit="return handleSignupJS(event)">
             
-            <!-- 1. Full Name -->
-            <div class="mb-3">
-              <label class="form-label font-weight-black text-black">Full Name</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
-                <input type="text" name="name" id="reg-name" class="form-control py-2" required placeholder="e.g. John Doe">
-              </div>
-            </div>
-
-            <!-- 2. Gmail Address -->
-            <div class="mb-3">
-              <label class="form-label font-weight-black text-black">Gmail Address</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-envelope text-primary"></i></span>
-                <input type="email" name="email" id="reg-email" class="form-control py-2" required placeholder="yourname@gmail.com">
-              </div>
-            </div>
-
-            <!-- 3. Contact No -->
-            <div class="mb-3">
-              <label class="form-label font-weight-black text-black">Contact No</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-phone text-primary"></i></span>
-                <input type="tel" name="phone" id="reg-phone" class="form-control py-2" placeholder="+92 300 1234567">
-              </div>
-            </div>
-
-            <!-- 4. Password -->
-            <div class="mb-3">
-              <label class="form-label font-weight-black text-black">Password</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
-                <input type="password" name="password" id="reg-pass" class="form-control py-2" required placeholder="Enter password">
-              </div>
-            </div>
-
-            <!-- 5. Confirm Password -->
-            <div class="mb-3">
-              <label class="form-label font-weight-black text-black">Confirm Password</label>
-              <div class="input-group">
-                <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
-                <input type="password" name="confirm_password" id="reg-confirm-pass" class="form-control py-2" required placeholder="Re-enter password">
-              </div>
-            </div>
-
-            <!-- 6. Account Role -->
+            <!-- 1. Account Role (AT THE VERY TOP) -->
             <div class="mb-3">
               <label class="form-label font-weight-black text-black">Account Role</label>
               <select name="role" id="reg-role" onchange="toggleCompanyFields()" class="form-select py-2">
@@ -113,14 +68,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </select>
             </div>
 
-            <!-- 7. Company Name (If HR) -->
-            <div id="company-fields" class="d-none">
-              <div class="mb-3">
-                <label class="form-label font-weight-black text-black">Company Name</label>
-                <div class="input-group">
-                  <span class="input-group-text bg-light"><i class="fas fa-building text-primary"></i></span>
-                  <input type="text" name="companyName" id="reg-company-name" class="form-control py-2" placeholder="e.g. TechCorp Solutions">
-                </div>
+            <!-- Company Name (If HR Selected) -->
+            <div id="company-fields" class="d-none mb-3">
+              <label class="form-label font-weight-black text-black">Company Name</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-building text-primary"></i></span>
+                <input type="text" name="companyName" id="reg-company-name" class="form-control py-2" placeholder="e.g. TechCorp Solutions">
+              </div>
+            </div>
+
+            <!-- 2. Full Name -->
+            <div class="mb-3">
+              <label class="form-label font-weight-black text-black">Full Name</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
+                <input type="text" name="name" id="reg-name" class="form-control py-2" required placeholder="e.g. John Doe">
+              </div>
+            </div>
+
+            <!-- 3. Gmail Address -->
+            <div class="mb-3">
+              <label class="form-label font-weight-black text-black">Gmail Address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-envelope text-primary"></i></span>
+                <input type="email" name="email" id="reg-email" class="form-control py-2" required placeholder="yourname@gmail.com">
+              </div>
+            </div>
+
+            <!-- 4. Contact No -->
+            <div class="mb-3">
+              <label class="form-label font-weight-black text-black">Contact No</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-phone text-primary"></i></span>
+                <input type="tel" name="phone" id="reg-phone" class="form-control py-2" placeholder="+92 300 1234567">
+              </div>
+            </div>
+
+            <!-- 5. Password -->
+            <div class="mb-3">
+              <label class="form-label font-weight-black text-black">Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
+                <input type="password" name="password" id="reg-pass" class="form-control py-2" required placeholder="Enter password">
+              </div>
+            </div>
+
+            <!-- 6. Confirm Password -->
+            <div class="mb-3">
+              <label class="form-label font-weight-black text-black">Confirm Password</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light"><i class="fas fa-lock text-primary"></i></span>
+                <input type="password" name="confirm_password" id="reg-confirm-pass" class="form-control py-2" required placeholder="Re-enter password">
               </div>
             </div>
 
@@ -151,13 +149,13 @@ function toggleCompanyFields() {
 }
 
 function handleSignupJS(e) {
+  const role = document.getElementById('reg-role').value;
+  const compName = document.getElementById('reg-company-name').value;
   const name = document.getElementById('reg-name').value;
   const email = document.getElementById('reg-email').value;
   const phone = document.getElementById('reg-phone').value;
   const pass = document.getElementById('reg-pass').value;
   const confirmPass = document.getElementById('reg-confirm-pass').value;
-  const role = document.getElementById('reg-role').value;
-  const compName = document.getElementById('reg-company-name').value;
 
   if (pass !== confirmPass) {
     if (typeof DIS !== 'undefined') {
