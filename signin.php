@@ -1,5 +1,5 @@
 <?php
-// signin.php - Unified User Sign In Page (NO ROLE DROPDOWN & NO FOOTER)
+// signin.php - Unified User Sign In Page with Actor Role Selection & Dynamic Forgot Password Toggle
 $pageTitle = "Sign In - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
@@ -22,6 +22,7 @@ if (isset($_GET['password_reset'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = trim($_POST['password'] ?? '');
+    $role = trim($_POST['role'] ?? 'student');
 
     if (empty($email) || empty($password)) {
         $error = "Please enter both Email and Password.";
@@ -55,20 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (!$userFound) {
-            $detectedRole = 'student';
-            if (strpos(strtolower($email), 'hr') !== false || strpos(strtolower($email), 'company') !== false) {
-                $detectedRole = 'company';
-            } elseif (strpos(strtolower($email), 'sup') !== false) {
-                $detectedRole = 'supervisor';
-            } elseif (strpos(strtolower($email), 'admin') !== false) {
-                $detectedRole = 'admin';
-            }
-
             $userFound = [
                 'id' => 'usr_' . time(),
                 'name' => explode('@', $email)[0],
                 'email' => $email,
-                'role' => $detectedRole
+                'role' => $role
             ];
         }
 
@@ -103,6 +95,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <?php endif; ?>
 
           <form action="signin.php" method="POST" onsubmit="handleSigninJS(event)">
+            
+            <!-- Select Actor / Role Dropdown -->
+            <div class="mb-3">
+              <label class="form-label font-weight-black text-black">Select Actor / Role</label>
+              <select name="role" id="login-role" class="form-select py-2" onchange="toggleForgotLink()">
+                <option value="student">Student Account</option>
+                <option value="company">Company HR / Manager</option>
+                <option value="supervisor">Workplace Supervisor</option>
+                <option value="admin">System Admin Account</option>
+              </select>
+            </div>
+
             <div class="mb-3">
               <label class="form-label font-weight-black text-black">Gmail / Email Address</label>
               <div class="input-group">
@@ -114,7 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-4">
               <div class="d-flex justify-content-between align-items-center mb-1">
                 <label class="form-label font-weight-black text-black mb-0">Password</label>
-                <a href="forgot-password.php" class="small text-primary font-weight-black text-decoration-none">
+                <!-- Forgot Password Link (Hidden when Admin is selected) -->
+                <a href="forgot-password.php" id="forgot-password-link" class="small text-primary font-weight-black text-decoration-none">
                   Forgot Password?
                 </a>
               </div>
@@ -140,23 +145,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <script>
+function toggleForgotLink() {
+  const role = document.getElementById('login-role').value;
+  const forgotLink = document.getElementById('forgot-password-link');
+  if (role === 'admin') {
+    forgotLink.classList.add('d-none');
+  } else {
+    forgotLink.classList.remove('d-none');
+  }
+}
+
 function handleSigninJS(e) {
   const email = document.getElementById('login-email').value;
   const pass = document.getElementById('login-password').value;
+  const role = document.getElementById('login-role').value;
 
   const users = DIS.getUsers();
   let user = users.find(u => u.email === email);
   if (!user) {
-    let detectedRole = 'student';
-    if (email.toLowerCase().includes('hr') || email.toLowerCase().includes('company')) detectedRole = 'company';
-    else if (email.toLowerCase().includes('sup')) detectedRole = 'supervisor';
-    else if (email.toLowerCase().includes('admin')) detectedRole = 'admin';
-
     user = {
       id: 'usr_' + Date.now(),
       name: email.split('@')[0],
       email: email,
-      role: detectedRole,
+      role: role,
       status: 'approved'
     };
     users.push(user);
