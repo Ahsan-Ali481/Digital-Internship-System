@@ -63,9 +63,6 @@ $currentStudent = $_SESSION['user'];
             <button onclick="openEditProfileModal()" class="btn-prof-action">
               <i class="fas fa-user-edit me-1"></i> Edit Profile
             </button>
-            <button onclick="openEditProfileModal()" class="btn-prof-action">
-              <i class="fas fa-file-upload me-1"></i> Upload Resume
-            </button>
           </div>
           <span class="badge badge-black-pill badge-indigo py-1 px-3 extra-small">
             <i class="fas fa-check-circle me-1 text-primary"></i> Active Student Profile
