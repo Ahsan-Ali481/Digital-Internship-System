@@ -152,8 +152,14 @@ $currentStudent = $_SESSION['user'];
                 <input type="number" id="rep-week" min="1" max="16" required class="form-control py-2" placeholder="e.g. 1">
               </div>
               <div class="col-md-6">
-                <label class="form-label font-weight-black text-black">Attach Report Document (PDF/Doc)</label>
-                <input type="file" id="rep-file" accept=".pdf,.doc,.docx" required class="form-control py-2">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <label class="form-label font-weight-black text-black mb-0">Attach Report Document (PDF/Doc)</label>
+                  <span class="badge bg-light text-primary border border-primary font-weight-bold">
+                    <i class="fas fa-info-circle me-1"></i> Max Size: 5 MB
+                  </span>
+                </div>
+                <input type="file" id="rep-file" accept=".pdf,.doc,.docx" required class="form-control py-2" onchange="validateReportFileSize(event)">
+                <small id="rep-file-error" class="text-danger font-weight-bold mt-1 d-none"></small>
               </div>
             </div>
             <div class="mb-3">
@@ -256,8 +262,14 @@ $currentStudent = $_SESSION['user'];
             <input type="text" id="apply-company" readonly class="form-control bg-light py-2">
           </div>
           <div class="mb-3">
-            <label class="form-label font-weight-black text-black">Upload CV / Resume (PDF)</label>
-            <input type="file" id="apply-cv" accept=".pdf" required class="form-control py-2">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <label class="form-label font-weight-black text-black mb-0">Upload CV / Resume (PDF)</label>
+              <span class="badge bg-light text-primary border border-primary font-weight-bold">
+                <i class="fas fa-info-circle me-1"></i> Max Size: 5 MB (PDF)
+              </span>
+            </div>
+            <input type="file" id="apply-cv" accept=".pdf" required class="form-control py-2" onchange="validateCvFileSize(event)">
+            <small id="apply-cv-error" class="text-danger font-weight-bold mt-1 d-none"></small>
           </div>
         </div>
         <div class="modal-footer border-0">
@@ -674,6 +686,50 @@ $currentStudent = $_SESSION['user'];
   function toggleNotificationModal() {
     const bsModal = new bootstrap.Modal(document.getElementById('notifModal'));
     bsModal.show();
+  }
+
+  function validateCvFileSize(e) {
+    const file = e.target.files[0];
+    const errorEl = document.getElementById('apply-cv-error');
+    if (!file) return;
+
+    const maxSizeBytes = 5 * 1024 * 1024; // 5 MB
+    if (file.size > maxSizeBytes) {
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      e.target.value = '';
+      if (errorEl) {
+        errorEl.innerText = `Selected file is ${fileSizeMB} MB. Maximum allowed size is 5 MB. Please select a smaller PDF file.`;
+        errorEl.classList.remove('d-none');
+      }
+      DIS.showToast(`File size (${fileSizeMB} MB) exceeds maximum limit of 5 MB!`, 'error');
+    } else {
+      if (errorEl) {
+        errorEl.innerText = '';
+        errorEl.classList.add('d-none');
+      }
+    }
+  }
+
+  function validateReportFileSize(e) {
+    const file = e.target.files[0];
+    const errorEl = document.getElementById('rep-file-error');
+    if (!file) return;
+
+    const maxSizeBytes = 5 * 1024 * 1024; // 5 MB
+    if (file.size > maxSizeBytes) {
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      e.target.value = '';
+      if (errorEl) {
+        errorEl.innerText = `Selected file is ${fileSizeMB} MB. Maximum allowed size is 5 MB. Please select a smaller document.`;
+        errorEl.classList.remove('d-none');
+      }
+      DIS.showToast(`File size (${fileSizeMB} MB) exceeds maximum limit of 5 MB!`, 'error');
+    } else {
+      if (errorEl) {
+        errorEl.innerText = '';
+        errorEl.classList.add('d-none');
+      }
+    }
   }
 </script>
 </body>
