@@ -1,5 +1,5 @@
 <?php
-// dashboard-student.php - High Contrast Student Portal with 30% Flat Professional Sidebar (50% Pill Hover)
+// dashboard-student.php - High Contrast Student Portal with Edit Profile Feature
 $pageTitle = "Student Portal - Digital Internship System";
 require_once __DIR__ . '/includes/header.php';
 
@@ -8,6 +8,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'student') {
         'id' => 'usr_std1',
         'name' => 'Ahmed Hassan',
         'email' => 'ahmed123@gmail.com',
+        'phone' => '+92 300 1234567',
         'role' => 'student',
         'university' => 'National University of Sciences & Technology'
     ];
@@ -45,24 +46,24 @@ $currentStudent = $_SESSION['user'];
 <div class="container-fluid px-0">
   <div class="row g-0">
     
-    <!-- 30% Left Professional Sidebar Container (NO BORDER BOX IN DEFAULT STATE) -->
+    <!-- 30% Left Professional Sidebar Container -->
     <div class="col-md-4 col-lg-3 p-0" id="sidebar-wrapper">
       <div class="professional-sidebar-panel">
         
         <!-- User Profile Header -->
         <div class="text-center p-4 border-bottom">
-          <div class="rounded-circle mx-auto d-flex align-items-center justify-center mb-3 shadow-sm" style="width: 76px; height: 76px; background-color: #e0e7ff; border: 3px solid #6366f1;">
+          <div id="sidebar-avatar-container" class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3 shadow-sm overflow-hidden" style="width: 76px; height: 76px; background-color: #e0e7ff; border: 3px solid #6366f1;">
             <i class="fas fa-user-graduate fa-2x text-primary"></i>
           </div>
-          <h5 class="fw-black text-black mb-1"><?php echo htmlspecialchars($currentStudent['name']); ?></h5>
-          <small class="text-black font-weight-black extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentStudent['email']); ?></small>
+          <h5 id="sidebar-student-name" class="fw-black text-black mb-1"><?php echo htmlspecialchars($currentStudent['name']); ?></h5>
+          <small id="sidebar-student-email" class="text-black font-weight-black extra-small d-block text-break mb-3"><?php echo htmlspecialchars($currentStudent['email']); ?></small>
 
           <!-- Action Buttons -->
           <div class="d-flex flex-column gap-2 mb-2">
-            <button onclick="switchStudentTab('reports')" class="btn-prof-action">
+            <button onclick="openEditProfileModal()" class="btn-prof-action">
               <i class="fas fa-user-edit me-1"></i> Edit Profile
             </button>
-            <button onclick="switchStudentTab('reports')" class="btn-prof-action">
+            <button onclick="openEditProfileModal()" class="btn-prof-action">
               <i class="fas fa-file-upload me-1"></i> Upload Resume
             </button>
           </div>
@@ -71,7 +72,7 @@ $currentStudent = $_SESSION['user'];
           </span>
         </div>
 
-        <!-- 100% Flat Module Items (No Border Box lines in default state) -->
+        <!-- 100% Flat Module Items -->
         <div class="prof-sidebar-scroll p-3 d-flex flex-column gap-2">
           <button onclick="switchStudentTab('browse')" class="sidebar-pill-link active" id="link-std-browse">
             <i class="fas fa-chart-line"></i> <span>Dashboard</span>
@@ -182,6 +183,62 @@ $currentStudent = $_SESSION['user'];
   </div>
 </div>
 
+<!-- EDIT STUDENT PROFILE MODAL -->
+<div class="modal fade" id="editProfileModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-4 border-0">
+      <div class="modal-header bg-primary text-white border-0 py-3">
+        <h5 class="modal-title font-weight-black text-white">
+          <i class="fas fa-user-edit me-2"></i> Edit Student Profile
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form onsubmit="saveStudentProfile(event)">
+        <div class="modal-body p-4">
+          
+          <!-- Avatar Upload & Live Preview -->
+          <div class="text-center mb-4">
+            <div class="position-relative d-inline-block">
+              <div id="modal-avatar-preview-box" class="rounded-circle mx-auto d-flex align-items-center justify-content-center shadow-sm overflow-hidden" style="width: 96px; height: 96px; background-color: #e0e7ff; border: 3px solid #6366f1;">
+                <i id="modal-avatar-preview-icon" class="fas fa-user-graduate fa-3x text-primary"></i>
+                <img id="modal-avatar-preview-img" src="" class="w-100 h-100 object-fit-cover d-none" alt="Profile Preview">
+              </div>
+              <label for="edit-profile-pic" class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle shadow-sm" style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer;" title="Upload Profile Picture">
+                <i class="fas fa-camera text-white"></i>
+              </label>
+              <input type="file" id="edit-profile-pic" accept="image/*" class="d-none" onchange="previewProfilePic(event)">
+            </div>
+            <small class="text-black font-weight-bold d-block mt-2">Click camera icon to change profile photo</small>
+          </div>
+
+          <!-- Full Name -->
+          <div class="mb-3">
+            <label class="form-label font-weight-black text-black">Full Name</label>
+            <input type="text" id="edit-student-name-input" required class="form-control py-2" placeholder="Enter full name">
+          </div>
+
+          <!-- Gmail Address -->
+          <div class="mb-3">
+            <label class="form-label font-weight-black text-black">Gmail Address</label>
+            <input type="email" id="edit-student-email-input" required class="form-control py-2" placeholder="Enter Gmail address">
+          </div>
+
+          <!-- Contact Number -->
+          <div class="mb-3">
+            <label class="form-label font-weight-black text-black">Contact Number</label>
+            <input type="tel" id="edit-student-phone-input" required class="form-control py-2" placeholder="e.g. +92 300 1234567">
+          </div>
+
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-black-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-black-primary btn-sm px-4 font-weight-black">Save Profile Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- APPLY MODAL -->
 <div class="modal fade" id="applyModal" tabindex="-1">
   <div class="modal-dialog">
@@ -233,16 +290,127 @@ $currentStudent = $_SESSION['user'];
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/app.js"></script>
 <script>
-  const currentStudent = DIS.checkAuth(['student']);
+  let currentStudent = DIS.checkAuth(['student']);
+  let newAvatarBase64 = null;
 
   document.addEventListener('DOMContentLoaded', () => {
     if (!currentStudent) return;
+    
+    // Load persisted profile user data if available
+    const activeUser = DIS.getCurrentUser() || currentStudent;
+    if (activeUser) {
+      currentStudent = activeUser;
+      document.getElementById('sidebar-student-name').innerText = activeUser.name || 'Ahmed Hassan';
+      document.getElementById('sidebar-student-email').innerText = activeUser.email || 'ahmed123@gmail.com';
+      
+      if (activeUser.avatar) {
+        document.getElementById('sidebar-avatar-container').innerHTML = `<img src="${activeUser.avatar}" class="w-100 h-100 object-fit-cover">`;
+      }
+    }
+
     renderStudentInternships();
     renderStudentApplications();
     renderStudentTasks();
     renderStudentReports();
     loadNotifications();
   });
+
+  function openEditProfileModal() {
+    const user = DIS.getCurrentUser() || currentStudent;
+    
+    document.getElementById('edit-student-name-input').value = user.name || '';
+    document.getElementById('edit-student-email-input').value = user.email || '';
+    document.getElementById('edit-student-phone-input').value = user.phone || user.contactNo || '+92 300 1234567';
+    
+    const imgPreview = document.getElementById('modal-avatar-preview-img');
+    const iconPreview = document.getElementById('modal-avatar-preview-icon');
+    
+    if (user.avatar) {
+      imgPreview.src = user.avatar;
+      imgPreview.classList.remove('d-none');
+      iconPreview.classList.add('d-none');
+      newAvatarBase64 = user.avatar;
+    } else {
+      imgPreview.classList.add('d-none');
+      iconPreview.classList.remove('d-none');
+      newAvatarBase64 = null;
+    }
+
+    const bsModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+    bsModal.show();
+  }
+
+  function previewProfilePic(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      DIS.showToast('Image size must be less than 5 MB!', 'error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      newAvatarBase64 = evt.target.result;
+      const imgPreview = document.getElementById('modal-avatar-preview-img');
+      const iconPreview = document.getElementById('modal-avatar-preview-icon');
+      
+      imgPreview.src = newAvatarBase64;
+      imgPreview.classList.remove('d-none');
+      iconPreview.classList.add('d-none');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function saveStudentProfile(e) {
+    e.preventDefault();
+    const newName = document.getElementById('edit-student-name-input').value.trim();
+    const newEmail = document.getElementById('edit-student-email-input').value.trim();
+    const newPhone = document.getElementById('edit-student-phone-input').value.trim();
+
+    if (!newName || !newEmail || !newPhone) {
+      DIS.showToast('Please fill all required profile fields!', 'warning');
+      return;
+    }
+
+    // 1. Update session user
+    let user = DIS.getCurrentUser() || currentStudent;
+    user.name = newName;
+    user.email = newEmail;
+    user.phone = newPhone;
+    user.contactNo = newPhone;
+    if (newAvatarBase64) {
+      user.avatar = newAvatarBase64;
+    }
+
+    DIS.setCurrentUser(user);
+    currentStudent = user;
+
+    // 2. Update users registry list in DIS localStorage
+    let users = DIS.getUsers();
+    const idx = users.findIndex(u => u.id === user.id);
+    if (idx !== -1) {
+      users[idx] = { ...users[idx], ...user };
+      DIS.setUsers(users);
+    }
+
+    // 3. Update DOM UI elements in Sidebar
+    document.getElementById('sidebar-student-name').innerText = newName;
+    document.getElementById('sidebar-student-email').innerText = newEmail;
+
+    const sidebarContainer = document.getElementById('sidebar-avatar-container');
+    if (user.avatar) {
+      sidebarContainer.innerHTML = `<img src="${user.avatar}" class="w-100 h-100 object-fit-cover">`;
+    } else {
+      sidebarContainer.innerHTML = `<i class="fas fa-user-graduate fa-2x text-primary"></i>`;
+    }
+
+    DIS.showToast('Profile updated successfully!', 'success');
+
+    const modalEl = document.getElementById('editProfileModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+  }
 
   function toggleSidebarMenu() {
     const sidebarWrapper = document.getElementById('sidebar-wrapper');
