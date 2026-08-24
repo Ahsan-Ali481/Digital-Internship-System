@@ -78,10 +78,10 @@ $currentStudent = $_SESSION['user'];
             <i class="fas fa-tasks"></i> <span>My Tasks</span>
           </button>
           <button onclick="switchStudentTab('reports')" class="sidebar-pill-link" id="link-std-reports">
-            <i class="fas fa-file-alt"></i> <span>Upload Progress</span>
+            <i class="fas fa-file-alt"></i> <span>Upload Learning Progress</span>
           </button>
           <button onclick="switchStudentTab('apps')" class="sidebar-pill-link" id="link-std-apps">
-            <i class="fas fa-paper-plane"></i> <span>Applications</span>
+            <i class="fas fa-paper-plane"></i> <span>Application's Status</span>
           </button>
 
           <hr class="my-2 opacity-25">
